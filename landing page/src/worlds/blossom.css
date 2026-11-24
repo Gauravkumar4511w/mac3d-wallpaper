@@ -1,0 +1,788 @@
+/* Blossom Valley — ambient motion. Transform and opacity only.
+   One 18 s "gust" cycle is shared by the trees, grass, flowers, a meadow wave
+   and the petal bursts (durations/delays are set inline). */
+
+/* ---------- sky ---------- */
+.blossom-cloud {
+  animation: blossom-cloud linear infinite;
+}
+.blossom-halo {
+  transform-box: fill-box;
+  transform-origin: 50% 50%;
+  animation: blossom-halo 11s ease-in-out infinite alternate;
+}
+.blossom-sun {
+  transform-box: fill-box;
+  transform-origin: 50% 50%;
+  animation: blossom-sun 6.5s ease-in-out infinite alternate;
+}
+.blossom-rays {
+  transform-box: view-box;
+  transform-origin: 1110px 112px;
+  animation: blossom-spin 260s linear infinite;
+}
+
+/* ---------- far ranges ---------- */
+.blossom-haze {
+  animation: blossom-haze ease-in-out infinite alternate;
+}
+
+/* ---------- waterfall ---------- */
+.blossom-streak {
+  animation: blossom-streak linear infinite;
+}
+.blossom-mist {
+  transform-box: fill-box;
+  transform-origin: 50% 60%;
+  animation: blossom-mist ease-in-out infinite alternate;
+}
+.blossom-glint {
+  opacity: 0.2;
+  animation: blossom-glint ease-in-out infinite;
+}
+
+/* ---------- stream meadow ---------- */
+.blossom-sparkle {
+  transform-box: fill-box;
+  transform-origin: 50% 50%;
+  animation: blossom-sparkle ease-in-out infinite;
+}
+.blossom-ripple {
+  animation: blossom-ripple ease-in-out infinite;
+}
+.blossom-float {
+  transform-box: fill-box;
+  transform-origin: 50% 50%;
+  animation: blossom-float linear infinite;
+}
+.blossom-wave {
+  animation: blossom-wave linear infinite;
+}
+.blossom-flock {
+  animation: blossom-flock linear infinite;
+}
+.blossom-flock2 {
+  animation: blossom-flock2 linear infinite;
+}
+.blossom-wingbeat {
+  transform-box: fill-box;
+  transform-origin: 50% 70%;
+  animation: blossom-wingbeat ease-in-out infinite;
+}
+
+/* ---------- sunbeams ---------- */
+.blossom-beam {
+  opacity: var(--blossom-op, 0.7);
+  animation: blossom-beam ease-in-out infinite alternate;
+}
+.blossom-mote {
+  transform-box: fill-box;
+  transform-origin: 50% 50%;
+  animation: blossom-mote ease-in-out infinite alternate;
+}
+
+/* ---------- cherry trees (each tree is its own composited plane) ---------- */
+.blossom-treewrap {
+  position: absolute;
+  inset: 0;
+  will-change: transform;
+}
+.blossom-gust {
+  animation: blossom-gust ease-in-out infinite;
+}
+.blossom-idle {
+  animation: blossom-idle ease-in-out infinite alternate;
+}
+.blossom-dapple {
+  animation: blossom-dapple ease-in-out infinite alternate;
+}
+.blossom-shed {
+  opacity: 0;
+  transform-box: fill-box;
+  transform-origin: 50% 50%;
+  animation: blossom-shed ease-out infinite;
+}
+.blossom-drop {
+  opacity: 0;
+  transform-box: fill-box;
+  transform-origin: 50% 50%;
+  animation: blossom-drop linear infinite;
+}
+
+/* ---------- wildflowers, butterflies, bees ---------- */
+.blossom-grass {
+  transform-box: fill-box;
+  transform-origin: 50% 100%;
+  animation: blossom-grass ease-in-out infinite;
+}
+.blossom-wander {
+  animation-timing-function: ease-in-out;
+  animation-iteration-count: infinite;
+}
+.blossom-wander-a {
+  animation-name: blossom-wander-a;
+}
+.blossom-wander-b {
+  animation-name: blossom-wander-b;
+}
+.blossom-wander-c {
+  animation-name: blossom-wander-c;
+}
+.blossom-flutter {
+  transform-box: fill-box;
+  transform-origin: 50% 50%;
+  animation: blossom-flutter ease-in-out infinite;
+}
+.blossom-hover {
+  animation-timing-function: ease-in-out;
+  animation-iteration-count: infinite;
+}
+.blossom-hover-a {
+  animation-name: blossom-hover-a;
+}
+.blossom-hover-b {
+  animation-name: blossom-hover-b;
+}
+.blossom-buzz {
+  transform-box: fill-box;
+  transform-origin: 50% 100%;
+  animation: blossom-buzz 0.09s linear infinite alternate;
+}
+
+/* ---------- drifting petals ---------- */
+.blossom-petal {
+  transform-box: fill-box;
+  transform-origin: 50% 50%;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+}
+.blossom-petal-a {
+  animation-name: blossom-petal-a;
+}
+.blossom-petal-b {
+  animation-name: blossom-petal-b;
+}
+.blossom-petal-c {
+  animation-name: blossom-petal-c;
+}
+.blossom-gustpetal {
+  opacity: 0;
+  transform-box: fill-box;
+  transform-origin: 50% 50%;
+  animation: blossom-gustpetal ease-out infinite;
+}
+
+/* =================== keyframes =================== */
+
+@keyframes blossom-cloud {
+  to {
+    transform: translateX(2050px);
+  }
+}
+@keyframes blossom-halo {
+  from {
+    transform: scale(0.95);
+    opacity: 0.85;
+  }
+  to {
+    transform: scale(1.05);
+    opacity: 1;
+  }
+}
+@keyframes blossom-sun {
+  from {
+    transform: scale(0.97);
+  }
+  to {
+    transform: scale(1.04);
+  }
+}
+@keyframes blossom-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+@keyframes blossom-haze {
+  from {
+    transform: translateX(calc(var(--blossom-amp, 60px) * -1));
+    opacity: 0.7;
+  }
+  to {
+    transform: translateX(var(--blossom-amp, 60px));
+    opacity: 1;
+  }
+}
+@keyframes blossom-streak {
+  0% {
+    transform: translateY(0);
+    opacity: 0;
+  }
+  18%,
+  82% {
+    opacity: 0.85;
+  }
+  100% {
+    transform: translateY(230px);
+    opacity: 0;
+  }
+}
+@keyframes blossom-mist {
+  from {
+    transform: scale(0.8);
+    opacity: 0.5;
+  }
+  to {
+    transform: scale(1.25) translateY(-4px);
+    opacity: 0.95;
+  }
+}
+@keyframes blossom-glint {
+  0%,
+  100% {
+    opacity: 0.15;
+  }
+  50% {
+    opacity: 0.95;
+  }
+}
+@keyframes blossom-sparkle {
+  0%,
+  38%,
+  100% {
+    transform: scale(0.2);
+    opacity: 0;
+  }
+  52% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  66% {
+    transform: scale(0.3);
+    opacity: 0;
+  }
+}
+@keyframes blossom-ripple {
+  0% {
+    transform: translate(0, 0);
+    opacity: 0;
+  }
+  30% {
+    opacity: 0.75;
+  }
+  100% {
+    transform: translate(var(--blossom-fx), var(--blossom-fy));
+    opacity: 0;
+  }
+}
+/* a petal riding the stream: waypoints follow the stream's centreline */
+@keyframes blossom-float {
+  0% {
+    transform: translate(0, 0) rotate(0deg);
+    opacity: 0;
+  }
+  5% {
+    opacity: 1;
+  }
+  12.6% {
+    transform: translate(-42px, 13px) rotate(40deg);
+  }
+  32.3% {
+    transform: translate(-110px, 25px) rotate(100deg);
+  }
+  47.3% {
+    transform: translate(-176px, 39px) rotate(150deg);
+  }
+  56.1% {
+    transform: translate(-212px, 56px) rotate(190deg);
+  }
+  63.4% {
+    transform: translate(-226px, 82px) rotate(230deg);
+  }
+  77.2% {
+    transform: translate(-246px, 118px) rotate(290deg);
+  }
+  92% {
+    opacity: 1;
+  }
+  100% {
+    transform: translate(-300px, 158px) rotate(360deg);
+    opacity: 0;
+  }
+}
+@keyframes blossom-wave {
+  0% {
+    transform: translateX(0);
+    opacity: 0;
+  }
+  12% {
+    opacity: 1;
+  }
+  80% {
+    opacity: 1;
+  }
+  100% {
+    transform: translateX(2300px);
+    opacity: 0;
+  }
+}
+@keyframes blossom-flock {
+  0% {
+    transform: translate(0, 0);
+  }
+  20% {
+    transform: translate(-560px, -26px);
+  }
+  40% {
+    transform: translate(-1150px, 16px);
+  }
+  62%,
+  100% {
+    transform: translate(-1880px, -22px);
+  }
+}
+@keyframes blossom-flock2 {
+  0%,
+  30% {
+    transform: translate(0, 0);
+  }
+  55% {
+    transform: translate(860px, -24px);
+  }
+  80%,
+  100% {
+    transform: translate(1780px, 10px);
+  }
+}
+@keyframes blossom-wingbeat {
+  0%,
+  100% {
+    transform: scaleY(1);
+  }
+  50% {
+    transform: scaleY(-0.55);
+  }
+}
+@keyframes blossom-beam {
+  from {
+    opacity: calc(var(--blossom-op, 0.7) * 0.35);
+  }
+  to {
+    opacity: var(--blossom-op, 0.7);
+  }
+}
+@keyframes blossom-mote {
+  from {
+    transform: translate(-10px, 8px);
+    opacity: 0.1;
+  }
+  to {
+    transform: translate(14px, -16px);
+    opacity: 0.9;
+  }
+}
+/* the gust: calm, a hard lean with the wind, a rebound, settle */
+@keyframes blossom-gust {
+  0%,
+  22% {
+    transform: rotate(0deg);
+  }
+  30% {
+    transform: rotate(1.25deg);
+  }
+  36% {
+    transform: rotate(0.45deg);
+  }
+  42% {
+    transform: rotate(0.95deg);
+  }
+  54% {
+    transform: rotate(-0.15deg);
+  }
+  62%,
+  100% {
+    transform: rotate(0deg);
+  }
+}
+@keyframes blossom-idle {
+  from {
+    transform: rotate(-0.4deg);
+  }
+  to {
+    transform: rotate(0.45deg);
+  }
+}
+@keyframes blossom-dapple {
+  from {
+    opacity: 0.25;
+    transform: translateX(-6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(8px);
+  }
+}
+/* petals torn off in the gust: quick release, tumbling flight, fade out */
+@keyframes blossom-shed {
+  0%,
+  24% {
+    opacity: 0;
+    transform: translate(0, 0) rotate(0deg) scale(0.6, 0.6);
+  }
+  27% {
+    opacity: 1;
+    transform: translate(calc(var(--blossom-dx) * 0.05), calc(var(--blossom-dy) * 0.02)) rotate(calc(var(--blossom-rz) * 0.06)) scale(1, 1);
+  }
+  37% {
+    transform: translate(calc(var(--blossom-dx) * 0.34), calc(var(--blossom-dy) * 0.18)) rotate(calc(var(--blossom-rz) * 0.3)) scale(1, 0.35);
+  }
+  49% {
+    transform: translate(calc(var(--blossom-dx) * 0.6), calc(var(--blossom-dy) * 0.42)) rotate(calc(var(--blossom-rz) * 0.55)) scale(1, 1);
+  }
+  61% {
+    opacity: 1;
+    transform: translate(calc(var(--blossom-dx) * 0.82), calc(var(--blossom-dy) * 0.7)) rotate(calc(var(--blossom-rz) * 0.8)) scale(0.4, 1);
+  }
+  71%,
+  100% {
+    opacity: 0;
+    transform: translate(var(--blossom-dx), var(--blossom-dy)) rotate(var(--blossom-rz)) scale(1, 1);
+  }
+}
+@keyframes blossom-drop {
+  0% {
+    opacity: 0;
+    transform: translate(0, 0) rotate(0deg) scale(1, 1);
+  }
+  8% {
+    opacity: 1;
+  }
+  25% {
+    transform: translate(calc(var(--blossom-dx) * 0.2 + 16px), calc(var(--blossom-dy) * 0.25)) rotate(calc(var(--blossom-rz) * 0.25)) scale(1, 0.35);
+  }
+  50% {
+    transform: translate(calc(var(--blossom-dx) * 0.5 - 12px), calc(var(--blossom-dy) * 0.5)) rotate(calc(var(--blossom-rz) * 0.5)) scale(1, 1);
+  }
+  75% {
+    transform: translate(calc(var(--blossom-dx) * 0.75 + 14px), calc(var(--blossom-dy) * 0.75)) rotate(calc(var(--blossom-rz) * 0.75)) scale(0.4, 1);
+  }
+  92% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+    transform: translate(var(--blossom-dx), var(--blossom-dy)) rotate(var(--blossom-rz)) scale(1, 1);
+  }
+}
+/* grass & flowers: idle sway, then the gust bends them over */
+@keyframes blossom-grass {
+  0% {
+    transform: rotate(calc(var(--blossom-k, 1) * -2deg));
+  }
+  8% {
+    transform: rotate(calc(var(--blossom-k, 1) * 2.5deg));
+  }
+  16% {
+    transform: rotate(calc(var(--blossom-k, 1) * -1.5deg));
+  }
+  23% {
+    transform: rotate(calc(var(--blossom-k, 1) * 1.5deg));
+  }
+  30% {
+    transform: rotate(calc(var(--blossom-k, 1) * 11deg));
+  }
+  35% {
+    transform: rotate(calc(var(--blossom-k, 1) * 5deg));
+  }
+  41% {
+    transform: rotate(calc(var(--blossom-k, 1) * 9deg));
+  }
+  49% {
+    transform: rotate(calc(var(--blossom-k, 1) * 1.5deg));
+  }
+  56% {
+    transform: rotate(calc(var(--blossom-k, 1) * 4deg));
+  }
+  64% {
+    transform: rotate(calc(var(--blossom-k, 1) * -1.5deg));
+  }
+  72% {
+    transform: rotate(calc(var(--blossom-k, 1) * 2.5deg));
+  }
+  81% {
+    transform: rotate(calc(var(--blossom-k, 1) * -2deg));
+  }
+  90% {
+    transform: rotate(calc(var(--blossom-k, 1) * 2deg));
+  }
+  100% {
+    transform: rotate(calc(var(--blossom-k, 1) * -2deg));
+  }
+}
+@keyframes blossom-wander-a {
+  0%,
+  100% {
+    transform: translate(0, 0);
+  }
+  12% {
+    transform: translate(60px, -40px);
+  }
+  22% {
+    transform: translate(110px, -52px);
+  }
+  34% {
+    transform: translate(170px, -6px);
+  }
+  44% {
+    transform: translate(220px, 12px);
+  }
+  58% {
+    transform: translate(160px, -84px);
+  }
+  70% {
+    transform: translate(110px, -60px);
+  }
+  84% {
+    transform: translate(40px, -36px);
+  }
+}
+@keyframes blossom-wander-b {
+  0%,
+  100% {
+    transform: translate(0, 0);
+  }
+  14% {
+    transform: translate(-60px, 26px);
+  }
+  26% {
+    transform: translate(-120px, 38px);
+  }
+  40% {
+    transform: translate(-90px, -12px);
+  }
+  52% {
+    transform: translate(-60px, -52px);
+  }
+  64% {
+    transform: translate(10px, -20px);
+  }
+  76% {
+    transform: translate(90px, 22px);
+  }
+  88% {
+    transform: translate(46px, 4px);
+  }
+}
+@keyframes blossom-wander-c {
+  0%,
+  100% {
+    transform: translate(0, 0);
+  }
+  16% {
+    transform: translate(-70px, -40px);
+  }
+  28% {
+    transform: translate(-110px, -18px);
+  }
+  38% {
+    transform: translate(-150px, 10px);
+  }
+  58% {
+    transform: translate(-90px, -64px);
+  }
+  70% {
+    transform: translate(-40px, -50px);
+  }
+  80% {
+    transform: translate(30px, -20px);
+  }
+}
+/* wing beat: two quick strokes then a short glide */
+@keyframes blossom-flutter {
+  0% {
+    transform: scaleX(1);
+  }
+  17% {
+    transform: scaleX(0.14);
+  }
+  34% {
+    transform: scaleX(1);
+  }
+  50% {
+    transform: scaleX(0.2);
+  }
+  67% {
+    transform: scaleX(0.96);
+  }
+  100% {
+    transform: scaleX(1);
+  }
+}
+@keyframes blossom-hover-a {
+  0%,
+  100% {
+    transform: translate(0, 0);
+  }
+  18% {
+    transform: translate(16px, -12px);
+  }
+  32% {
+    transform: translate(30px, 2px);
+  }
+  46% {
+    transform: translate(14px, 10px);
+  }
+  60% {
+    transform: translate(-10px, -6px);
+  }
+  78% {
+    transform: translate(-22px, 6px);
+  }
+}
+@keyframes blossom-hover-b {
+  0%,
+  100% {
+    transform: translate(0, 0);
+  }
+  20% {
+    transform: translate(-18px, -10px);
+  }
+  36% {
+    transform: translate(-32px, 4px);
+  }
+  50% {
+    transform: translate(-12px, 12px);
+  }
+  66% {
+    transform: translate(12px, -4px);
+  }
+  82% {
+    transform: translate(20px, 8px);
+  }
+}
+@keyframes blossom-buzz {
+  from {
+    transform: scaleY(1);
+    opacity: 0.95;
+  }
+  to {
+    transform: scaleY(0.35);
+    opacity: 0.6;
+  }
+}
+@keyframes blossom-petal-a {
+  0% {
+    transform: translate(0, 0) rotate(0deg) scaleY(1);
+  }
+  12.5% {
+    transform: translate(46px, 126px) rotate(70deg) scaleY(0.4);
+  }
+  25% {
+    transform: translate(70px, 252px) rotate(140deg) scaleY(1);
+  }
+  37.5% {
+    transform: translate(52px, 378px) rotate(200deg) scaleY(0.3);
+  }
+  50% {
+    transform: translate(96px, 504px) rotate(270deg) scaleY(1);
+  }
+  62.5% {
+    transform: translate(150px, 630px) rotate(340deg) scaleY(0.45);
+  }
+  75% {
+    transform: translate(140px, 756px) rotate(400deg) scaleY(1);
+  }
+  87.5% {
+    transform: translate(190px, 882px) rotate(470deg) scaleY(0.35);
+  }
+  100% {
+    transform: translate(230px, 1008px) rotate(540deg) scaleY(1);
+  }
+}
+@keyframes blossom-petal-b {
+  0% {
+    transform: translate(0, 0) rotate(20deg) scaleX(1);
+  }
+  12.5% {
+    transform: translate(-20px, 126px) rotate(-40deg) scaleX(0.35);
+  }
+  25% {
+    transform: translate(30px, 252px) rotate(-110deg) scaleX(1);
+  }
+  37.5% {
+    transform: translate(90px, 378px) rotate(-160deg) scaleX(0.4);
+  }
+  50% {
+    transform: translate(80px, 504px) rotate(-230deg) scaleX(1);
+  }
+  62.5% {
+    transform: translate(120px, 630px) rotate(-300deg) scaleX(0.3);
+  }
+  75% {
+    transform: translate(190px, 756px) rotate(-350deg) scaleX(1);
+  }
+  87.5% {
+    transform: translate(200px, 882px) rotate(-420deg) scaleX(0.45);
+  }
+  100% {
+    transform: translate(250px, 1008px) rotate(-480deg) scaleX(1);
+  }
+}
+@keyframes blossom-petal-c {
+  0% {
+    transform: translate(0, 0) rotate(-30deg) scaleY(1);
+  }
+  12.5% {
+    transform: translate(60px, 126px) rotate(40deg) scaleY(0.5);
+  }
+  25% {
+    transform: translate(130px, 252px) rotate(120deg) scaleY(1);
+  }
+  37.5% {
+    transform: translate(150px, 378px) rotate(190deg) scaleY(0.3);
+  }
+  50% {
+    transform: translate(130px, 504px) rotate(250deg) scaleY(1);
+  }
+  62.5% {
+    transform: translate(170px, 630px) rotate(330deg) scaleY(0.4);
+  }
+  75% {
+    transform: translate(240px, 756px) rotate(390deg) scaleY(1);
+  }
+  87.5% {
+    transform: translate(270px, 882px) rotate(450deg) scaleY(0.5);
+  }
+  100% {
+    transform: translate(300px, 1008px) rotate(510deg) scaleY(1);
+  }
+}
+/* petals whipped across the valley by the gust */
+@keyframes blossom-gustpetal {
+  0%,
+  25% {
+    opacity: 0;
+    transform: translate(0, 0) rotate(0deg) scale(1, 1);
+  }
+  27% {
+    opacity: 1;
+  }
+  33% {
+    transform: translate(calc(var(--blossom-dx) * 0.3), calc(var(--blossom-dy) * 0.2)) rotate(calc(var(--blossom-rz) * 0.3)) scale(1, 0.3);
+  }
+  40% {
+    transform: translate(calc(var(--blossom-dx) * 0.62), calc(var(--blossom-dy) * 0.5)) rotate(calc(var(--blossom-rz) * 0.6)) scale(0.4, 1);
+  }
+  46% {
+    opacity: 1;
+  }
+  50%,
+  100% {
+    opacity: 0;
+    transform: translate(var(--blossom-dx), var(--blossom-dy)) rotate(var(--blossom-rz)) scale(1, 1);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  [class*='blossom-'] {
+    animation-play-state: paused;
+  }
+}

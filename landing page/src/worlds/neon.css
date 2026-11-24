@@ -1,0 +1,643 @@
+/* Neon Rain — every class and keyframe is prefixed `neon-`. Transform and opacity only. */
+
+/* ---------- sky ---------- */
+.neon-twinkle {
+  animation: neon-twinkle 3.6s ease-in-out infinite;
+}
+/* lightning: whole-sky flash, the bolt itself, and a softer far-off flash */
+.neon-flash {
+  opacity: 0;
+  animation: neon-flash 26s linear infinite;
+}
+.neon-bolt {
+  opacity: 0;
+  animation: neon-bolt 26s linear infinite;
+}
+.neon-farflash {
+  opacity: 0;
+  animation: neon-farflash 37s linear infinite;
+}
+.neon-halo {
+  transform-box: fill-box;
+  transform-origin: 50% 50%;
+  animation: neon-halo 9s ease-in-out infinite alternate;
+}
+.neon-cloud {
+  animation: neon-drift 200s linear infinite;
+}
+
+/* ---------- searchlights & beacons ---------- */
+.neon-beam {
+  transform-box: view-box;
+  animation-timing-function: ease-in-out;
+  animation-iteration-count: infinite;
+  animation-direction: alternate;
+}
+.neon-beam-a {
+  animation-name: neon-search-a;
+}
+.neon-beam-b {
+  animation-name: neon-search-b;
+}
+.neon-beacon {
+  animation: neon-beacon 2s ease-out infinite;
+}
+
+/* ---------- airship & traffic ---------- */
+.neon-blimp {
+  animation: neon-blimp 170s linear infinite;
+}
+.neon-bob {
+  animation: neon-bob 7s ease-in-out infinite alternate;
+}
+.neon-ticker {
+  animation: neon-ticker 6s linear infinite;
+}
+.neon-strobe {
+  animation: neon-strobe 1.3s linear infinite;
+}
+.neon-car {
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+}
+.neon-car-r {
+  animation-name: neon-car-r;
+}
+.neon-car-l {
+  animation-name: neon-car-l;
+}
+
+/* ---------- rain sheets (one screen-height tile per loop) ---------- */
+.neon-rain {
+  animation: neon-rain 1s linear infinite;
+}
+
+/* ---------- windows ---------- */
+.neon-win-a {
+  animation: neon-win-a 14s ease-in-out infinite;
+}
+.neon-win-b {
+  animation: neon-win-b 14s ease-in-out infinite;
+}
+.neon-tv {
+  animation: neon-tv 2s linear infinite;
+}
+
+/* ---------- neon signs ---------- */
+.neon-buzz {
+  animation: neon-buzz 3.7s linear infinite;
+}
+.neon-out {
+  animation: neon-out 13s linear infinite;
+}
+.neon-broken {
+  animation: neon-broken 9s linear infinite;
+}
+.neon-chase {
+  opacity: 0.2;
+  animation: neon-chase 1s linear infinite;
+}
+.neon-steam {
+  opacity: 0.12;
+  animation: neon-steam 1.8s linear infinite;
+}
+.neon-slide {
+  opacity: 0;
+  animation: neon-slide 12s ease-in-out infinite;
+}
+.neon-lantern {
+  transform-box: view-box;
+  animation: neon-lantern 3.6s ease-in-out infinite alternate;
+}
+.neon-drip {
+  opacity: 0;
+  animation: neon-drip 2.4s ease-in infinite;
+}
+
+/* ---------- wet street ---------- */
+.neon-shim-a,
+.neon-shim-b {
+  transform-box: fill-box;
+  transform-origin: 50% 50%;
+  animation-timing-function: ease-in-out;
+  animation-iteration-count: infinite;
+}
+.neon-shim-a {
+  animation-name: neon-shim-a;
+}
+.neon-shim-b {
+  animation-name: neon-shim-b;
+}
+.neon-ripple {
+  opacity: 0;
+  transform-box: fill-box;
+  transform-origin: 50% 50%;
+  animation: neon-ripple 2s ease-out infinite;
+}
+.neon-splash {
+  opacity: 0;
+  transform-box: fill-box;
+  transform-origin: 50% 100%;
+  animation: neon-splash 1.6s ease-out infinite;
+}
+.neon-puff {
+  opacity: 0;
+  transform-box: fill-box;
+  transform-origin: 50% 50%;
+  animation: neon-puff 6.6s ease-out infinite;
+}
+.neon-walk {
+  animation: neon-walk 64s linear infinite;
+}
+.neon-step {
+  animation: neon-step 0.45s ease-in-out infinite alternate;
+}
+.neon-leg {
+  transform-box: fill-box;
+  transform-origin: 50% 0%;
+  animation: neon-leg 0.9s ease-in-out infinite;
+}
+
+/* =================== keyframes =================== */
+
+@keyframes neon-twinkle {
+  50% {
+    opacity: 0.12;
+  }
+}
+
+/* a double strike near the end of each cycle */
+@keyframes neon-flash {
+  0%,
+  86% {
+    opacity: 0;
+  }
+  86.3% {
+    opacity: 0.9;
+  }
+  86.7% {
+    opacity: 0.12;
+  }
+  87.2% {
+    opacity: 1;
+  }
+  88.4% {
+    opacity: 0.22;
+  }
+  90%,
+  100% {
+    opacity: 0;
+  }
+}
+@keyframes neon-bolt {
+  0%,
+  86.1% {
+    opacity: 0;
+  }
+  86.3% {
+    opacity: 1;
+  }
+  86.6% {
+    opacity: 0;
+  }
+  87.1% {
+    opacity: 1;
+  }
+  87.9% {
+    opacity: 0.5;
+  }
+  88.6%,
+  100% {
+    opacity: 0;
+  }
+}
+@keyframes neon-farflash {
+  0%,
+  60% {
+    opacity: 0;
+  }
+  60.6% {
+    opacity: 0.8;
+  }
+  61.2% {
+    opacity: 0.2;
+  }
+  61.8% {
+    opacity: 0.65;
+  }
+  64%,
+  100% {
+    opacity: 0;
+  }
+}
+
+@keyframes neon-halo {
+  from {
+    transform: scale(0.96);
+    opacity: 0.8;
+  }
+  to {
+    transform: scale(1.04);
+    opacity: 1;
+  }
+}
+
+@keyframes neon-drift {
+  0% {
+    transform: translateX(-1250px);
+    opacity: 0;
+  }
+  10%,
+  90% {
+    opacity: 1;
+  }
+  100% {
+    transform: translateX(1250px);
+    opacity: 0;
+  }
+}
+
+@keyframes neon-search-a {
+  from {
+    transform: rotate(-30deg);
+  }
+  to {
+    transform: rotate(24deg);
+  }
+}
+@keyframes neon-search-b {
+  from {
+    transform: rotate(20deg);
+  }
+  to {
+    transform: rotate(-24deg);
+  }
+}
+
+@keyframes neon-beacon {
+  0%,
+  100% {
+    opacity: 0.12;
+  }
+  6% {
+    opacity: 1;
+  }
+  30% {
+    opacity: 0.12;
+  }
+}
+
+@keyframes neon-blimp {
+  from {
+    transform: translateX(-320px);
+  }
+  to {
+    transform: translateX(1780px);
+  }
+}
+@keyframes neon-bob {
+  from {
+    transform: translateY(-4px);
+  }
+  to {
+    transform: translateY(5px);
+  }
+}
+@keyframes neon-ticker {
+  to {
+    transform: translateX(-156px);
+  }
+}
+@keyframes neon-strobe {
+  0%,
+  5% {
+    opacity: 1;
+  }
+  6%,
+  100% {
+    opacity: 0;
+  }
+}
+
+@keyframes neon-car-r {
+  0% {
+    transform: translate(-320px, 0);
+  }
+  50% {
+    transform: translate(730px, -9px);
+  }
+  100% {
+    transform: translate(1780px, 5px);
+  }
+}
+@keyframes neon-car-l {
+  0% {
+    transform: translate(1780px, 0);
+  }
+  50% {
+    transform: translate(730px, 8px);
+  }
+  100% {
+    transform: translate(-320px, -6px);
+  }
+}
+
+@keyframes neon-rain {
+  from {
+    transform: translateY(0);
+  }
+  to {
+    transform: translateY(900px);
+  }
+}
+
+@keyframes neon-win-a {
+  0%,
+  60% {
+    opacity: 0.9;
+  }
+  62%,
+  84% {
+    opacity: 0.06;
+  }
+  86%,
+  100% {
+    opacity: 0.9;
+  }
+}
+@keyframes neon-win-b {
+  0%,
+  38% {
+    opacity: 0.06;
+  }
+  40%,
+  78% {
+    opacity: 0.9;
+  }
+  80%,
+  100% {
+    opacity: 0.06;
+  }
+}
+@keyframes neon-tv {
+  0% {
+    opacity: 0.8;
+  }
+  12% {
+    opacity: 0.45;
+  }
+  22% {
+    opacity: 0.9;
+  }
+  35% {
+    opacity: 0.6;
+  }
+  48% {
+    opacity: 0.85;
+  }
+  56% {
+    opacity: 0.35;
+  }
+  70% {
+    opacity: 0.8;
+  }
+  84% {
+    opacity: 0.55;
+  }
+  100% {
+    opacity: 0.8;
+  }
+}
+
+/* steady hum with a couple of tiny dips */
+@keyframes neon-buzz {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  2% {
+    opacity: 0.8;
+  }
+  4% {
+    opacity: 1;
+  }
+  51% {
+    opacity: 0.94;
+  }
+  52% {
+    opacity: 0.78;
+  }
+  53%,
+  99% {
+    opacity: 1;
+  }
+}
+/* stutters out, stays dark for a beat, sputters back */
+@keyframes neon-out {
+  0%,
+  62% {
+    opacity: 1;
+  }
+  62.6% {
+    opacity: 0.2;
+  }
+  63.2% {
+    opacity: 0.95;
+  }
+  63.8% {
+    opacity: 0.08;
+  }
+  68% {
+    opacity: 0.08;
+  }
+  68.6% {
+    opacity: 0.85;
+  }
+  69.2% {
+    opacity: 0.2;
+  }
+  70%,
+  100% {
+    opacity: 1;
+  }
+}
+/* the faulty letter: drops out, hangs dead for a moment, then catches again */
+@keyframes neon-broken {
+  0%,
+  55% {
+    opacity: 1;
+  }
+  56% {
+    opacity: 0.2;
+  }
+  57% {
+    opacity: 0.9;
+  }
+  58% {
+    opacity: 0.12;
+  }
+  72% {
+    opacity: 0.12;
+  }
+  73% {
+    opacity: 0.8;
+  }
+  74% {
+    opacity: 0.2;
+  }
+  75%,
+  100% {
+    opacity: 1;
+  }
+}
+@keyframes neon-chase {
+  0% {
+    opacity: 1;
+  }
+  30%,
+  100% {
+    opacity: 0.18;
+  }
+}
+@keyframes neon-steam {
+  0%,
+  30% {
+    opacity: 1;
+  }
+  36%,
+  100% {
+    opacity: 0.12;
+  }
+}
+@keyframes neon-slide {
+  0% {
+    opacity: 0;
+  }
+  4%,
+  33% {
+    opacity: 1;
+  }
+  37%,
+  100% {
+    opacity: 0;
+  }
+}
+@keyframes neon-lantern {
+  from {
+    transform: rotate(-5deg);
+  }
+  to {
+    transform: rotate(5deg);
+  }
+}
+@keyframes neon-drip {
+  0% {
+    transform: translateY(0);
+    opacity: 0;
+  }
+  12% {
+    transform: translateY(0);
+    opacity: 0.9;
+  }
+  55% {
+    transform: translateY(56px);
+    opacity: 0.9;
+  }
+  57%,
+  100% {
+    transform: translateY(58px);
+    opacity: 0;
+  }
+}
+
+@keyframes neon-shim-a {
+  0%,
+  100% {
+    transform: scaleX(1);
+    opacity: 1;
+  }
+  50% {
+    transform: scaleX(1.22) translateX(3px);
+    opacity: 0.55;
+  }
+}
+@keyframes neon-shim-b {
+  0%,
+  100% {
+    transform: scaleX(1.18);
+    opacity: 0.55;
+  }
+  50% {
+    transform: scaleX(0.86) translateX(-3px);
+    opacity: 1;
+  }
+}
+@keyframes neon-ripple {
+  0% {
+    transform: scale(0.12);
+    opacity: 0.9;
+  }
+  70% {
+    transform: scale(1.5);
+    opacity: 0;
+  }
+  100% {
+    transform: scale(1.5);
+    opacity: 0;
+  }
+}
+@keyframes neon-splash {
+  0% {
+    transform: scale(0.2);
+    opacity: 0;
+  }
+  5% {
+    opacity: 1;
+  }
+  28% {
+    transform: scale(1.15);
+    opacity: 0;
+  }
+  100% {
+    transform: scale(1.15);
+    opacity: 0;
+  }
+}
+@keyframes neon-puff {
+  0% {
+    transform: translate(0, 0) scale(0.35);
+    opacity: 0;
+  }
+  15% {
+    opacity: 0.9;
+  }
+  100% {
+    transform: translate(-70px, -220px) scale(2.8);
+    opacity: 0;
+  }
+}
+@keyframes neon-walk {
+  from {
+    transform: translateX(1720px);
+  }
+  to {
+    transform: translateX(-280px);
+  }
+}
+@keyframes neon-step {
+  from {
+    transform: translateY(0);
+  }
+  to {
+    transform: translateY(-1.6px);
+  }
+}
+@keyframes neon-leg {
+  0%,
+  100% {
+    transform: rotate(-16deg);
+  }
+  50% {
+    transform: rotate(16deg);
+  }
+}

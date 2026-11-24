@@ -1,0 +1,809 @@
+{
+  "svg": {
+    "abyss": {
+      "id": "abyss",
+      "name": "Abyss Bloom",
+      "tag": "Deep reef",
+      "accent": "#38c8f5",
+      "accent2": "#ff8fd8",
+      "ink": "#0477a8",
+      "glow": "#7fdcff",
+      "clockColor": "#ebfcff",
+      "sky": "linear-gradient(180deg,#3ec3cf 0%,#1ea2b7 7%,#0f819d 17%,#0a6386 30%,#07486d 45%,#053252 60%,#03203a 75%,#021325 88%,#010915 100%)",
+      "layers": [
+        {
+          "name": "Surface light",
+          "depth": 0,
+          "sky": true
+        },
+        {
+          "name": "Distant drifters",
+          "depth": 0.12
+        },
+        {
+          "name": "Far reef",
+          "depth": 0.22
+        },
+        {
+          "name": "Depth clock",
+          "depth": 0.36,
+          "clock": true
+        },
+        {
+          "name": "Manta & school",
+          "depth": 0.48
+        },
+        {
+          "name": "Coral garden",
+          "depth": 0.66
+        },
+        {
+          "name": "Jellyfish",
+          "depth": 0.82
+        },
+        {
+          "name": "Near reef",
+          "depth": 1.05
+        },
+        {
+          "name": "Bubbles & snow",
+          "depth": 1.3
+        }
+      ]
+    },
+    "aurora": {
+      "id": "aurora",
+      "name": "Aurora Pines",
+      "tag": "Arctic night",
+      "accent": "#3ee6b0",
+      "accent2": "#b98cff",
+      "ink": "#0b8f6c",
+      "glow": "#6ee7c8",
+      "clockColor": "#eafff8",
+      "sky": "linear-gradient(180deg,#010409 0%,#020c14 22%,#031820 42%,#06282d 58%,#0b3c3b 72%,#145247 86%,#1b5f4f 100%)",
+      "layers": [
+        {
+          "name": "Night sky",
+          "depth": 0,
+          "sky": true
+        },
+        {
+          "name": "Aurora",
+          "depth": 0.08
+        },
+        {
+          "name": "Far peaks",
+          "depth": 0.16
+        },
+        {
+          "name": "Snowy ridges",
+          "depth": 0.28
+        },
+        {
+          "name": "Depth clock",
+          "depth": 0.38,
+          "clock": true
+        },
+        {
+          "name": "Frozen lake",
+          "depth": 0.52
+        },
+        {
+          "name": "Cabin shore",
+          "depth": 0.74
+        },
+        {
+          "name": "Snowy pines",
+          "depth": 1
+        },
+        {
+          "name": "Snowfall",
+          "depth": 1.3
+        }
+      ]
+    },
+    "blossom": {
+      "id": "blossom",
+      "name": "Blossom Valley",
+      "tag": "Spring morning",
+      "accent": "#ff6f9f",
+      "accent2": "#7cc98f",
+      "ink": "#b3245e",
+      "glow": "#ffb3cb",
+      "light": true,
+      "clockColor": "#3b2142",
+      "sky": "linear-gradient(180deg,#8ec5ee 0%,#acd6f4 24%,#cfe7f6 46%,#ecf1f3 64%,#fbeee9 80%,#fde3e6 100%)",
+      "layers": [
+        {
+          "name": "Sky and sun",
+          "depth": 0,
+          "sky": true
+        },
+        {
+          "name": "Far ranges",
+          "depth": 0.14
+        },
+        {
+          "name": "Waterfall hills",
+          "depth": 0.28
+        },
+        {
+          "name": "Depth clock",
+          "depth": 0.4,
+          "clock": true
+        },
+        {
+          "name": "Stream meadow",
+          "depth": 0.56
+        },
+        {
+          "name": "Sunbeams",
+          "depth": 0.74
+        },
+        {
+          "name": "Cherry trees",
+          "depth": 0.9
+        },
+        {
+          "name": "Wildflowers",
+          "depth": 1.1
+        },
+        {
+          "name": "Drifting petals",
+          "depth": 1.3
+        }
+      ]
+    },
+    "caravan": {
+      "id": "caravan",
+      "name": "Desert Caravan",
+      "tag": "Golden afternoon",
+      "accent": "#f2a63a",
+      "accent2": "#e4703a",
+      "ink": "#9a5a06",
+      "glow": "#ffcf7e",
+      "light": true,
+      "clockColor": "#4a2a12",
+      "sky": "linear-gradient(180deg,#a9c6d6 0%,#c9d6d3 14%,#ecdfc6 32%,#f8e5c2 48%,#fdedd0 60%,#fbe2b4 72%,#f3cb8e 100%)",
+      "layers": [
+        {
+          "name": "Sky Plate",
+          "depth": 0,
+          "sky": true
+        },
+        {
+          "name": "Circling vultures",
+          "depth": 0.12
+        },
+        {
+          "name": "Hazy mesas",
+          "depth": 0.22
+        },
+        {
+          "name": "Depth Clock",
+          "depth": 0.4,
+          "clock": true
+        },
+        {
+          "name": "Caravan crest",
+          "depth": 0.6
+        },
+        {
+          "name": "Palm oasis",
+          "depth": 0.82
+        },
+        {
+          "name": "Windswept dune",
+          "depth": 1.02
+        },
+        {
+          "name": "Tumbleweed",
+          "depth": 1.3
+        }
+      ]
+    },
+    "dunes": {
+      "id": "ember",
+      "name": "Ember Dunes",
+      "tag": "Last light",
+      "accent": "#ff7a59",
+      "accent2": "#ffc58a",
+      "ink": "#d2432a",
+      "glow": "#ff9a7a",
+      "clockColor": "#fff3e6",
+      "sky": "linear-gradient(180deg,#150a2c 0%,#250e42 11%,#3e1456 22%,#621c63 33%,#912a69 43%,#c23f67 51%,#e7585c 58%,#fa7a4e 63%,#ff9c50 67.5%,#ffb862 71%,#ffa45a 100%)",
+      "layers": [
+        {
+          "name": "Sky plate",
+          "depth": 0,
+          "sky": true
+        },
+        {
+          "name": "Setting sun",
+          "depth": 0.08
+        },
+        {
+          "name": "Clouds & birds",
+          "depth": 0.15
+        },
+        {
+          "name": "Arch & far dunes",
+          "depth": 0.25
+        },
+        {
+          "name": "Depth clock",
+          "depth": 0.4,
+          "clock": true
+        },
+        {
+          "name": "Rolling dunes",
+          "depth": 0.56
+        },
+        {
+          "name": "Sculpted dunes",
+          "depth": 0.84
+        },
+        {
+          "name": "Windswept crest",
+          "depth": 1.1
+        },
+        {
+          "name": "Glowing dust",
+          "depth": 1.3
+        }
+      ]
+    },
+    "islands": {
+      "id": "islands",
+      "name": "Sky Islands",
+      "tag": "Above the clouds",
+      "accent": "#7ccf5c",
+      "accent2": "#ffa36b",
+      "ink": "#2e7429",
+      "glow": "#b6e8a0",
+      "light": true,
+      "clockColor": "#1f3557",
+      "sky": "linear-gradient(180deg,#76b4ee 0%,#9ccbf4 26%,#cbe3f8 50%,#f3e6e2 68%,#ffdcc6 84%,#ffd2bb 100%)",
+      "layers": [
+        {
+          "name": "Sunlit sky",
+          "depth": 0,
+          "sky": true
+        },
+        {
+          "name": "Distant isles",
+          "depth": 0.1
+        },
+        {
+          "name": "Cloud horizon",
+          "depth": 0.22
+        },
+        {
+          "name": "Depth clock",
+          "depth": 0.38,
+          "clock": true
+        },
+        {
+          "name": "Middle isles",
+          "depth": 0.52
+        },
+        {
+          "name": "Hot-air balloons",
+          "depth": 0.62
+        },
+        {
+          "name": "Cloud sea",
+          "depth": 0.74
+        },
+        {
+          "name": "Hero isles",
+          "depth": 1
+        },
+        {
+          "name": "Billows & birds",
+          "depth": 1.3
+        }
+      ]
+    },
+    "lagoon": {
+      "id": "lagoon",
+      "name": "Firefly Lagoon",
+      "tag": "Twilight lake",
+      "accent": "#c8f55a",
+      "accent2": "#ffbe6b",
+      "ink": "#4a6a0c",
+      "glow": "#d9f79a",
+      "light": false,
+      "clockColor": "#f3eeff",
+      "sky": "linear-gradient(180deg,#05041a 0%,#0a0827 12%,#140f3c 24%,#221852 34%,#322468 41%,#45367f 46%,#5d5398 50%,#7a78b4 54%,#95a0c6 58%,#a9bfcd 62%,#b6d5cf 67%,#c0e0d2 78%)",
+      "layers": [
+        {
+          "name": "Star plate",
+          "depth": 0,
+          "sky": true
+        },
+        {
+          "name": "Moon and owl",
+          "depth": 0.08
+        },
+        {
+          "name": "Misty ridges",
+          "depth": 0.2
+        },
+        {
+          "name": "Depth clock",
+          "depth": 0.36,
+          "clock": true
+        },
+        {
+          "name": "Pine shore",
+          "depth": 0.48
+        },
+        {
+          "name": "Mirror lake",
+          "depth": 0.62
+        },
+        {
+          "name": "Lantern shallows",
+          "depth": 0.8
+        },
+        {
+          "name": "Cattails",
+          "depth": 1.05
+        },
+        {
+          "name": "Fireflies",
+          "depth": 1.3
+        }
+      ]
+    },
+    "nebula": {
+      "id": "nebula",
+      "name": "Nebula Drift",
+      "tag": "Deep space",
+      "accent": "#9b8cff",
+      "accent2": "#ff9bd0",
+      "ink": "#5b45d6",
+      "glow": "#b9adff",
+      "clockColor": "#f3eeff",
+      "sky": "radial-gradient(70% 60% at 26% 46%,#2a1252 0%,rgba(42,18,82,0) 70%),radial-gradient(60% 50% at 76% 64%,#12245c 0%,rgba(18,36,92,0) 70%),linear-gradient(180deg,#04030c 0%,#080620 36%,#100a32 66%,#170e3c 100%)",
+      "layers": [
+        {
+          "name": "Deep sky",
+          "depth": 0,
+          "sky": true
+        },
+        {
+          "name": "Nebula clouds",
+          "depth": 0.08
+        },
+        {
+          "name": "Ringed planet",
+          "depth": 0.2
+        },
+        {
+          "name": "Depth clock",
+          "depth": 0.38,
+          "clock": true
+        },
+        {
+          "name": "Near moon & station",
+          "depth": 0.5
+        },
+        {
+          "name": "Far craters",
+          "depth": 0.66
+        },
+        {
+          "name": "Moon ridge",
+          "depth": 0.9
+        },
+        {
+          "name": "Drifting rocks",
+          "depth": 1.1
+        },
+        {
+          "name": "Space dust",
+          "depth": 1.3
+        }
+      ]
+    },
+    "neon": {
+      "id": "neon",
+      "name": "Neon Rain",
+      "tag": "Rainy city night",
+      "accent": "#ff5fd2",
+      "accent2": "#ffb86b",
+      "ink": "#c0219e",
+      "glow": "#ff9be6",
+      "clockColor": "#fff0fb",
+      "sky": "linear-gradient(180deg,#07021a 0%,#110530 16%,#1f0846 30%,#360d5e 39%,#5e1572 45%,#a42480 51%,#e33f80 56%,#ff6478 63%,#ff8a6e 74%,#ffad76 100%)",
+      "layers": [
+        {
+          "name": "Night sky",
+          "depth": 0,
+          "sky": true
+        },
+        {
+          "name": "Pink moon",
+          "depth": 0.07
+        },
+        {
+          "name": "Distant skyline",
+          "depth": 0.16
+        },
+        {
+          "name": "Airship & sky lanes",
+          "depth": 0.27
+        },
+        {
+          "name": "Depth clock",
+          "depth": 0.4,
+          "clock": true
+        },
+        {
+          "name": "Midtown towers",
+          "depth": 0.58
+        },
+        {
+          "name": "Neon district",
+          "depth": 0.85
+        },
+        {
+          "name": "Wet street",
+          "depth": 1.05
+        },
+        {
+          "name": "Rain",
+          "depth": 1.3
+        }
+      ]
+    },
+    "peaks": {
+      "id": "morning",
+      "name": "Morning Peaks",
+      "tag": "Alpine sunrise",
+      "accent": "#5aa2ff",
+      "accent2": "#ffd29a",
+      "ink": "#1f6fd6",
+      "glow": "#8cc0ff",
+      "light": true,
+      "clockColor": "#1b2a44",
+      "sky": "linear-gradient(180deg,#74ade8 0%,#98c7f0 18%,#c2def5 36%,#e6ecf1 48%,#fbe3d2 58%,#ffd6b4 68%,#ffcca2 82%,#fdc59c 100%)",
+      "layers": [
+        {
+          "name": "Sky and sun",
+          "depth": 0,
+          "sky": true
+        },
+        {
+          "name": "Far summits",
+          "depth": 0.12
+        },
+        {
+          "name": "Glacier range",
+          "depth": 0.26
+        },
+        {
+          "name": "Depth clock",
+          "depth": 0.4,
+          "clock": true
+        },
+        {
+          "name": "Cable car ridge",
+          "depth": 0.55
+        },
+        {
+          "name": "Alpine lake",
+          "depth": 0.72
+        },
+        {
+          "name": "Pine forest",
+          "depth": 0.92
+        },
+        {
+          "name": "Wildflower meadow",
+          "depth": 1.1
+        },
+        {
+          "name": "Boughs and light",
+          "depth": 1.3
+        }
+      ]
+    },
+    "rainforest": {
+      "id": "rainforest",
+      "name": "Rainforest Falls",
+      "tag": "Misty jungle",
+      "accent": "#1fbf6e",
+      "accent2": "#ff5a3c",
+      "ink": "#11683f",
+      "glow": "#9fe0bd",
+      "light": true,
+      "clockColor": "#163a2a",
+      "sky": "radial-gradient(60% 55% at 18% 0%,rgba(255,251,228,.95),rgba(255,251,228,0) 70%),linear-gradient(180deg,#c0dccf 0%,#d2e8db 35%,#e1eee0 62%,#ebf3e4 100%)",
+      "layers": [
+        {
+          "name": "Misty sky",
+          "depth": 0,
+          "sky": true
+        },
+        {
+          "name": "Far canopy",
+          "depth": 0.14
+        },
+        {
+          "name": "Waterfall gorge",
+          "depth": 0.28
+        },
+        {
+          "name": "Depth clock",
+          "depth": 0.42,
+          "clock": true
+        },
+        {
+          "name": "River valley",
+          "depth": 0.58
+        },
+        {
+          "name": "Canopy life",
+          "depth": 0.72
+        },
+        {
+          "name": "Scarlet macaws",
+          "depth": 0.88
+        },
+        {
+          "name": "Riverbank",
+          "depth": 1
+        },
+        {
+          "name": "Leaf frame",
+          "depth": 1.3
+        }
+      ]
+    },
+    "train": {
+      "id": "train",
+      "name": "Night Train",
+      "tag": "Moonlit countryside",
+      "accent": "#ffb547",
+      "accent2": "#8fa8ff",
+      "ink": "#985200",
+      "glow": "#ffcf8a",
+      "light": false,
+      "clockColor": "#f3f1ff",
+      "sky": "linear-gradient(180deg,#02040f 0%,#050b22 18%,#0b1636 34%,#17284f 46%,#2a3e6c 54%,#34497a 62%,#34497a 100%)",
+      "layers": [
+        {
+          "name": "Night sky",
+          "depth": 0,
+          "sky": true
+        },
+        {
+          "name": "Moon & clouds",
+          "depth": 0.06
+        },
+        {
+          "name": "Far hills",
+          "depth": 0.16
+        },
+        {
+          "name": "Hill town",
+          "depth": 0.28
+        },
+        {
+          "name": "Depth clock",
+          "depth": 0.4,
+          "clock": true
+        },
+        {
+          "name": "Viaduct & river",
+          "depth": 0.6
+        },
+        {
+          "name": "Night train",
+          "depth": 0.62
+        },
+        {
+          "name": "Meadow & owl",
+          "depth": 1
+        },
+        {
+          "name": "Fireflies & bats",
+          "depth": 1.25
+        }
+      ]
+    }
+  },
+  "gl": {
+    "aquarium": {
+      "id": "aquarium",
+      "name": "Coral Aquarium",
+      "tag": "Living reef",
+      "accent": "#2fd4e8",
+      "accent2": "#ff8a3c",
+      "ink": "#0b5f73",
+      "glow": "#a6f2ff",
+      "light": true,
+      "clockColor": "#062a3c",
+      "sky": "linear-gradient(180deg,#c9f6ff 0%,#6fd0e2 14%,#2f9cbc 40%,#145f7c 66%,#0a3a4c 100%)",
+      "clockAfter": 4,
+      "layers": [
+        {
+          "name": "Surface and water",
+          "depth": 0
+        },
+        {
+          "name": "Far reef",
+          "depth": 0.12
+        },
+        {
+          "name": "Light rays",
+          "depth": 0.22
+        },
+        {
+          "name": "Silver school",
+          "depth": 0.38
+        },
+        {
+          "name": "Reef and sand",
+          "depth": 0.62
+        },
+        {
+          "name": "Reef fish",
+          "depth": 0.85
+        },
+        {
+          "name": "Near coral",
+          "depth": 1.05
+        },
+        {
+          "name": "Bubbles and snow",
+          "depth": 1.3
+        }
+      ]
+    },
+    "flowervalley": {
+      "id": "flowervalley",
+      "name": "Flower Valley",
+      "tag": "Alpine bloom",
+      "accent": "#e8412c",
+      "accent2": "#8466e8",
+      "ink": "#a3261a",
+      "glow": "#ffd9ae",
+      "light": true,
+      "clockColor": "#14223c",
+      "sky": "linear-gradient(180deg,#4a82cc 0%,#8fb4e0 30%,#c9dbee 44%,#e2e8ee 50%,#a3a6ad 55%,#46604c 61%,#86a85a 66%,#5f8f2c 72%,#4b7a20 88%,#3b621a 100%)",
+      "clockAfter": 1,
+      "layers": [
+        {
+          "name": "Sky",
+          "depth": 0
+        },
+        {
+          "name": "Far peaks",
+          "depth": 0.1
+        },
+        {
+          "name": "Forest slopes",
+          "depth": 0.3
+        },
+        {
+          "name": "Valley lake",
+          "depth": 0.5
+        },
+        {
+          "name": "Meadow",
+          "depth": 0.8
+        },
+        {
+          "name": "Wildflowers",
+          "depth": 1
+        },
+        {
+          "name": "Pollen and butterflies",
+          "depth": 1.15
+        },
+        {
+          "name": "Foreground bokeh",
+          "depth": 1.3
+        }
+      ]
+    },
+    "ocean": {
+      "id": "ocean",
+      "name": "Golden Coast",
+      "tag": "Ocean at golden hour",
+      "accent": "#f4b04c",
+      "accent2": "#3cb4a6",
+      "ink": "#8a4f0c",
+      "glow": "#ffd9a3",
+      "light": false,
+      "clockColor": "#fff5e6",
+      "sky": "linear-gradient(180deg,#1f2135 0%,#4a3a4c 30%,#a56a52 44%,#f1b25e 50%,#4c5a58 51%,#2e3433 70%,#3b2f27 100%)",
+      "clockAfter": 2,
+      "layers": [
+        {
+          "name": "Sky",
+          "depth": 0
+        },
+        {
+          "name": "Far headlands",
+          "depth": 0.08
+        },
+        {
+          "name": "Open sea",
+          "depth": 0.2
+        },
+        {
+          "name": "Sea stacks",
+          "depth": 0.3
+        },
+        {
+          "name": "Surf and beach",
+          "depth": 0.75
+        },
+        {
+          "name": "Cliffs",
+          "depth": 1
+        },
+        {
+          "name": "Spray",
+          "depth": 1.05
+        },
+        {
+          "name": "Gulls",
+          "depth": 1.25
+        }
+      ]
+    },
+    "planet": {
+      "id": "planet",
+      "name": "Blue Planet",
+      "tag": "Earth from orbit",
+      "accent": "#5fb4ff",
+      "accent2": "#ff9a4d",
+      "ink": "#1257a8",
+      "glow": "#9fd0ff",
+      "light": false,
+      "clockColor": "#f4f8ff",
+      "sky": "radial-gradient(140% 70% at 30% 118%, #3d7fc4 0%, #1d4f8c 34%, #0b1f3d 46%, #04070f 58%, #020309 100%)",
+      "clockAfter": 2,
+      "layers": [
+        {
+          "name": "Star field",
+          "depth": 0
+        },
+        {
+          "name": "Milky Way",
+          "depth": 0.06
+        },
+        {
+          "name": "Moon",
+          "depth": 0.3
+        },
+        {
+          "name": "Planet",
+          "depth": 0.82
+        },
+        {
+          "name": "Clouds",
+          "depth": 0.84
+        },
+        {
+          "name": "Atmosphere",
+          "depth": 0.86
+        },
+        {
+          "name": "Satellite",
+          "depth": 1.1
+        },
+        {
+          "name": "Lens flare",
+          "depth": 1.3
+        }
+      ]
+    }
+  }
+}

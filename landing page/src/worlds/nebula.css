@@ -1,0 +1,592 @@
+/* Nebula Drift — ambient motion. Transform and opacity only; every class and
+   keyframe is nebula- prefixed. */
+
+/* ---------- deep sky ---------- */
+.nebula-twinkle {
+  animation: nebula-twinkle 4s ease-in-out infinite;
+}
+.nebula-glimmer {
+  transform-box: fill-box;
+  transform-origin: 50% 50%;
+  opacity: 0.2;
+  animation: nebula-glimmer 7s ease-in-out infinite;
+}
+.nebula-galaxy {
+  transform-box: fill-box;
+  transform-origin: 50% 50%;
+  animation: nebula-spin-ccw 320s linear infinite;
+}
+.nebula-shoot {
+  opacity: 0;
+  animation: nebula-shoot 23s linear infinite;
+}
+
+/* generic slow breathing glow (cores, halos) */
+.nebula-pulse {
+  transform-box: fill-box;
+  transform-origin: 50% 50%;
+  animation: nebula-pulse 9s ease-in-out infinite alternate;
+}
+
+/* ---------- nebula ---------- */
+.nebula-bank {
+  transform-box: fill-box;
+  transform-origin: 50% 50%;
+  animation-timing-function: ease-in-out;
+  animation-iteration-count: infinite;
+  animation-direction: alternate;
+}
+.nebula-bank-a {
+  animation-name: nebula-bank-a;
+}
+.nebula-bank-b {
+  animation-name: nebula-bank-b;
+}
+.nebula-bank-c {
+  animation-name: nebula-bank-c;
+}
+.nebula-wisps {
+  animation: nebula-wisps 40s ease-in-out infinite alternate;
+}
+.nebula-lanes {
+  animation: nebula-lanes 60s ease-in-out infinite alternate;
+}
+.nebula-spark {
+  transform-box: fill-box;
+  transform-origin: 50% 50%;
+  animation: nebula-spark 5s ease-in-out infinite;
+}
+
+/* the comet: one slow crossing, then a long rest off-stage */
+.nebula-comet {
+  opacity: 0;
+  animation: nebula-comet 100s linear infinite;
+  animation-delay: -30s;
+}
+.nebula-ion {
+  transform-box: fill-box;
+  transform-origin: 100% 50%;
+  animation: nebula-ion 3.4s ease-in-out infinite alternate;
+}
+.nebula-coma {
+  transform-box: fill-box;
+  transform-origin: 50% 50%;
+  animation: nebula-coma 2.6s ease-in-out infinite alternate;
+}
+
+/* ---------- ringed planet ---------- */
+.nebula-band {
+  animation: nebula-band 120s linear infinite;
+}
+.nebula-band-equator {
+  animation-direction: reverse;
+}
+.nebula-glint {
+  transform-box: fill-box;
+  transform-origin: 50% 50%;
+  opacity: 0;
+  animation: nebula-glint 7s ease-in-out infinite;
+}
+
+/* moon orbits: x and y run a quarter turn apart for an ellipse, and the
+   back/front copies swap at the far left and right of the orbit */
+.nebula-orbit-ax,
+.nebula-orbit-bx,
+.nebula-orbit-ay,
+.nebula-orbit-by {
+  animation-timing-function: cubic-bezier(0.37, 0, 0.63, 1);
+  animation-iteration-count: infinite;
+  animation-direction: alternate;
+}
+.nebula-orbit-ax {
+  animation-name: nebula-orbit-ax;
+}
+.nebula-orbit-ay {
+  animation-name: nebula-orbit-ay;
+}
+.nebula-orbit-bx {
+  animation-name: nebula-orbit-bx;
+}
+.nebula-orbit-by {
+  animation-name: nebula-orbit-by;
+}
+.nebula-orbit-back {
+  animation: nebula-orbit-back 40s linear infinite;
+}
+.nebula-orbit-front {
+  animation: nebula-orbit-front 40s linear infinite;
+}
+
+/* ---------- near moon & station ---------- */
+.nebula-surface {
+  animation: nebula-surface 80s linear infinite;
+}
+.nebula-station {
+  opacity: 0;
+  animation: nebula-station 120s linear infinite;
+  animation-delay: -46s;
+}
+.nebula-roll {
+  transform-box: fill-box;
+  transform-origin: 50% 50%;
+  animation: nebula-roll 14s ease-in-out infinite alternate;
+}
+.nebula-blink {
+  animation: nebula-blink 1.6s linear infinite;
+}
+.nebula-strobe {
+  opacity: 0;
+  animation: nebula-strobe 2.9s linear infinite;
+}
+.nebula-sheen {
+  opacity: 0;
+  animation: nebula-sheen 9s ease-in-out infinite;
+}
+
+/* ---------- far craters ---------- */
+.nebula-haze {
+  animation: nebula-haze 36s ease-in-out infinite alternate;
+}
+.nebula-beacon {
+  animation: nebula-beacon 3.2s ease-in-out infinite;
+}
+
+/* ---------- rocks & dust ---------- */
+.nebula-float {
+  animation: nebula-float 14s ease-in-out infinite alternate;
+}
+.nebula-rock {
+  transform-box: fill-box;
+  transform-origin: 50% 50%;
+  animation: nebula-rock 20s ease-in-out infinite alternate;
+}
+.nebula-spin {
+  transform-box: fill-box;
+  transform-origin: 50% 50%;
+  animation: nebula-spin 50s linear infinite;
+}
+.nebula-dust {
+  opacity: 0;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+}
+.nebula-dust-a {
+  animation-name: nebula-dust-a;
+}
+.nebula-dust-b {
+  animation-name: nebula-dust-b;
+}
+.nebula-dust-c {
+  animation-name: nebula-dust-c;
+}
+.nebula-bokeh {
+  animation: nebula-bokeh 30s ease-in-out infinite alternate;
+}
+
+/* ---------- keyframes ---------- */
+@keyframes nebula-twinkle {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.18;
+  }
+}
+@keyframes nebula-glimmer {
+  0%,
+  60%,
+  100% {
+    opacity: 0.15;
+    transform: scale(0.45) rotate(0deg);
+  }
+  75% {
+    opacity: 1;
+    transform: scale(1.15) rotate(12deg);
+  }
+  88% {
+    opacity: 0.3;
+    transform: scale(0.6) rotate(20deg);
+  }
+}
+@keyframes nebula-spin-ccw {
+  to {
+    transform: rotate(-360deg);
+  }
+}
+@keyframes nebula-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+@keyframes nebula-shoot {
+  0%,
+  90% {
+    transform: translateX(0);
+    opacity: 0;
+    animation-timing-function: cubic-bezier(0.25, 0.6, 0.35, 1);
+  }
+  91.2% {
+    opacity: 1;
+  }
+  96%,
+  100% {
+    transform: translateX(360px);
+    opacity: 0;
+  }
+}
+@keyframes nebula-pulse {
+  from {
+    transform: scale(0.94);
+    opacity: 0.72;
+  }
+  to {
+    transform: scale(1.06);
+    opacity: 1;
+  }
+}
+@keyframes nebula-bank-a {
+  from {
+    transform: translate(-28px, 8px) scale(0.97);
+    opacity: 0.78;
+  }
+  to {
+    transform: translate(30px, -10px) scale(1.04);
+    opacity: 1;
+  }
+}
+@keyframes nebula-bank-b {
+  from {
+    transform: translate(18px, -6px) scale(1.03) rotate(-1.2deg);
+    opacity: 1;
+  }
+  to {
+    transform: translate(-22px, 10px) scale(0.96) rotate(1.4deg);
+    opacity: 0.74;
+  }
+}
+@keyframes nebula-bank-c {
+  from {
+    transform: translate(-14px, -16px) scale(0.95);
+    opacity: 0.7;
+  }
+  to {
+    transform: translate(20px, 14px) scale(1.06);
+    opacity: 1;
+  }
+}
+@keyframes nebula-wisps {
+  from {
+    transform: translate(-16px, 6px);
+    opacity: 0.6;
+  }
+  to {
+    transform: translate(18px, -8px);
+    opacity: 1;
+  }
+}
+@keyframes nebula-lanes {
+  from {
+    transform: translate(-12px, 4px);
+  }
+  to {
+    transform: translate(14px, -5px);
+  }
+}
+@keyframes nebula-spark {
+  0%,
+  100% {
+    transform: scale(0.82);
+    opacity: 0.75;
+  }
+  45% {
+    transform: scale(1.08);
+    opacity: 1;
+  }
+  52% {
+    transform: scale(0.94);
+    opacity: 0.88;
+  }
+  60% {
+    transform: scale(1.12);
+    opacity: 1;
+  }
+}
+@keyframes nebula-comet {
+  0% {
+    transform: translateX(0);
+    opacity: 0;
+  }
+  5% {
+    opacity: 1;
+  }
+  70% {
+    opacity: 1;
+  }
+  86% {
+    transform: translateX(553px);
+    opacity: 0;
+  }
+  100% {
+    transform: translateX(553px);
+    opacity: 0;
+  }
+}
+@keyframes nebula-ion {
+  from {
+    transform: scaleX(0.9) rotate(-0.6deg);
+    opacity: 0.7;
+  }
+  to {
+    transform: scaleX(1.06) rotate(0.8deg);
+    opacity: 1;
+  }
+}
+@keyframes nebula-coma {
+  from {
+    transform: scale(0.88);
+    opacity: 0.8;
+  }
+  to {
+    transform: scale(1.12);
+    opacity: 1;
+  }
+}
+@keyframes nebula-band {
+  to {
+    transform: translateX(-240px);
+  }
+}
+@keyframes nebula-glint {
+  0%,
+  70%,
+  100% {
+    opacity: 0;
+    transform: scale(0.3);
+  }
+  80% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  90% {
+    opacity: 0;
+    transform: scale(0.5);
+  }
+}
+@keyframes nebula-orbit-ax {
+  from {
+    transform: translateX(242px);
+  }
+  to {
+    transform: translateX(-242px);
+  }
+}
+@keyframes nebula-orbit-ay {
+  from {
+    transform: translateY(-62px) scale(0.86);
+  }
+  to {
+    transform: translateY(62px) scale(1.08);
+  }
+}
+@keyframes nebula-orbit-bx {
+  from {
+    transform: translateX(282px);
+  }
+  to {
+    transform: translateX(-282px);
+  }
+}
+@keyframes nebula-orbit-by {
+  from {
+    transform: translateY(-46px) scale(0.86);
+  }
+  to {
+    transform: translateY(46px) scale(1.08);
+  }
+}
+@keyframes nebula-orbit-back {
+  0%,
+  50% {
+    opacity: 1;
+  }
+  50.01%,
+  100% {
+    opacity: 0;
+  }
+}
+@keyframes nebula-orbit-front {
+  0%,
+  50% {
+    opacity: 0;
+  }
+  50.01%,
+  100% {
+    opacity: 1;
+  }
+}
+@keyframes nebula-surface {
+  to {
+    transform: translateX(102px);
+  }
+}
+@keyframes nebula-station {
+  0% {
+    transform: translateX(0);
+    opacity: 0;
+  }
+  4% {
+    opacity: 1;
+  }
+  76% {
+    opacity: 1;
+  }
+  88% {
+    opacity: 0;
+  }
+  90%,
+  100% {
+    transform: translateX(540px);
+    opacity: 0;
+  }
+}
+@keyframes nebula-roll {
+  from {
+    transform: rotate(-4deg);
+  }
+  to {
+    transform: rotate(5deg);
+  }
+}
+@keyframes nebula-blink {
+  0%,
+  44%,
+  100% {
+    opacity: 0.15;
+  }
+  50%,
+  62% {
+    opacity: 1;
+  }
+}
+@keyframes nebula-strobe {
+  0%,
+  4% {
+    opacity: 1;
+  }
+  6%,
+  10% {
+    opacity: 0;
+  }
+  12%,
+  15% {
+    opacity: 1;
+  }
+  17%,
+  100% {
+    opacity: 0;
+  }
+}
+@keyframes nebula-sheen {
+  0%,
+  55%,
+  100% {
+    opacity: 0;
+  }
+  70% {
+    opacity: 1;
+  }
+}
+@keyframes nebula-haze {
+  from {
+    transform: translateX(-50px);
+    opacity: 0.45;
+  }
+  to {
+    transform: translateX(60px);
+    opacity: 1;
+  }
+}
+@keyframes nebula-beacon {
+  0%,
+  100% {
+    opacity: 0.12;
+  }
+  12% {
+    opacity: 1;
+  }
+  30% {
+    opacity: 0.12;
+  }
+}
+@keyframes nebula-float {
+  from {
+    transform: translate(-6px, -8px);
+  }
+  to {
+    transform: translate(8px, 9px);
+  }
+}
+@keyframes nebula-rock {
+  from {
+    transform: rotate(-9deg) scaleX(0.94);
+  }
+  to {
+    transform: rotate(10deg) scaleX(1);
+  }
+}
+@keyframes nebula-dust-a {
+  0% {
+    transform: translate(0, 0);
+    opacity: 0;
+  }
+  15%,
+  80% {
+    opacity: 1;
+  }
+  100% {
+    transform: translate(120px, -70px);
+    opacity: 0;
+  }
+}
+@keyframes nebula-dust-b {
+  0% {
+    transform: translate(0, 0);
+    opacity: 0;
+  }
+  20%,
+  75% {
+    opacity: 0.9;
+  }
+  50% {
+    transform: translate(40px, -60px);
+  }
+  100% {
+    transform: translate(110px, -96px);
+    opacity: 0;
+  }
+}
+@keyframes nebula-dust-c {
+  0% {
+    transform: translate(0, 0);
+    opacity: 0;
+  }
+  18%,
+  82% {
+    opacity: 0.8;
+  }
+  100% {
+    transform: translate(-80px, -60px);
+    opacity: 0;
+  }
+}
+@keyframes nebula-bokeh {
+  from {
+    transform: translate(-20px, 10px);
+    opacity: 0.4;
+  }
+  to {
+    transform: translate(26px, -16px);
+    opacity: 1;
+  }
+}

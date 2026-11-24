@@ -1,0 +1,530 @@
+/* Sky Islands — every class and keyframe is prefixed islands-.
+   Only transform and opacity animate. Durations and delays are set inline. */
+
+/* islands (and loose rocks) bob up and down, each with its own period */
+.islands-bob {
+  animation: islands-bob 12s ease-in-out infinite alternate;
+}
+@keyframes islands-bob {
+  from {
+    transform: translateY(calc(var(--islands-amp, 8px) * -1));
+  }
+  to {
+    transform: translateY(var(--islands-amp, 8px));
+  }
+}
+
+/* long cloud banks pan by exactly one period, so the loop is seamless */
+.islands-pan {
+  animation: islands-pan 300s linear infinite;
+}
+@keyframes islands-pan {
+  to {
+    transform: translateX(var(--islands-pan));
+  }
+}
+
+/* single billows swell and settle, so the cloud surface churns */
+.islands-churn {
+  transform-box: fill-box;
+  transform-origin: 50% 100%;
+  animation: islands-churn 14s ease-in-out infinite alternate;
+}
+@keyframes islands-churn {
+  from {
+    transform: scale(0.95, 0.93);
+  }
+  to {
+    transform: translateY(-3%) scale(1.06, 1.09);
+  }
+}
+
+/* flocks and the airship cross the whole plane, entering and leaving off-screen */
+.islands-cruise {
+  animation: islands-cruise 120s linear infinite;
+}
+@keyframes islands-cruise {
+  to {
+    transform: translateX(var(--islands-span));
+  }
+}
+
+/* vapour wisps drift across, fading in and out at the ends */
+.islands-wisp {
+  animation: islands-wisp 90s linear infinite;
+}
+@keyframes islands-wisp {
+  0% {
+    transform: translateX(0);
+    opacity: 0;
+  }
+  14% {
+    opacity: 1;
+  }
+  84% {
+    opacity: 1;
+  }
+  100% {
+    transform: translateX(var(--islands-span));
+    opacity: 0;
+  }
+}
+
+/* high cirrus streaks sway slowly in the sky */
+.islands-cirrus {
+  animation: islands-cirrus 50s ease-in-out infinite alternate;
+}
+@keyframes islands-cirrus {
+  to {
+    transform: translateX(var(--islands-amp, -60px));
+  }
+}
+
+/* two sets of sun rays wheel slowly in opposite directions; the corona breathes */
+.islands-rays {
+  transform-box: fill-box;
+  transform-origin: 50% 50%;
+  animation: islands-spin 320s linear infinite;
+}
+.islands-rays-b {
+  animation-duration: 440s;
+  animation-direction: reverse;
+}
+.islands-sun {
+  transform-box: fill-box;
+  transform-origin: 50% 50%;
+  animation: islands-sun 7s ease-in-out infinite alternate;
+}
+@keyframes islands-sun {
+  from {
+    transform: scale(0.92);
+    opacity: 0.8;
+  }
+  to {
+    transform: scale(1.06);
+    opacity: 1;
+  }
+}
+
+/* windmill sails turn */
+.islands-sails {
+  transform-box: fill-box;
+  transform-origin: 50% 50%;
+  animation: islands-spin 14s linear infinite;
+}
+@keyframes islands-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* water streaks run down each waterfall and fade out; the sheet shimmers */
+.islands-streak {
+  animation: islands-streak 2s linear infinite;
+}
+@keyframes islands-streak {
+  0% {
+    transform: translateY(0);
+    opacity: 0;
+  }
+  15% {
+    opacity: 0.95;
+  }
+  70% {
+    opacity: 0.6;
+  }
+  100% {
+    transform: translateY(var(--islands-fall, 120px));
+    opacity: 0;
+  }
+}
+.islands-shimmer {
+  animation: islands-shimmer 1.4s ease-in-out infinite alternate;
+}
+@keyframes islands-shimmer {
+  from {
+    opacity: 0.25;
+  }
+  to {
+    opacity: 0.75;
+  }
+}
+
+/* spray at the foot of a waterfall billows */
+.islands-mist {
+  transform-box: fill-box;
+  transform-origin: 50% 50%;
+  animation: islands-mist 4s ease-in-out infinite alternate;
+}
+@keyframes islands-mist {
+  from {
+    transform: scale(0.75);
+    opacity: 0.35;
+  }
+  to {
+    transform: scale(1.25);
+    opacity: 0.9;
+  }
+}
+
+/* sparkles catch the sun on the falling water */
+.islands-glint {
+  transform-box: fill-box;
+  transform-origin: 50% 50%;
+  animation: islands-glint 6s ease-in-out infinite;
+}
+@keyframes islands-glint {
+  0%,
+  58% {
+    transform: scale(0) rotate(0deg);
+    opacity: 0;
+  }
+  74% {
+    transform: scale(1) rotate(45deg);
+    opacity: 1;
+  }
+  90%,
+  100% {
+    transform: scale(0) rotate(90deg);
+    opacity: 0;
+  }
+}
+
+/* trees lean in the breeze */
+.islands-sway {
+  transform-box: fill-box;
+  transform-origin: 50% 100%;
+  animation: islands-sway 6s ease-in-out infinite alternate;
+}
+@keyframes islands-sway {
+  from {
+    transform: rotate(-1.8deg);
+  }
+  to {
+    transform: rotate(2deg);
+  }
+}
+
+/* vines and hanging roots swing together from the top (skew keeps every strand attached) */
+.islands-hang {
+  transform-box: fill-box;
+  transform-origin: 50% 0%;
+  animation: islands-hang 6s ease-in-out infinite alternate;
+}
+@keyframes islands-hang {
+  from {
+    transform: skewX(-4deg);
+  }
+  to {
+    transform: skewX(4.5deg);
+  }
+}
+
+/* chimney smoke rises, swells and drifts off with the wind */
+.islands-smoke {
+  transform-box: fill-box;
+  transform-origin: 50% 50%;
+  animation: islands-smoke 6s ease-out infinite;
+}
+@keyframes islands-smoke {
+  0% {
+    transform: translate(0, 0) scale(0.35);
+    opacity: 0;
+  }
+  15% {
+    opacity: 0.8;
+  }
+  100% {
+    transform: translate(-14px, -30px) scale(1.8);
+    opacity: 0;
+  }
+}
+
+/* sheep put their heads down to graze, then look up */
+.islands-graze {
+  transform-box: fill-box;
+  transform-origin: 0% 40%;
+  animation: islands-graze 9s ease-in-out infinite;
+}
+@keyframes islands-graze {
+  0%,
+  28% {
+    transform: rotate(0deg);
+  }
+  38%,
+  72% {
+    transform: rotate(40deg);
+  }
+  78% {
+    transform: rotate(30deg);
+  }
+  84% {
+    transform: rotate(40deg);
+  }
+  94%,
+  100% {
+    transform: rotate(0deg);
+  }
+}
+
+/* the lighthouse lamp pulses and its beam sweeps round (flash when facing us) */
+.islands-beacon {
+  transform-box: fill-box;
+  transform-origin: 50% 50%;
+  animation: islands-beacon 6s ease-in-out infinite;
+}
+@keyframes islands-beacon {
+  0%,
+  100% {
+    transform: scale(0.8);
+    opacity: 0.55;
+  }
+  25% {
+    transform: scale(1.5);
+    opacity: 1;
+  }
+  50% {
+    transform: scale(0.9);
+    opacity: 0.6;
+  }
+  75% {
+    transform: scale(0.75);
+    opacity: 0.4;
+  }
+}
+.islands-beam {
+  transform-box: fill-box;
+  transform-origin: 50% 50%;
+  animation: islands-beam 6s ease-in-out infinite;
+}
+@keyframes islands-beam {
+  0%,
+  100% {
+    transform: scaleX(1);
+    opacity: 0.5;
+  }
+  25% {
+    transform: scaleX(0.05);
+    opacity: 1;
+  }
+  50% {
+    transform: scaleX(-1);
+    opacity: 0.5;
+  }
+  75% {
+    transform: scaleX(-0.05);
+    opacity: 0.1;
+  }
+}
+
+/* hot-air balloons hover: a slow side drift, a basket swing, a burner flicker */
+.islands-drift {
+  animation: islands-drift 40s ease-in-out infinite alternate;
+}
+@keyframes islands-drift {
+  from {
+    transform: translateX(calc(var(--islands-dx, 40px) * -1));
+  }
+  to {
+    transform: translateX(var(--islands-dx, 40px));
+  }
+}
+.islands-balloon-sway {
+  transform-box: fill-box;
+  transform-origin: 50% 0%;
+  animation: islands-balloon-sway 8s ease-in-out infinite alternate;
+}
+@keyframes islands-balloon-sway {
+  from {
+    transform: rotate(-2.5deg);
+  }
+  to {
+    transform: rotate(2.5deg);
+  }
+}
+.islands-flame {
+  transform-box: fill-box;
+  transform-origin: 50% 100%;
+  animation: islands-flame 2.3s ease-in-out infinite;
+}
+@keyframes islands-flame {
+  0%,
+  100% {
+    transform: scale(0.6);
+    opacity: 0.25;
+  }
+  18% {
+    transform: scale(1);
+    opacity: 0.95;
+  }
+  30% {
+    transform: scale(0.8);
+    opacity: 0.6;
+  }
+  44% {
+    transform: scale(1.05);
+    opacity: 1;
+  }
+  62% {
+    transform: scale(0.65);
+    opacity: 0.3;
+  }
+}
+
+/* the airship's propeller spins (seen edge-on) */
+.islands-prop {
+  transform-box: fill-box;
+  transform-origin: 50% 50%;
+  animation: islands-prop 0.32s linear infinite;
+}
+@keyframes islands-prop {
+  0%,
+  100% {
+    transform: scaleY(1);
+  }
+  50% {
+    transform: scaleY(-1);
+  }
+}
+
+/* wings beat in a burst, then the bird glides */
+.islands-flap {
+  transform-box: fill-box;
+  transform-origin: 50% 80%;
+  animation: islands-flap 2.4s ease-in-out infinite;
+}
+@keyframes islands-flap {
+  0% {
+    transform: scaleY(1);
+  }
+  7% {
+    transform: scaleY(-0.8);
+  }
+  14% {
+    transform: scaleY(1);
+  }
+  21% {
+    transform: scaleY(-0.8);
+  }
+  28% {
+    transform: scaleY(1);
+  }
+  35% {
+    transform: scaleY(-0.8);
+  }
+  43% {
+    transform: scaleY(0.9);
+  }
+  72% {
+    transform: scaleY(0.55);
+  }
+  100% {
+    transform: scaleY(1);
+  }
+}
+
+/* circling birds: x and y oscillate a quarter-cycle apart, tracing an ellipse */
+.islands-orbit-x {
+  animation: islands-orbit-x 9s ease-in-out infinite alternate;
+}
+@keyframes islands-orbit-x {
+  from {
+    transform: translateX(calc(var(--islands-rx, 60px) * -1));
+  }
+  to {
+    transform: translateX(var(--islands-rx, 60px));
+  }
+}
+.islands-orbit-y {
+  animation: islands-orbit-y 9s ease-in-out infinite alternate;
+}
+@keyframes islands-orbit-y {
+  from {
+    transform: translateY(calc(var(--islands-ry, 16px) * -1));
+  }
+  to {
+    transform: translateY(var(--islands-ry, 16px));
+  }
+}
+
+/* the kite swings on its string, wobbles and flicks its tail */
+.islands-kite {
+  transform-box: fill-box;
+  transform-origin: 100% 100%;
+  animation: islands-kite 7s ease-in-out infinite alternate;
+}
+@keyframes islands-kite {
+  from {
+    transform: rotate(-3deg);
+  }
+  to {
+    transform: rotate(3.5deg);
+  }
+}
+.islands-kite-wobble {
+  transform-box: fill-box;
+  transform-origin: 50% 22%;
+  animation: islands-wobble 2.2s ease-in-out infinite alternate;
+}
+@keyframes islands-wobble {
+  from {
+    transform: rotate(-8deg);
+  }
+  to {
+    transform: rotate(7deg);
+  }
+}
+
+/* dandelion seeds float on the breeze, bobbing and turning */
+.islands-seed {
+  transform-box: fill-box;
+  transform-origin: 50% 50%;
+  animation: islands-seed 30s ease-in-out infinite;
+}
+@keyframes islands-seed {
+  0% {
+    transform: translate(0, 0) rotate(-12deg);
+    opacity: 0;
+  }
+  8% {
+    opacity: 1;
+  }
+  25% {
+    transform: translate(calc(var(--islands-dx) * 0.25), calc(var(--islands-dy) * 0.25 + 22px)) rotate(10deg);
+  }
+  50% {
+    transform: translate(calc(var(--islands-dx) * 0.5), calc(var(--islands-dy) * 0.5 - 18px)) rotate(-8deg);
+  }
+  75% {
+    transform: translate(calc(var(--islands-dx) * 0.75), calc(var(--islands-dy) * 0.75 + 16px)) rotate(12deg);
+  }
+  92% {
+    opacity: 1;
+  }
+  100% {
+    transform: translate(var(--islands-dx), var(--islands-dy)) rotate(-6deg);
+    opacity: 0;
+  }
+}
+
+/* laundry on the line flutters in the breeze */
+.islands-flutter {
+  transform-box: fill-box;
+  transform-origin: 50% 0%;
+  animation: islands-flutter 1.8s ease-in-out infinite alternate;
+}
+@keyframes islands-flutter {
+  from {
+    transform: skewX(-9deg) scaleY(0.94);
+  }
+  to {
+    transform: skewX(7deg) scaleY(1);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  [class^='islands-'],
+  [class*=' islands-'] {
+    animation-play-state: paused;
+  }
+}

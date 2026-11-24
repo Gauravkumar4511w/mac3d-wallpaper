@@ -1,0 +1,791 @@
+/* Rainforest Falls — every class and keyframe is prefixed rainforest-.
+   Only transform and opacity animate. */
+
+/* ---------- light ---------- */
+
+/* sun glow breathing in the upper-left haze */
+.rainforest-sun {
+  transform-box: fill-box;
+  transform-origin: 50% 50%;
+  animation: rainforest-sun 12s ease-in-out infinite alternate;
+}
+@keyframes rainforest-sun {
+  from {
+    transform: scale(0.94);
+    opacity: 0.78;
+  }
+  to {
+    transform: scale(1.05);
+    opacity: 1;
+  }
+}
+
+/* sun shafts: breathe and sweep slowly about the sun */
+.rainforest-shaft {
+  transform-box: view-box;
+  transform-origin: 230px -40px;
+  animation: rainforest-shaft 12s ease-in-out infinite alternate;
+}
+@keyframes rainforest-shaft {
+  0% {
+    opacity: 0.3;
+    transform: rotate(-1.1deg);
+  }
+  55% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0.55;
+    transform: rotate(1.3deg);
+  }
+}
+
+/* light motes floating in the shafts */
+.rainforest-mote {
+  animation: rainforest-mote-a 14s ease-in-out infinite;
+}
+.rainforest-mote-b {
+  animation-name: rainforest-mote-b;
+}
+@keyframes rainforest-mote-a {
+  0%,
+  100% {
+    transform: translate(0, 0);
+    opacity: 0;
+  }
+  20% {
+    opacity: 0.9;
+  }
+  40% {
+    opacity: 0.3;
+  }
+  60% {
+    transform: translate(34px, -46px);
+    opacity: 1;
+  }
+  85% {
+    opacity: 0.2;
+  }
+}
+@keyframes rainforest-mote-b {
+  0%,
+  100% {
+    transform: translate(0, 0);
+    opacity: 0;
+  }
+  25% {
+    opacity: 1;
+  }
+  50% {
+    transform: translate(-28px, -30px);
+    opacity: 0.35;
+  }
+  75% {
+    opacity: 0.95;
+  }
+}
+
+/* ---------- mist ---------- */
+
+/* mist banks travelling slowly through the trees, fading at the ends */
+.rainforest-drift {
+  position: absolute;
+  border-radius: 50%;
+  pointer-events: none;
+  background: radial-gradient(
+    closest-side,
+    rgba(246, 251, 245, var(--a, 0.85)),
+    rgba(246, 251, 245, calc(var(--a, 0.85) * 0.5)) 55%,
+    rgba(246, 251, 245, 0)
+  );
+  animation: rainforest-drift 100s linear infinite;
+}
+.rainforest-drift-warm {
+  background: radial-gradient(
+    closest-side,
+    rgba(255, 251, 232, var(--a, 0.85)),
+    rgba(255, 251, 232, calc(var(--a, 0.85) * 0.5)) 55%,
+    rgba(255, 251, 232, 0)
+  );
+}
+@keyframes rainforest-drift {
+  0% {
+    transform: translateX(-40%) scaleY(0.85);
+    opacity: 0;
+  }
+  14% {
+    opacity: 1;
+  }
+  50% {
+    transform: translateX(110%) scaleY(1.12);
+  }
+  86% {
+    opacity: 1;
+  }
+  100% {
+    transform: translateX(260%) scaleY(0.9);
+    opacity: 0;
+  }
+}
+
+/* ---------- far birds ---------- */
+
+.rainforest-flock {
+  animation: rainforest-flock 80s linear infinite;
+  animation-delay: -30s;
+}
+@keyframes rainforest-flock {
+  from {
+    transform: translate(-120px, 20px);
+  }
+  to {
+    transform: translate(1680px, -40px);
+  }
+}
+.rainforest-bflap {
+  transform-box: fill-box;
+  transform-origin: 50% 60%;
+  animation: rainforest-bflap 0.6s ease-in-out infinite alternate;
+}
+@keyframes rainforest-bflap {
+  to {
+    transform: scaleY(-0.5);
+  }
+}
+
+/* ---------- waterfall ---------- */
+
+/* streaks pouring from the lip, accelerating as they fall */
+.rainforest-streak {
+  animation: rainforest-streak 2s cubic-bezier(0.42, 0.05, 0.9, 0.65) infinite;
+}
+@keyframes rainforest-streak {
+  0% {
+    transform: translateY(0);
+    opacity: 0;
+  }
+  12% {
+    opacity: 1;
+  }
+  80% {
+    opacity: 0.9;
+  }
+  100% {
+    transform: translateY(440px);
+    opacity: 0;
+  }
+}
+
+/* glint sliding along the lip of the falls */
+.rainforest-lipglint {
+  animation: rainforest-lipglint 2.8s ease-in-out infinite;
+}
+@keyframes rainforest-lipglint {
+  0% {
+    transform: translateX(0);
+    opacity: 0;
+  }
+  40% {
+    opacity: 1;
+  }
+  100% {
+    transform: translateX(38px);
+    opacity: 0;
+  }
+}
+
+/* whitewater boiling where the falls hits the pool */
+.rainforest-boil {
+  transform-box: fill-box;
+  transform-origin: 50% 100%;
+  animation: rainforest-boil 2s ease-in-out infinite alternate;
+}
+@keyframes rainforest-boil {
+  from {
+    transform: scale(0.82, 0.78);
+    opacity: 0.7;
+  }
+  to {
+    transform: scale(1.14, 1.2) translateY(-2px);
+    opacity: 1;
+  }
+}
+
+/* ripple rings spreading over the plunge pool */
+.rainforest-ripple {
+  transform-box: fill-box;
+  transform-origin: 50% 50%;
+  animation: rainforest-ripple 4s ease-out infinite;
+}
+@keyframes rainforest-ripple {
+  from {
+    transform: scale(0.3);
+    opacity: 0.95;
+  }
+  to {
+    transform: scale(1.15);
+    opacity: 0;
+  }
+}
+
+/* the rainbow brightens and fades as the spray thickens */
+.rainforest-bow {
+  animation: rainforest-bow 26s ease-in-out infinite;
+  animation-delay: -9s;
+}
+@keyframes rainforest-bow {
+  0%,
+  100% {
+    opacity: 0.22;
+  }
+  35% {
+    opacity: 0.35;
+  }
+  55% {
+    opacity: 1;
+  }
+  72% {
+    opacity: 0.8;
+  }
+  88% {
+    opacity: 0.3;
+  }
+}
+
+/* spray: a steady veil plus puffs rising and swelling */
+.rainforest-spray,
+.rainforest-puff,
+.rainforest-cloud {
+  position: absolute;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  pointer-events: none;
+  background: radial-gradient(
+    closest-side,
+    rgba(255, 255, 255, 0.95),
+    rgba(255, 255, 255, 0.45) 50%,
+    rgba(255, 255, 255, 0)
+  );
+}
+.rainforest-spray {
+  aspect-ratio: 3 / 1;
+  transform: translate(-50%, -50%);
+  opacity: 0.85;
+}
+.rainforest-puff {
+  transform: translate(-50%, -50%);
+  animation: rainforest-puff 9s ease-out infinite;
+}
+@keyframes rainforest-puff {
+  0% {
+    transform: translate(-50%, -30%) scale(0.4);
+    opacity: 0;
+  }
+  22% {
+    opacity: 0.9;
+  }
+  100% {
+    transform: translate(-50%, -135%) scale(1.55);
+    opacity: 0;
+  }
+}
+
+/* larger mist clouds rolling off the pool to either side */
+.rainforest-cloud {
+  aspect-ratio: 2.2 / 1;
+  background: radial-gradient(
+    closest-side,
+    rgba(250, 253, 250, 0.85),
+    rgba(250, 253, 250, 0.38) 55%,
+    rgba(250, 253, 250, 0)
+  );
+  animation: rainforest-cloud-a 26s ease-in-out infinite;
+}
+.rainforest-cloud-b {
+  animation-name: rainforest-cloud-b;
+}
+@keyframes rainforest-cloud-a {
+  0% {
+    transform: translate(-50%, -40%) scale(0.6);
+    opacity: 0;
+  }
+  25% {
+    opacity: 0.9;
+  }
+  100% {
+    transform: translate(-95%, -75%) scale(1.5);
+    opacity: 0;
+  }
+}
+@keyframes rainforest-cloud-b {
+  0% {
+    transform: translate(-50%, -40%) scale(0.6);
+    opacity: 0;
+  }
+  25% {
+    opacity: 0.85;
+  }
+  100% {
+    transform: translate(-10%, -70%) scale(1.45);
+    opacity: 0;
+  }
+}
+
+/* ---------- river ---------- */
+
+/* sun glints on the water */
+.rainforest-glint {
+  animation: rainforest-glint 4s ease-in-out infinite;
+}
+@keyframes rainforest-glint {
+  0%,
+  100% {
+    opacity: 0.1;
+    transform: translateX(-6px);
+  }
+  50% {
+    opacity: 1;
+    transform: translateX(8px);
+  }
+}
+
+/* flow lines carried downstream (direction set per line) */
+.rainforest-flow {
+  animation: rainforest-flow 4s linear infinite;
+}
+@keyframes rainforest-flow {
+  0% {
+    transform: translate(0, 0);
+    opacity: 0;
+  }
+  30% {
+    opacity: 0.85;
+  }
+  70% {
+    opacity: 0.7;
+  }
+  100% {
+    transform: translate(var(--fx), var(--fy));
+    opacity: 0;
+  }
+}
+
+/* white water piling against the boulders */
+.rainforest-foam {
+  transform-box: fill-box;
+  transform-origin: 50% 50%;
+  animation: rainforest-foam 3s ease-in-out infinite alternate;
+}
+@keyframes rainforest-foam {
+  from {
+    transform: scale(0.9, 0.85);
+    opacity: 0.35;
+  }
+  to {
+    transform: scale(1.06, 1.08);
+    opacity: 0.9;
+  }
+}
+
+/* ---------- plants ---------- */
+
+/* palm crowns nodding (origin inline, at the crown) */
+.rainforest-crown {
+  transform-box: view-box;
+  animation: rainforest-crown 8s ease-in-out infinite alternate;
+}
+@keyframes rainforest-crown {
+  from {
+    transform: rotate(-2.2deg);
+  }
+  to {
+    transform: rotate(2.6deg);
+  }
+}
+
+/* leaves and clumps swaying from their base (origin + amplitude inline) */
+.rainforest-sway {
+  transform-box: view-box;
+  animation: rainforest-sway 7s ease-in-out infinite alternate;
+}
+@keyframes rainforest-sway {
+  from {
+    transform: rotate(calc(var(--s, 2deg) * -1));
+  }
+  to {
+    transform: rotate(var(--s, 2deg));
+  }
+}
+
+/* a gust every so often rocks each corner of the leaf frame */
+.rainforest-gust {
+  transform-box: view-box;
+  animation: rainforest-gust 23s ease-in-out infinite;
+}
+@keyframes rainforest-gust {
+  0%,
+  56% {
+    transform: rotate(0deg);
+  }
+  64% {
+    transform: rotate(var(--g, 1.8deg));
+  }
+  71% {
+    transform: rotate(calc(var(--g, 1.8deg) * -0.4));
+  }
+  79% {
+    transform: rotate(calc(var(--g, 1.8deg) * 0.45));
+  }
+  88%,
+  100% {
+    transform: rotate(0deg);
+  }
+}
+
+/* vines swinging from the canopy (origin inline at the anchor) */
+.rainforest-vine {
+  transform-box: view-box;
+  animation: rainforest-vine 9s ease-in-out infinite alternate;
+}
+@keyframes rainforest-vine {
+  from {
+    transform: rotate(-2.2deg);
+  }
+  to {
+    transform: rotate(2.4deg);
+  }
+}
+
+/* air roots under the bough */
+.rainforest-roots {
+  transform-box: view-box;
+  animation: rainforest-roots 8s ease-in-out infinite alternate;
+}
+@keyframes rainforest-roots {
+  from {
+    transform: rotate(-1.4deg);
+  }
+  to {
+    transform: rotate(1.4deg);
+  }
+}
+
+/* leaves spiralling down through the scene */
+.rainforest-fall {
+  transform-box: fill-box;
+  transform-origin: 50% 50%;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+}
+.rainforest-fall-a {
+  animation-name: rainforest-fall-a;
+}
+.rainforest-fall-b {
+  animation-name: rainforest-fall-b;
+}
+.rainforest-fall-c {
+  animation-name: rainforest-fall-c;
+}
+@keyframes rainforest-fall-a {
+  0% {
+    transform: translate(0, 0) rotate(0deg) scaleY(1);
+    opacity: 0;
+  }
+  5% {
+    opacity: 1;
+  }
+  20% {
+    transform: translate(60px, 200px) rotate(80deg) scaleY(0.35);
+  }
+  40% {
+    transform: translate(-10px, 400px) rotate(170deg) scaleY(1);
+  }
+  60% {
+    transform: translate(70px, 600px) rotate(250deg) scaleY(0.4);
+  }
+  80% {
+    transform: translate(10px, 800px) rotate(330deg) scaleY(1);
+  }
+  94% {
+    opacity: 1;
+  }
+  100% {
+    transform: translate(80px, 1000px) rotate(400deg) scaleY(0.5);
+    opacity: 0;
+  }
+}
+@keyframes rainforest-fall-b {
+  0% {
+    transform: translate(0, 0) rotate(20deg) scaleX(1);
+    opacity: 0;
+  }
+  5% {
+    opacity: 1;
+  }
+  25% {
+    transform: translate(-70px, 250px) rotate(-60deg) scaleX(0.3);
+  }
+  50% {
+    transform: translate(20px, 500px) rotate(-150deg) scaleX(1);
+  }
+  75% {
+    transform: translate(-60px, 750px) rotate(-230deg) scaleX(0.35);
+  }
+  94% {
+    opacity: 1;
+  }
+  100% {
+    transform: translate(10px, 1000px) rotate(-300deg) scaleX(1);
+    opacity: 0;
+  }
+}
+@keyframes rainforest-fall-c {
+  0% {
+    transform: translate(0, 0) rotate(-30deg) scaleY(1);
+    opacity: 0;
+  }
+  5% {
+    opacity: 1;
+  }
+  22% {
+    transform: translate(50px, 220px) rotate(40deg) scaleY(0.45);
+  }
+  45% {
+    transform: translate(110px, 450px) rotate(130deg) scaleY(1);
+  }
+  70% {
+    transform: translate(60px, 700px) rotate(200deg) scaleY(0.3);
+  }
+  94% {
+    opacity: 1;
+  }
+  100% {
+    transform: translate(120px, 1000px) rotate(290deg) scaleY(1);
+    opacity: 0;
+  }
+}
+
+/* ---------- creatures ---------- */
+
+/* macaws: linear travel x eased vertical arc x flap-flap-flap-glide wings */
+.rainforest-fly {
+  animation: rainforest-fly 30s linear infinite;
+}
+@keyframes rainforest-fly {
+  from {
+    transform: translateX(-260px);
+  }
+  to {
+    transform: translateX(1780px);
+  }
+}
+.rainforest-arc {
+  animation: rainforest-arc 12s ease-in-out infinite alternate;
+}
+@keyframes rainforest-arc {
+  from {
+    transform: translateY(calc(var(--rise, 1) * 40px));
+  }
+  to {
+    transform: translateY(calc(var(--rise, 1) * -70px));
+  }
+}
+.rainforest-wing {
+  transform-box: fill-box;
+  transform-origin: 50% 50%;
+  animation: rainforest-wing 2.4s ease-in-out infinite;
+}
+@keyframes rainforest-wing {
+  0%,
+  100% {
+    transform: scaleY(1);
+  }
+  11% {
+    transform: scaleY(-0.62);
+  }
+  22% {
+    transform: scaleY(1);
+  }
+  33% {
+    transform: scaleY(-0.62);
+  }
+  44% {
+    transform: scaleY(1);
+  }
+  55% {
+    transform: scaleY(-0.62);
+  }
+  66% {
+    transform: scaleY(0.22);
+  }
+  90% {
+    transform: scaleY(0.3);
+  }
+}
+
+/* toucan: an occasional tail flick and a curious head tilt */
+.rainforest-tail {
+  transform-box: fill-box;
+  transform-origin: 50% 50%;
+  animation: rainforest-tail 6.5s ease-in-out infinite;
+}
+@keyframes rainforest-tail {
+  0%,
+  78%,
+  100% {
+    transform: rotate(0deg);
+  }
+  83% {
+    transform: rotate(-12deg);
+  }
+  88% {
+    transform: rotate(4deg);
+  }
+  93% {
+    transform: rotate(-5deg);
+  }
+}
+.rainforest-peek {
+  transform-box: fill-box;
+  transform-origin: 50% 50%;
+  animation: rainforest-peek 9s ease-in-out infinite;
+}
+@keyframes rainforest-peek {
+  0%,
+  36%,
+  100% {
+    transform: rotate(0deg);
+  }
+  42%,
+  56% {
+    transform: rotate(-11deg);
+  }
+  62%,
+  78% {
+    transform: rotate(7deg);
+  }
+  84% {
+    transform: rotate(0deg);
+  }
+}
+
+/* spider monkey swinging from one hand, free arm reaching */
+.rainforest-swing {
+  transform-box: fill-box;
+  transform-origin: 50% 50%;
+  animation: rainforest-swing 5.6s ease-in-out infinite alternate;
+}
+@keyframes rainforest-swing {
+  from {
+    transform: rotate(-8deg);
+  }
+  to {
+    transform: rotate(9deg);
+  }
+}
+.rainforest-reach {
+  transform-box: fill-box;
+  transform-origin: 50% 50%;
+  animation: rainforest-reach 3.7s ease-in-out infinite alternate;
+}
+@keyframes rainforest-reach {
+  from {
+    transform: rotate(-14deg);
+  }
+  to {
+    transform: rotate(22deg);
+  }
+}
+
+/* blue morphos: wandering loop, gentle bob, slow floppy wingbeats */
+.rainforest-wander {
+  animation-timing-function: ease-in-out;
+  animation-iteration-count: infinite;
+}
+.rainforest-wander-a {
+  animation-name: rainforest-wander-a;
+}
+.rainforest-wander-b {
+  animation-name: rainforest-wander-b;
+}
+.rainforest-wander-c {
+  animation-name: rainforest-wander-c;
+}
+@keyframes rainforest-wander-a {
+  0%,
+  100% {
+    transform: translate(0, 0);
+  }
+  20% {
+    transform: translate(120px, -60px);
+  }
+  40% {
+    transform: translate(230px, 10px);
+  }
+  60% {
+    transform: translate(150px, -90px);
+  }
+  80% {
+    transform: translate(40px, -30px);
+  }
+}
+@keyframes rainforest-wander-b {
+  0%,
+  100% {
+    transform: translate(0, 0);
+  }
+  25% {
+    transform: translate(-140px, 50px);
+  }
+  50% {
+    transform: translate(-70px, -60px);
+  }
+  75% {
+    transform: translate(100px, 20px);
+  }
+}
+@keyframes rainforest-wander-c {
+  0%,
+  100% {
+    transform: translate(0, 0);
+  }
+  18% {
+    transform: translate(-80px, -50px);
+  }
+  40% {
+    transform: translate(-170px, 6px);
+  }
+  60% {
+    transform: translate(-100px, -70px);
+  }
+  80% {
+    transform: translate(40px, -24px);
+  }
+}
+.rainforest-bob {
+  animation: rainforest-bob 1.6s ease-in-out infinite alternate;
+}
+@keyframes rainforest-bob {
+  to {
+    transform: translateY(-9px);
+  }
+}
+.rainforest-mflap {
+  transform-box: fill-box;
+  animation: rainforest-mflap 0.45s ease-in-out infinite;
+}
+.rainforest-mflap-l {
+  transform-origin: 100% 50%;
+}
+.rainforest-mflap-r {
+  transform-origin: 0% 50%;
+}
+@keyframes rainforest-mflap {
+  0%,
+  100% {
+    transform: scaleX(1);
+  }
+  50% {
+    transform: scaleX(0.16);
+  }
+}

@@ -1,0 +1,53 @@
+/* The desktop wallpaper page used by the mac app (wallpaper.html). */
+html,
+body,
+#root {
+  margin: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  background: #000;
+  cursor: default;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+.wallpaper {
+  position: fixed;
+  inset: 0;
+  /* Parallax travel per unit of depth, scaled to the display so a 5K screen
+     moves as much (relatively) as a laptop. Set from the app's Parallax menu. */
+  --shift: calc(var(--strength, 1) * -1.9vw);
+}
+
+/* System font for the desktop clock: works offline and matches macOS. */
+.wallpaper .lock-clock {
+  --display: -apple-system, 'SF Pro Display', system-ui, sans-serif;
+  --sans: -apple-system, 'SF Pro Text', system-ui, sans-serif;
+  top: 12%;
+}
+.wallpaper .lock-time {
+  font-weight: 600;
+  letter-spacing: -0.03em;
+}
+.wallpaper .lock-date {
+  font-weight: 600;
+}
+
+/* World switch: the new world fades in over the old one. */
+.wallpaper .scene {
+  position: absolute;
+  inset: 0;
+}
+.wallpaper .scene.leaving {
+  z-index: 0;
+}
+.wallpaper .scene.entering {
+  z-index: 1;
+  animation: wallpaper-in 1.1s cubic-bezier(0.2, 0.7, 0.2, 1) both;
+}
+@keyframes wallpaper-in {
+  from {
+    opacity: 0;
+  }
+}

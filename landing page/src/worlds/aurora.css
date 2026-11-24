@@ -1,0 +1,434 @@
+/* Aurora Pines — ambient motion. Every class and keyframe is aurora- prefixed.
+   Transform and opacity only. */
+
+/* ---------- sky ---------- */
+.aurora-twinkle {
+  animation: aurora-twinkle ease-in-out infinite;
+}
+.aurora-sparkle {
+  transform-box: fill-box;
+  transform-origin: 50% 50%;
+  animation: aurora-sparkle ease-in-out infinite;
+}
+.aurora-shoot {
+  opacity: 0;
+  animation: aurora-shoot linear infinite;
+}
+.aurora-halo {
+  transform-box: fill-box;
+  transform-origin: 50% 50%;
+  animation: aurora-halo 12s ease-in-out infinite alternate;
+}
+
+/* ---------- the aurora ---------- */
+/* one shared, slow surge: curtains, sky glow and every aurora-lit surface
+   (snow faces, ice, banks) brighten and dim together */
+.aurora-surge {
+  animation: aurora-surge 14s ease-in-out -5s infinite;
+}
+.aurora-breath {
+  animation: aurora-breath 14s ease-in-out -5s infinite;
+}
+/* ray clusters: shimmer, ripple sideways and stretch, phase-shifted along
+   the curtain so a wave of light travels through it */
+.aurora-fold {
+  transform-box: fill-box;
+  transform-origin: 50% 100%;
+  animation: aurora-fold ease-in-out infinite;
+}
+/* whole curtains drift and lean from their base (origin set inline) */
+.aurora-drift {
+  animation: aurora-drift ease-in-out infinite alternate;
+}
+.aurora-lean {
+  transform-box: view-box;
+  animation: aurora-lean ease-in-out infinite alternate;
+}
+
+/* ---------- mountains & lake ---------- */
+.aurora-mist {
+  animation: aurora-mist ease-in-out infinite alternate;
+}
+.aurora-ripple {
+  animation: aurora-ripple 13s ease-in-out infinite alternate;
+}
+.aurora-ripple-b {
+  animation-duration: 17s;
+  animation-direction: alternate-reverse;
+}
+.aurora-glint {
+  opacity: 0.1;
+  animation: aurora-glint ease-in-out infinite;
+}
+
+/* reindeer: the herd walks right to left; legs scissor at the hip */
+.aurora-herd {
+  animation: aurora-herd 150s linear -72s infinite;
+}
+.aurora-step {
+  transform-box: fill-box;
+  transform-origin: 50% 0%;
+  animation: aurora-step 0.52s ease-in-out infinite alternate;
+}
+
+/* ---------- cabin ---------- */
+.aurora-smoke {
+  opacity: 0;
+  transform-box: fill-box;
+  transform-origin: 50% 50%;
+  animation: aurora-smoke 10s linear infinite;
+}
+.aurora-flicker {
+  animation: aurora-flicker 3.4s ease-in-out infinite;
+}
+.aurora-flicker-b {
+  animation-duration: 4.3s;
+  animation-delay: -1.6s;
+}
+
+/* ---------- pines ---------- */
+.aurora-pine {
+  transform-box: view-box;
+  animation: aurora-pine ease-in-out infinite alternate;
+}
+.aurora-pine-mid {
+  animation-name: aurora-pine-mid;
+}
+.aurora-slide {
+  opacity: 0;
+  transform-box: fill-box;
+  transform-origin: 50% 50%;
+  animation: aurora-slide linear infinite;
+}
+
+/* ---------- snow ---------- */
+.aurora-sheet {
+  animation: aurora-sheet linear infinite;
+}
+.aurora-sway {
+  animation: aurora-sway ease-in-out infinite alternate;
+}
+.aurora-fall {
+  animation: aurora-fall linear infinite;
+}
+.aurora-flutter {
+  animation: aurora-flutter ease-in-out infinite alternate;
+}
+.aurora-gust {
+  opacity: 0;
+  animation: aurora-gust linear infinite;
+}
+
+/* ---------- keyframes ---------- */
+@keyframes aurora-twinkle {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.18;
+  }
+}
+@keyframes aurora-sparkle {
+  0%,
+  100% {
+    transform: scale(0.55);
+    opacity: 0.4;
+  }
+  50% {
+    transform: scale(1.15);
+    opacity: 1;
+  }
+}
+@keyframes aurora-shoot {
+  0%,
+  90% {
+    transform: translateX(0);
+    opacity: 0;
+    animation-timing-function: cubic-bezier(0.25, 0.6, 0.35, 1);
+  }
+  91.5% {
+    opacity: 1;
+  }
+  96%,
+  100% {
+    transform: translateX(260px);
+    opacity: 0;
+  }
+}
+@keyframes aurora-halo {
+  from {
+    transform: scale(0.94);
+    opacity: 0.75;
+  }
+  to {
+    transform: scale(1.06);
+    opacity: 1;
+  }
+}
+@keyframes aurora-surge {
+  0%,
+  100% {
+    opacity: 0.76;
+  }
+  45% {
+    opacity: 1;
+  }
+  70% {
+    opacity: 0.88;
+  }
+}
+@keyframes aurora-breath {
+  0%,
+  100% {
+    opacity: 0.35;
+  }
+  45% {
+    opacity: 1;
+  }
+  70% {
+    opacity: 0.65;
+  }
+}
+@keyframes aurora-fold {
+  0%,
+  100% {
+    opacity: 0.5;
+    transform: translateX(-7px) scaleY(0.94);
+  }
+  14% {
+    opacity: 0.88;
+    transform: translateX(-2px) scaleY(1.02);
+  }
+  27% {
+    opacity: 0.6;
+    transform: translateX(3px) scaleY(0.97);
+  }
+  43% {
+    opacity: 1;
+    transform: translateX(8px) scaleY(1.08);
+  }
+  58% {
+    opacity: 0.7;
+    transform: translateX(4px) scaleY(1);
+  }
+  76% {
+    opacity: 0.94;
+    transform: translateX(-4px) scaleY(1.04);
+  }
+  88% {
+    opacity: 0.58;
+    transform: translateX(-5px) scaleY(0.96);
+  }
+}
+@keyframes aurora-drift {
+  from {
+    transform: translateX(-28px);
+  }
+  to {
+    transform: translateX(28px);
+  }
+}
+@keyframes aurora-lean {
+  from {
+    transform: skewX(-4deg);
+  }
+  to {
+    transform: skewX(3.5deg);
+  }
+}
+@keyframes aurora-mist {
+  from {
+    transform: translateX(-70px);
+    opacity: 0.5;
+  }
+  to {
+    transform: translateX(70px);
+    opacity: 1;
+  }
+}
+@keyframes aurora-ripple {
+  from {
+    transform: translateX(-20px);
+  }
+  to {
+    transform: translateX(20px);
+  }
+}
+@keyframes aurora-glint {
+  0%,
+  100% {
+    opacity: 0.08;
+  }
+  50% {
+    opacity: 0.85;
+  }
+}
+@keyframes aurora-herd {
+  to {
+    transform: translateX(-2000px);
+  }
+}
+@keyframes aurora-step {
+  from {
+    transform: scaleX(1);
+  }
+  to {
+    transform: scaleX(-1);
+  }
+}
+@keyframes aurora-smoke {
+  0% {
+    transform: translate(0, 0) scale(0.5);
+    opacity: 0;
+  }
+  8% {
+    opacity: 0.95;
+  }
+  30% {
+    transform: translate(7px, -58px) scale(1.4);
+  }
+  55% {
+    transform: translate(-12px, -118px) scale(2.2);
+    opacity: 0.6;
+  }
+  80% {
+    transform: translate(-46px, -168px) scale(3);
+    opacity: 0.3;
+  }
+  100% {
+    transform: translate(-92px, -214px) scale(3.8);
+    opacity: 0;
+  }
+}
+@keyframes aurora-flicker {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  12% {
+    opacity: 0.8;
+  }
+  20% {
+    opacity: 0.95;
+  }
+  34% {
+    opacity: 0.76;
+  }
+  47% {
+    opacity: 1;
+  }
+  61% {
+    opacity: 0.84;
+  }
+  73% {
+    opacity: 0.97;
+  }
+  88% {
+    opacity: 0.8;
+  }
+}
+@keyframes aurora-pine {
+  from {
+    transform: rotate(-0.45deg);
+  }
+  to {
+    transform: rotate(0.55deg);
+  }
+}
+@keyframes aurora-pine-mid {
+  from {
+    transform: rotate(-1.2deg);
+  }
+  to {
+    transform: rotate(1.4deg);
+  }
+}
+@keyframes aurora-slide {
+  0%,
+  84% {
+    transform: translate(0, 0) scale(1);
+    opacity: 0;
+  }
+  85% {
+    opacity: 0.95;
+  }
+  100% {
+    transform: translate(-10px, 180px) scale(1.7);
+    opacity: 0;
+  }
+}
+@keyframes aurora-sheet {
+  to {
+    transform: translate(-60px, 900px);
+  }
+}
+@keyframes aurora-sway {
+  from {
+    transform: translateX(-16px);
+  }
+  to {
+    transform: translateX(16px);
+  }
+}
+@keyframes aurora-fall {
+  to {
+    transform: translate(-90px, 940px);
+  }
+}
+@keyframes aurora-flutter {
+  from {
+    transform: translateX(-16px);
+  }
+  to {
+    transform: translateX(16px);
+  }
+}
+@keyframes aurora-gust {
+  0% {
+    transform: translate(-420px, 0);
+    opacity: 0;
+  }
+  4% {
+    opacity: 1;
+  }
+  24% {
+    opacity: 0.85;
+  }
+  30% {
+    transform: translate(2100px, -16px);
+    opacity: 0;
+  }
+  100% {
+    transform: translate(2100px, -16px);
+    opacity: 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .aurora-twinkle,
+  .aurora-sparkle,
+  .aurora-shoot,
+  .aurora-halo,
+  .aurora-surge,
+  .aurora-breath,
+  .aurora-fold,
+  .aurora-drift,
+  .aurora-lean,
+  .aurora-mist,
+  .aurora-ripple,
+  .aurora-glint,
+  .aurora-herd,
+  .aurora-step,
+  .aurora-smoke,
+  .aurora-flicker,
+  .aurora-pine,
+  .aurora-slide,
+  .aurora-sheet,
+  .aurora-sway,
+  .aurora-fall,
+  .aurora-flutter,
+  .aurora-gust {
+    animation-play-state: paused;
+  }
+}
