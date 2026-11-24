@@ -34,14 +34,26 @@ function fromShader(w) {
   return { ...w, shader: true, realistic: true, layers }
 }
 
-const gl = (file) => ({ ...fromShader(META.gl[file]), chunk: `./gl/worlds/${file}.js`, build: fromShader })
+const gl = (file, isNew = false) => ({
+  ...fromShader(META.gl[file]),
+  isNew,
+  chunk: `./gl/worlds/${file}.js`,
+  build: (w) => ({ ...fromShader(w), isNew }),
+})
 const svg = (file, isNew = false) => ({
   ...living(META.svg[file], isNew),
   chunk: `./worlds/${file}.jsx`,
   build: (w) => living(w, isNew),
 })
 
-const REAL = ['flowervalley', 'aquarium', 'ocean', 'planet'].map(gl)
+// GPU worlds, in page order. The newest carry a "New" badge.
+const NEW_GL = new Set([
+  'summit', 'turquoisebay', 'citylights', 'fjord', 'autumnlake', 'volcano', 'icefalls', 'sahara', 'stormlight', 'windowseat',
+])
+const REAL = [
+  'flowervalley', 'summit', 'turquoisebay', 'citylights', 'aquarium', 'fjord', 'autumnlake', 'volcano',
+  'ocean', 'icefalls', 'sahara', 'stormlight', 'windowseat', 'planet',
+].map((f) => gl(f, NEW_GL.has(f)))
 // The first six were rebuilt from the original classic worlds; the newest six
 // keep their "New · alive" badge.
 const CLASSIC = ['peaks', 'dunes', 'aurora', 'neon', 'abyss', 'nebula'].map((f) => svg(f))

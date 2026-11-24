@@ -20,6 +20,13 @@ npm run build      # → dist/ (regenerates src/world-meta.json first)
 
 Dev-only pages: `preview.html?world=<file>` (one SVG world, with card / layers / parallax modes) and `lab.html?world=<id>` (GPU shader lab).
 
+The website shows every world as a pre-rendered, hardware-decoded video (so a page full of worlds stays smooth on any Mac); the app still renders them live. After adding or changing a world, re-render its media into `public/media/<id>/`:
+
+```bash
+node scripts/render-media.mjs <id> [<id> …]   # hd/card MP4 loops, posters, layer images (needs Chrome + ffmpeg)
+node scripts/gl-check.mjs <id> --bench        # GPU worlds: compile check, snapshots, ms per frame
+```
+
 Deploy: Vercel, with **Root Directory** set to `landing page` (framework: Vite).
 
 ## Mac app

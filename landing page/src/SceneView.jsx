@@ -18,7 +18,7 @@ import { useWorld } from './scenes.jsx'
  * in use it gives one up (down to 1), and only takes it back after a calm
  * spell, so older or busier Macs stay smooth instead of stuttering.
  */
-const MAX_BUDGET = 4
+const MAX_BUDGET = 6 // the site's videos are cheap; a live SVG world costs ~2 ms a frame
 const MIN_BUDGET = 1
 let budget = MAX_BUDGET
 const scenes = new Map() // element -> { ratio, hover }
@@ -138,7 +138,7 @@ export function usePauseOffscreen(ref) {
   }, [ref])
 }
 
-function useNow() {
+export function useNow() {
   const [now, setNow] = useState(() => new Date())
   useEffect(() => {
     const t = setInterval(() => setNow(new Date()), 15000)
@@ -147,7 +147,7 @@ function useNow() {
   return now
 }
 
-const hm = (now) => `${now.getHours() % 12 || 12}:${String(now.getMinutes()).padStart(2, '0')}`
+export const hm = (now) => `${now.getHours() % 12 || 12}:${String(now.getMinutes()).padStart(2, '0')}`
 
 export function LockClock({ color }) {
   const now = useNow()
@@ -166,7 +166,7 @@ export function LayerView({ layer, scene }) {
 }
 
 /** True once `ref` comes within ~1.5 screens of the viewport (stays true). */
-function useNear(ref) {
+export function useNear(ref) {
   const [near, setNear] = useState(() => typeof IntersectionObserver === 'undefined')
   useEffect(() => {
     const el = ref.current
@@ -211,68 +211,6 @@ export function SceneView({ scene: meta, clock = true, className = '', gpu }) {
           </div>
         ),
       )}
-    </div>
-  )
-}
-
-function MenuBar({ light }) {
-  const now = useNow()
-  const day = now.toLocaleDateString(undefined, { weekday: 'short', day: 'numeric', month: 'short' })
-  return (
-    <div className={`menubar ${light ? 'on-light' : ''}`}>
-      <span className="mb-left">
-        <b>mac3D Wallpaper</b>
-        <span>File</span>
-        <span>Edit</span>
-        <span>View</span>
-        <span>Window</span>
-      </span>
-      <span className="mb-right">
-        <span className="mb-icon layers" />
-        <span className="mb-icon wifi" />
-        <span className="mb-icon batt" />
-        <span>
-          {day} {hm(now)}
-        </span>
-      </span>
-    </div>
-  )
-}
-
-const DOCK = [
-  'linear-gradient(160deg,#6ec3ff,#2a6df4)',
-  'linear-gradient(160deg,#ffffff,#d9dde6)',
-  'linear-gradient(160deg,#7ef29a,#1fb35a)',
-  'linear-gradient(160deg,#ffd36e,#ff8a3d)',
-  'linear-gradient(160deg,#ff8db0,#e5395f)',
-  'linear-gradient(160deg,#c3a6ff,#7546f0)',
-  'linear-gradient(160deg,#4b4b55,#1d1d24)',
-]
-
-function Dock({ accent }) {
-  return (
-    <div className="dock">
-      {DOCK.map((bg) => (
-        <span key={bg} className="dock-app" style={{ background: bg }} />
-      ))}
-      <span className="dock-sep" />
-      <span className="dock-app brand-app" style={{ '--a': accent }}>
-        <svg viewBox="0 0 32 32" aria-hidden="true">
-          <path d="M16 6 26 11 16 16 6 11Z" fill="#fff" />
-          <path d="M6 16 16 21 26 16M6 21 16 26 26 21" fill="none" stroke="#fff" strokeWidth="2.4" strokeLinejoin="round" strokeLinecap="round" />
-        </svg>
-      </span>
-    </div>
-  )
-}
-
-/** A Mac desktop: layered wallpaper plus optional menu bar and dock. */
-export function MacScreen({ scene, chrome = true, clock = true }) {
-  return (
-    <div className="mac-screen">
-      <SceneView key={scene.id} scene={scene} clock={clock} className="fade-in" />
-      {chrome && <MenuBar light={scene.light} />}
-      {chrome && <Dock accent={scene.accent} />}
     </div>
   )
 }
