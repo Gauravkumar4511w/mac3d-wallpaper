@@ -1,10 +1,13 @@
 import { useEffect, useRef, useState } from 'react'
 import { flushSync } from 'react-dom'
-import { SCENES, loadWorld, useWorld, prefetchWorlds } from './scenes.jsx'
-import { SceneView, LayerView, MacScreen, usePauseOffscreen } from './SceneView.jsx'
-import { ShaderStill } from './gl/ShaderCanvas.jsx'
+import { SCENES, loadWorld } from './scenes.jsx'
+import { LockClock } from './SceneView.jsx'
+import { WorldVideo, MacScreen, layerImage } from './WorldVideo.jsx'
 import { renderStillBlob } from './gl/runtime.js'
 import './App.css'
+
+const GPU_COUNT = SCENES.filter((s) => s.shader).length
+const ART_COUNT = SCENES.length - GPU_COUNT
 
 /* ---------- global cursor parallax (with a gentle autopilot when idle) ---------- */
 function useGlobalTilt() {
@@ -197,53 +200,121 @@ function cardLeave(e) {
   e.currentTarget.style.setProperty('--py', 0)
 }
 
-/* ---------- true 8K still export (7680x4800, 16:10) ---------- */
-function Download8K({ scene, className = '' }) {
+/* ---------- 4K–8K still export, shaped to the visitor's display ---------- */
+
+// The visitor's screen shape (a MacBook is ~1.54, an iMac or Studio Display
+// 16:9). Portrait or odd shapes fall back to 16:10.
+function screenAspect() {
+  const a = screen.width / screen.height
+  return a >= 1.25 && a <= 2.4 ? a : 1.6
+}
+const even = (n) => Math.round(n / 2) * 2
+function stillSizes() {
+  const a = screenAspect()
+  const sizes = [
+    ['4K', 3840],
+    ['5K', 5120],
+    ['6K', 6016],
+    ['8K', 7680],
+  ].map(([label, w]) => ({ label, w, h: even(w / a) }))
+  // the display's own native resolution, when it isn't already one of those
+  const dpr = window.devicePixelRatio || 1
+  const nw = even(screen.width * dpr)
+  const nh = even(screen.height * dpr)
+  if (nw >= 1920 && !sizes.some((s) => Math.abs(s.w - nw) < 200)) sizes.unshift({ label: 'Native', w: nw, h: nh })
+  return sizes
+}
+
+function DownloadStill({ scene, className = '', compact = false }) {
   const [state, setState] = useState({ phase: 'idle', pct: 0 })
-  const run = async () => {
+  const [open, setOpen] = useState(false)
+  const [sizes] = useState(stillSizes)
+  const wrap = useRef(null)
+  useEffect(() => {
+    if (!open) return
+    const away = (e) => !wrap.current?.contains(e.target) && setOpen(false)
+    const esc = (e) => e.key === 'Escape' && setOpen(false)
+    addEventListener('pointerdown', away)
+    addEventListener('keydown', esc)
+    return () => {
+      removeEventListener('pointerdown', away)
+      removeEventListener('keydown', esc)
+    }
+  }, [open])
+
+  const run = async ({ label, w, h }) => {
+    setOpen(false)
     if (state.phase === 'busy') return
-    setState({ phase: 'busy', pct: 0 })
+    setState({ phase: 'busy', pct: 0, label })
     try {
       const world = await loadWorld(scene)
-      const blob = await renderStillBlob(world.frag, 7680, 4800, {
+      const blob = await renderStillBlob(world.frag, w, h, {
         time: world.stillTime ?? 14,
-        onProgress: (p) => setState({ phase: 'busy', pct: Math.round(p * 100) }),
+        onProgress: (p) => setState({ phase: 'busy', pct: Math.round(p * 100), label }),
       })
       const url = URL.createObjectURL(blob)
       const a = document.createElement('a')
       a.href = url
-      a.download = `mac3d-${scene.id}-8k.png`
+      a.download = `mac3d-${scene.id}-${label.toLowerCase()}-${w}x${h}.png`
       a.click()
       setTimeout(() => URL.revokeObjectURL(url), 10000)
-      setState({ phase: 'done', pct: 100 })
+      setState({ phase: 'done', pct: 100, label })
       setTimeout(() => setState({ phase: 'idle', pct: 0 }), 2500)
     } catch (e) {
       console.error(e)
       setState({ phase: 'error', pct: 0, msg: e.message })
+      setTimeout(() => setState({ phase: 'idle', pct: 0 }), 4000)
     }
   }
-  const label =
+  const text =
     state.phase === 'busy'
-      ? `Rendering 8K… ${state.pct}%`
+      ? `Rendering ${state.label}… ${state.pct}%`
       : state.phase === 'done'
-        ? 'Saved 8K ✓'
+        ? `Saved ${state.label} ✓`
         : state.phase === 'error'
-          ? '8K not supported here'
-          : 'Download 8K still'
+          ? 'Not supported on this GPU'
+          : compact
+            ? '4K–8K'
+            : 'Download 4K–8K still'
   return (
-    <button
-      type="button"
-      className={`dl8k ${state.phase} ${className}`}
-      onClick={(e) => {
-        e.stopPropagation()
-        run()
-      }}
-      title={state.phase === 'error' ? state.msg : '7680 × 4800 PNG, rendered on your GPU'}
-      style={{ '--pct': `${state.pct}%` }}
-    >
-      <DownloadIcon />
-      {label}
-    </button>
+    <div className={`dl-wrap ${className}`} ref={wrap}>
+      <button
+        type="button"
+        className={`dl8k ${state.phase}`}
+        aria-haspopup="menu"
+        aria-expanded={open}
+        onClick={(e) => {
+          e.stopPropagation()
+          if (state.phase !== 'busy') setOpen((o) => !o)
+        }}
+        title={state.phase === 'error' ? state.msg : 'A still rendered on your GPU, sized for your display'}
+        style={{ '--pct': `${state.pct}%` }}
+      >
+        <DownloadIcon />
+        {text}
+      </button>
+      {open && (
+        <div className="dl-menu" role="menu">
+          {sizes.map((s) => (
+            <button
+              type="button"
+              role="menuitem"
+              key={s.label}
+              onClick={(e) => {
+                e.stopPropagation()
+                run(s)
+              }}
+            >
+              <b>{s.label}</b>
+              <span>
+                {s.w} × {s.h}
+              </span>
+            </button>
+          ))}
+          <small>PNG · rendered on your GPU</small>
+        </div>
+      )}
+    </div>
   )
 }
 
@@ -327,15 +398,15 @@ function Hero({ scene, idx, setIdx }) {
             <Arrow />
           </button>
         </div>
-        <p className="hint">Move your cursor — the world moves with it</p>
-        {scene.shader && <Download8K scene={scene} className="hero-dl" />}
+        <p className="hint">In the app, the world follows your cursor</p>
+        {scene.shader && <DownloadStill scene={scene} className="hero-dl" />}
       </div>
     </section>
   )
 }
 
 function Marquee() {
-  const items = ['Cursor parallax', 'Depth Clock', 'Time-of-day worlds', '8K stills', 'Every display', 'Menu bar app', 'Apple silicon native', 'Works offline']
+  const items = ['Cursor parallax', 'Depth Clock', 'Time-of-day worlds', '4K–8K stills', 'Every display', 'Menu bar app', 'Apple silicon native', 'Works offline']
   const row = items.map((t) => (
     <span key={t}>
       {t}
@@ -358,11 +429,12 @@ function Ultra({ idx, setIdx }) {
       <div className="section-head" data-reveal>
         <span className="kicker">01 — Ultra-real</span>
         <h2>
-          Real worlds. <span className="dim">Rendered live, saved in 8K.</span>
+          Real worlds. <span className="dim">Rendered live, saved in 4K to 8K.</span>
         </h2>
         <p>
-          No videos, no photos. Every pixel is computed live on your Mac’s GPU, so nothing loops or repeats — and any
-          moment saves as a true 7680×4800 still.
+          In the app nothing is a video: every pixel is computed live on your Mac’s GPU at your display’s full
+          resolution, so nothing loops or repeats — and any moment saves as a 4K, 5K, 6K or true 8K still shaped for your
+          screen. (The previews on this page are recordings of it.)
         </p>
       </div>
       <div className="ultra-grid" data-reveal>
@@ -376,10 +448,11 @@ function Ultra({ idx, setIdx }) {
               onPointerLeave={cardLeave}
             >
               <button type="button" className="ultra-screen" onClick={() => setIdx(i)} aria-label={`Put ${s.name} on the desktop`}>
-                <SceneView scene={s} clock={false} />
+                <WorldVideo scene={s} />
                 <span className="ultra-badge">
                   <i /> Live · GPU · 8K
                 </span>
+                {s.isNew && <span className="world-new">New</span>}
               </button>
               <div className="ultra-info">
                 <div>
@@ -392,7 +465,7 @@ function Ultra({ idx, setIdx }) {
                   <button type="button" className={`btn small ${i === idx ? 'primary' : 'ghost'}`} onClick={() => setIdx(i)}>
                     {i === idx ? 'On your desktop' : 'Set as desktop'}
                   </button>
-                  <Download8K scene={s} />
+                  <DownloadStill scene={s} compact />
                 </div>
               </div>
             </article>
@@ -426,7 +499,7 @@ function Worlds({ idx, setIdx }) {
             aria-pressed={i === idx}
           >
             <div className="world-screen">
-              <SceneView scene={s} clock={false} />
+              <WorldVideo scene={s} />
               <span className="world-badge">{i === idx ? 'On your desktop' : 'Try it'}</span>
               {s.isNew && <span className="world-new">New · alive</span>}
             </div>
@@ -443,11 +516,8 @@ function Worlds({ idx, setIdx }) {
   )
 }
 
-function Anatomy({ scene: meta }) {
+function Anatomy({ scene }) {
   const ref = useRef(null)
-  const stageRef = useRef(null)
-  usePauseOffscreen(stageRef)
-  const scene = useWorld(meta) ?? meta
   useEffect(() => {
     const el = ref.current
     let raf = 0
@@ -499,17 +569,17 @@ function Anatomy({ scene: meta }) {
             ))}
           </ol>
         </div>
-        <div className="anatomy-stage" ref={stageRef}>
+        <div className="anatomy-stage">
           <div className="stack" style={{ '--n': n }}>
             {scene.layers.map((l, i) => (
               <div className="plane" key={`${scene.id}-${l.name}`} style={{ '--i': i }}>
                 <div className="scene plane-scene" style={{ background: l.sky ? scene.sky : undefined }}>
-                  {scene.shader && !l.clock ? (
-                    scene.frag && <ShaderStill frag={scene.frag} layer={l.gl} />
-                  ) : (
+                  {l.clock ? (
                     <div className="layer flat">
-                      <LayerView layer={l} scene={scene} />
+                      <LockClock color={scene.clockColor} />
                     </div>
+                  ) : (
+                    <img className="plane-img" src={layerImage(scene.id, i)} alt="" loading="lazy" decoding="async" />
                   )}
                 </div>
                 <span className="plane-label">
@@ -538,7 +608,7 @@ function Features({ scene }) {
         <article className="card span-4 cursor-card" data-reveal>
           <div className="cursor-visual">
             <div className="mini-screen">
-              <SceneView key={scene.id} scene={scene} clock={false} />
+              <WorldVideo key={scene.id} scene={scene} />
             </div>
             <svg className="pointer" viewBox="0 0 24 24" aria-hidden="true">
               <path d="M5 3 19 12l-6.5 1.6L9.6 20Z" fill="#fff" stroke="#14121a" strokeWidth="1.5" strokeLinejoin="round" />
@@ -568,7 +638,7 @@ function Features({ scene }) {
             <span className="sun-arc" />
           </div>
           <h3>Time-of-day worlds</h3>
-          <p>Alpine peaks at dawn, golden dunes by late afternoon, a neon city at night — the app picks the world for your hour.</p>
+          <p>A Himalayan sunrise at dawn, the Sahara by late afternoon, city lights at night — the app picks the world for your hour.</p>
         </article>
 
         <article className="card span-2" data-reveal>
@@ -588,8 +658,11 @@ function Features({ scene }) {
             <span className="sheet s2" />
             <span className="sheet s3" />
           </div>
-          <h3>16 hand-built worlds</h3>
-          <p>Twelve drawn plane by plane, four rendered live on the GPU — reefs, cities, deserts, deep space. One click to switch.</p>
+          <h3>{SCENES.length} hand-built worlds</h3>
+          <p>
+            {GPU_COUNT} rendered live on the GPU, {ART_COUNT} drawn plane by plane — reefs, cities, deserts, glaciers, deep space.
+            One click to switch.
+          </p>
         </article>
 
         <article className="card span-6 spec-strip" data-reveal>
@@ -629,7 +702,7 @@ function Pricing() {
             $0<span>forever</span>
           </p>
           <ul>
-            <li>All 16 hand-built worlds</li>
+            <li>All {SCENES.length} hand-built worlds</li>
             <li>Cursor parallax &amp; Depth Clock</li>
             <li>Time-of-day worlds</li>
             <li>Every display &amp; Space</li>
@@ -703,13 +776,13 @@ function FinalCta({ idx }) {
         </div>
         <div className="trio" aria-hidden="true">
           <div className="display d-l">
-            <MacScreen scene={L} chrome={false} clock={false} />
+            <MacScreen scene={L} chrome={false} clock={false} variant="card" />
           </div>
           <div className="display d-c">
             <MacScreen scene={C} chrome={false} />
           </div>
           <div className="display d-r">
-            <MacScreen scene={R} chrome={false} clock={false} />
+            <MacScreen scene={R} chrome={false} clock={false} variant="card" />
           </div>
         </div>
       </div>
@@ -742,7 +815,6 @@ export default function App() {
   const [theme, setTheme] = useState(() => (document.documentElement.dataset.theme === 'dark' ? 'dark' : 'light'))
   useGlobalTilt()
   useReveal()
-  useEffect(prefetchWorlds, [])
 
   return (
     <div

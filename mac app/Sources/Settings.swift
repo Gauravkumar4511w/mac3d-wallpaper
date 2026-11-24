@@ -33,11 +33,11 @@ final class Settings {
     private let defaults = UserDefaults.standard
 
     var worldID: String {
-        get { defaults.string(forKey: "world") ?? "neon" }
+        get { defaults.string(forKey: "world") ?? "flowervalley" }
         set { defaults.set(newValue, forKey: "world") }
     }
 
-    /// Pick the world from the clock (dawn peaks, golden-hour dunes, night city…).
+    /// Pick the world from the clock (Himalayan sunrise, golden Sahara, city lights…).
     var matchTimeOfDay: Bool {
         get { defaults.object(forKey: "matchTimeOfDay") as? Bool ?? true }
         set { defaults.set(newValue, forKey: "matchTimeOfDay") }
@@ -76,14 +76,16 @@ final class Settings {
 
 /// Which world suits the hour. Rotates through each slot's worlds day by day.
 enum TimeOfDay {
+    // Each slot lists GPU worlds first and at least one light SVG world, so a
+    // Mac with a slow GPU (which skips GPU worlds) always has a match.
     private static let schedule: [(from: Int, ids: [String])] = [
-        (0, ["nebula", "aurora", "planet"]),
-        (5, ["morning", "blossom"]),
-        (9, ["flowervalley", "islands"]),
-        (12, ["caravan", "rainforest", "ocean"]),
-        (16, ["ember"]),
-        (19, ["lagoon", "abyss", "aquarium"]),
-        (21, ["neon", "train", "aurora"]),
+        (0, ["fjord", "wintercabin", "blackhole", "planet", "aurora", "nebula", "train"]),
+        (5, ["summit", "windowseat", "autumnlake", "bamboo", "morning", "blossom"]),
+        (9, ["flowervalley", "icefalls", "turquoisebay", "bamboo", "islands", "morning"]),
+        (12, ["turquoisebay", "aquarium", "canyon", "icefalls", "rainforest", "caravan"]),
+        (16, ["sahara", "ocean", "canyon", "ember", "caravan"]),
+        (19, ["volcano", "stormlight", "wintercabin", "lagoon", "abyss"]),
+        (21, ["citylights", "fjord", "blackhole", "neon", "train", "aurora"]),
     ]
 
     static func world(at date: Date = Date(), among available: Set<String>) -> String? {
