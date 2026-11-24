@@ -62,6 +62,26 @@ function useGlobalTilt() {
   }, [])
 }
 
+// Decorative CSS loops (the Features card's wobble animates custom properties,
+// which restyles its subtree on the main thread every frame; badge pulses,
+// the marquee, the day cycle) stop while their section is off screen.
+// [data-paused] pauses every animation inside (App.css).
+function useOffscreenPause() {
+  useEffect(() => {
+    const io = new IntersectionObserver(
+      (entries) => {
+        for (const e of entries) {
+          if (e.isIntersecting) delete e.target.dataset.paused
+          else e.target.dataset.paused = ''
+        }
+      },
+      { rootMargin: '100px' },
+    )
+    document.querySelectorAll('[data-offpause]').forEach((el) => io.observe(el))
+    return () => io.disconnect()
+  }, [])
+}
+
 function useReveal() {
   useEffect(() => {
     const io = new IntersectionObserver(
@@ -414,7 +434,7 @@ function Marquee() {
     </span>
   ))
   return (
-    <div className="marquee" aria-hidden="true">
+    <div className="marquee" aria-hidden="true" data-offpause>
       <div className="marquee-track">
         {row}
         {row}
@@ -437,7 +457,7 @@ function Ultra({ idx, setIdx }) {
           screen. (The previews on this page are recordings of it.)
         </p>
       </div>
-      <div className="ultra-grid" data-reveal>
+      <div className="ultra-grid" data-reveal data-offpause>
         {SCENES.map((s, i) =>
           s.realistic ? (
             <article
@@ -486,7 +506,7 @@ function Worlds({ idx, setIdx }) {
         </h2>
         <p>Every scene is composed by hand, plane by plane. Click one to try it on — the whole page follows.</p>
       </div>
-      <div className="worlds" data-reveal>
+      <div className="worlds" data-reveal data-offpause>
         {SCENES.map((s, i) => s.realistic ? null : (
           <button
             type="button"
@@ -597,7 +617,7 @@ function Anatomy({ scene }) {
 
 function Features({ scene }) {
   return (
-    <section className="section" id="features">
+    <section className="section" id="features" data-offpause>
       <div className="section-head" data-reveal>
         <span className="kicker">04 — Features</span>
         <h2>
@@ -815,6 +835,7 @@ export default function App() {
   const [theme, setTheme] = useState(() => (document.documentElement.dataset.theme === 'dark' ? 'dark' : 'light'))
   useGlobalTilt()
   useReveal()
+  useOffscreenPause()
 
   return (
     <div
