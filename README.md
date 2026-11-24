@@ -26,3 +26,7 @@ Deploy: Vercel, with **Root Directory** set to `landing page` (framework: Vite).
 cd "mac app"
 ./build.sh --dmg --install   # build, refresh the site's DMG, install to /Applications
 ```
+
+## License
+
+[MIT](LICENSE) © 2026 Gauravkumar4511w
