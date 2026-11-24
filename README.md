@@ -2,6 +2,8 @@
 
 Layered, living 3D wallpapers for the Mac — the landing page and the macOS app.
 
+**[Download the latest release](https://github.com/Gauravkumar4511w/mac3d-wallpaper/releases/latest)** · [Website](https://mac3d-wallpaper.vercel.app)
+
 | Folder | What it is |
 | --- | --- |
 | [`landing page/`](landing%20page) | The website (React + Vite). Every world lives in `src/worlds/` (SVG/CSS) or `src/gl/worlds/` (GPU shaders). |
