@@ -1,6 +1,6 @@
 import AppKit
 
-/// `--self-test <dir> [--worlds id,id]`: shows each world in turn, saves a PNG
+/// `--self-test <dir> [--worlds id,id] [--simulate-gpu-slow]`: shows each world in turn, saves a PNG
 /// of the main display's wallpaper to <dir>/<id>.png, then quits. Used to check
 /// every world renders in the app's WebKit (not just in Chrome).
 @MainActor
@@ -18,6 +18,10 @@ enum SelfTest {
         DispatchQueue.main.asyncAfter(deadline: .now() + 4) {
             MainActor.assumeIsolated {
                 let ids = only ?? app.worldIDs
+                if args.contains("--simulate-gpu-slow"), let wall = app.wallpapers.first {
+                    // as if a GPU world had given up on this Mac's GPU
+                    wall.inspect("dispatchEvent(new Event('gpu-slow')); return 'sent'") { _ in }
+                }
                 print("[self-test] " + app.describeMenu())
                 print("[self-test] \(ids.count) worlds → \(dir.path)")
                 step(app: app, ids: ids, dir: dir, index: 0)

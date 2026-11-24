@@ -23,6 +23,11 @@ final class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
         menu.delegate = self
         statusItem.menu = menu
 
+        #if arch(x86_64)
+        // Intel Macs: start with the lighter worlds for Match Time of Day; GPU
+        // worlds stay one click away in the menu.
+        if UserDefaults.standard.object(forKey: "gpuSlow") == nil { settings.gpuSlow = true }
+        #endif
         shownWorld = currentWorld()
         buildWallpapers()
         startPointerTracking()
@@ -43,6 +48,14 @@ final class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
             DesktopWallpaper(screen: screen, webRoot: webRoot, world: shownWorld,
                              clock: settings.showClock, parallax: settings.parallax)
         }
+        for wall in walls {
+            wall.onGPUSlow = { [weak self] in
+                guard let self, !self.settings.gpuSlow else { return }
+                NSLog("[mac3d] GPU worlds are too heavy for this Mac; Match Time of Day will use the lighter worlds")
+                self.settings.gpuSlow = true
+                if self.settings.matchTimeOfDay { self.showWorld(self.currentWorld()) }
+            }
+        }
         walls.first?.onReady = { [weak self] list in
             guard let self, !list.isEmpty else { return }
             if list != self.settings.worlds { self.settings.worlds = list }
@@ -54,7 +67,8 @@ final class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
 
     /// The world to show now: from the clock, or the one the user picked.
     private func currentWorld() -> String {
-        let ids = Set(settings.worlds.map(\.id))
+        // On a slow GPU the clock only picks the lighter (SVG) worlds.
+        let ids = Set(settings.worlds.filter { !(settings.gpuSlow && $0.kind == "gpu") }.map(\.id))
         if settings.matchTimeOfDay, let id = TimeOfDay.world(among: ids) { return id }
         if ids.isEmpty || ids.contains(settings.worldID) { return settings.worldID }
         return settings.worlds.first?.id ?? settings.worldID
@@ -197,6 +211,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
         menu.addItem(parallaxItem)
         menu.addItem(item("Pause Animations", #selector(togglePause), on: settings.paused))
         if lowPower { menu.addItem(disabled: "Paused while Low Power Mode is on") }
+        if settings.gpuSlow { menu.addItem(disabled: "Match Time of Day uses the lighter worlds on this Mac") }
         menu.addItem(.separator())
 
         menu.addItem(item("Open at Login", #selector(toggleLogin), on: SMAppService.mainApp.status == .enabled))

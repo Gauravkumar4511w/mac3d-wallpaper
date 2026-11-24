@@ -8,7 +8,8 @@
 //   mac3d.pointer(x, y)       cursor position on this display, -1..1 each axis
 //
 // and hears back via webkit.messageHandlers.mac3d: { type: 'ready', worlds }
-// once loaded, and { type: 'error', message } for script errors.
+// once loaded, { type: 'gpu-slow' } when a GPU world is too heavy for this Mac,
+// and { type: 'error', message } for script errors.
 // Query params give the initial state: ?world=<id>&clock=0|1&parallax=<n>.
 import { StrictMode, useEffect, useRef, useState } from 'react'
 import { createRoot } from 'react-dom/client'
@@ -86,12 +87,17 @@ function Wallpaper() {
         setTimeout(() => setShown((list) => list.filter((s) => s.key >= k)), 1300)
       },
     })
+    // A GPU world that this Mac can't keep up with holds a still frame and
+    // says so; the app then prefers the lighter SVG worlds.
+    const slow = () => post({ type: 'gpu-slow' })
+    addEventListener('gpu-slow', slow)
     loadWorld(first).then(() =>
       post({
         type: 'ready',
         worlds: SCENES.map(({ id, name, tag, shader, isNew }) => ({ id, name, tag, kind: shader ? 'gpu' : isNew ? 'new' : 'classic' })),
       }),
     )
+    return () => removeEventListener('gpu-slow', slow)
   }, [])
 
   return (

@@ -58,6 +58,13 @@ final class Settings {
         set { defaults.set(newValue, forKey: "paused") }
     }
 
+    /// Set once a GPU world proved too heavy for this Mac (it then holds a
+    /// still frame); Match Time of Day sticks to the lighter worlds after that.
+    var gpuSlow: Bool {
+        get { defaults.bool(forKey: "gpuSlow") }
+        set { defaults.set(newValue, forKey: "gpuSlow") }
+    }
+
     var worlds: [WorldInfo] {
         get {
             guard let data = defaults.data(forKey: "worlds") else { return [] }

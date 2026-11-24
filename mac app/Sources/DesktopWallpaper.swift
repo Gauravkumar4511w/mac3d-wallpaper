@@ -17,6 +17,8 @@ final class DesktopWallpaper: NSObject, WKScriptMessageHandler, WKNavigationDele
 
     /// Called with the page's world list once it has loaded.
     var onReady: (([WorldInfo]) -> Void)?
+    /// Called when a GPU world is too heavy for this Mac's GPU.
+    var onGPUSlow: (() -> Void)?
 
     init(screen: NSScreen, webRoot: URL, world: String, clock: Bool, parallax: Double) {
         self.screen = screen
@@ -139,6 +141,8 @@ final class DesktopWallpaper: NSObject, WKScriptMessageHandler, WKNavigationDele
                 return WorldInfo(id: id, name: name, tag: w["tag"] as? String ?? "", kind: w["kind"] as? String ?? "classic")
             }
             onReady?(list)
+        case "gpu-slow":
+            onGPUSlow?()
         case "error":
             NSLog("[mac3d] page error: %@", body["message"] as? String ?? "?")
         default:

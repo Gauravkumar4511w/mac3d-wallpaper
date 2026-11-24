@@ -4,6 +4,8 @@
 <dict>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>en</string>
+	<key>CFBundleDisplayName</key>
+	<string>mac3D Wallpaper</string>
 	<key>CFBundleExecutable</key>
 	<string>mac3DWallpaper</string>
 	<key>CFBundleIconFile</key>
@@ -14,14 +16,12 @@
 	<string>6.0</string>
 	<key>CFBundleName</key>
 	<string>mac3D Wallpaper</string>
-	<key>CFBundleDisplayName</key>
-	<string>mac3D Wallpaper</string>
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
 	<key>CFBundleShortVersionString</key>
-	<string>1.0.0</string>
+	<string>1.0.1</string>
 	<key>CFBundleVersion</key>
-	<string>1</string>
+	<string>2</string>
 	<key>LSApplicationCategoryType</key>
 	<string>public.app-category.lifestyle</string>
 	<key>LSMinimumSystemVersion</key>

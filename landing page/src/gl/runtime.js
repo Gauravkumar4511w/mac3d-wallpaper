@@ -75,6 +75,75 @@ export function createProgram(gl, frag) {
   }
 }
 
+const nextTick = () => new Promise((r) => setTimeout(r, 16))
+
+/**
+ * Compile + link without blocking the thread that calls it. The driver
+ * compiles in the background (KHR_parallel_shader_compile, supported by
+ * WebKit and Chrome); we only ask for the result once it reports done.
+ * Asking straight away — like createProgram does — waits for the whole
+ * compile, which for these 30–55 KB shaders takes 0.2–0.4 s on an M2 and
+ * many seconds on older GPUs.
+ */
+export async function createProgramAsync(gl, frag, wait = nextTick) {
+  const ext = gl.getExtension('KHR_parallel_shader_compile')
+  const vs = gl.createShader(gl.VERTEX_SHADER)
+  gl.shaderSource(vs, VERT)
+  gl.compileShader(vs)
+  const fs = gl.createShader(gl.FRAGMENT_SHADER)
+  gl.shaderSource(fs, HEADER + frag)
+  gl.compileShader(fs)
+  const p = gl.createProgram()
+  gl.attachShader(p, vs)
+  gl.attachShader(p, fs)
+  gl.bindAttribLocation(p, 0, 'a_pos')
+  gl.linkProgram(p)
+  if (ext) {
+    while (!gl.getProgramParameter(p, ext.COMPLETION_STATUS_KHR)) {
+      if (gl.isContextLost()) throw new Error('WebGL context lost')
+      await wait()
+    }
+  } else {
+    await wait()
+  }
+  if (!gl.getProgramParameter(p, gl.LINK_STATUS)) {
+    const log = gl.getShaderInfoLog(fs) || gl.getProgramInfoLog(p) || 'unknown compile error'
+    gl.deleteProgram(p)
+    gl.deleteShader(vs)
+    gl.deleteShader(fs)
+    throw new Error(log)
+  }
+  gl.deleteShader(vs)
+  gl.deleteShader(fs)
+  return {
+    program: p,
+    res: gl.getUniformLocation(p, 'u_res'),
+    time: gl.getUniformLocation(p, 'u_time'),
+    par: gl.getUniformLocation(p, 'u_par'),
+    layer: gl.getUniformLocation(p, 'u_layer'),
+  }
+}
+
+/**
+ * The first draw with a new program builds its GPU pipeline — the slowest
+ * step of all (0.25–1 s on an M2). Do it with a 1-pixel draw and wait for a
+ * fence, so the cost lands before the first real frame and off any frame loop.
+ */
+export async function warmUp(gl, prog, wait = nextTick) {
+  gl.enable(gl.SCISSOR_TEST)
+  gl.scissor(0, 0, 1, 1)
+  gl.viewport(0, 0, 1, 1)
+  drawFrame(gl, prog, { w: 1, h: 1, time: 0 })
+  gl.disable(gl.SCISSOR_TEST)
+  const sync = gl.fenceSync(gl.SYNC_GPU_COMMANDS_COMPLETE, 0)
+  gl.flush()
+  while (gl.getSyncParameter(sync, gl.SYNC_STATUS) !== gl.SIGNALED) {
+    if (gl.isContextLost()) break
+    await wait()
+  }
+  gl.deleteSync(sync)
+}
+
 /** One oversized triangle that covers the whole viewport. */
 export function setupQuad(gl) {
   const buf = gl.createBuffer()
