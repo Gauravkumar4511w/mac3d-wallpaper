@@ -45,9 +45,15 @@ done
 
 # Google sign-in + settings sync: the Firebase app config, when present (see
 # README.md, "Sign-in and sync"). Without it the app works, sync is just off.
-if [ -f GoogleService-Info.plist ]; then
-  cp GoogleService-Info.plist "$APP/Contents/Resources/GoogleService-Info.plist"
-  echo "› sync: GoogleService-Info.plist bundled"
+# Looked for here, then in ~/.config/mac3d/ (kept out of git: it holds the
+# Firebase API key, which ships inside the app but needn't sit in a public repo).
+SYNC_CONFIG=""
+for f in GoogleService-Info.plist "$HOME/.config/mac3d/GoogleService-Info.plist"; do
+  [ -f "$f" ] && { SYNC_CONFIG="$f"; break; }
+done
+if [ -n "$SYNC_CONFIG" ]; then
+  cp "$SYNC_CONFIG" "$APP/Contents/Resources/GoogleService-Info.plist"
+  echo "› sync: bundled $SYNC_CONFIG"
 else
   echo "› sync: no GoogleService-Info.plist — Google sign-in is off in this build"
 fi

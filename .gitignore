@@ -10,3 +10,7 @@ landing page/dist-ssr/
 # mac app build output (./build.sh recreates it). The DMG the site serves is
 # kept at landing page/public/downloads/ so the Download button works.
 mac app/build/
+
+# Firebase app config for the Mac app's settings sync (build.sh also reads it
+# from ~/.config/mac3d/). Not secret, but kept out of the public repo.
+mac app/GoogleService-Info.plist
