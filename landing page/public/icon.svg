@@ -1,0 +1,61 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <!-- mac3D Wallpaper mark — the one source for the site logo, favicon,
+       touch icon, share image and the Mac app icon (mac app/icon/icon.html).
+       A sunset tile with three stacked layers: a wallpaper with depth. -->
+  <defs>
+    <clipPath id="tile"><rect width="100" height="100" rx="22.5" /></clipPath>
+    <linearGradient id="sky" x1=".15" y1="0" x2=".55" y2="1">
+      <stop offset="0" stop-color="#ff9a5e" />
+      <stop offset=".3" stop-color="#ec5170" />
+      <stop offset=".58" stop-color="#a42e80" />
+      <stop offset=".82" stop-color="#43196a" />
+      <stop offset="1" stop-color="#1b0f36" />
+    </linearGradient>
+    <radialGradient id="sun" cx=".27" cy=".12" r=".55">
+      <stop offset="0" stop-color="#ffe2b0" stop-opacity=".95" />
+      <stop offset="1" stop-color="#ffe2b0" stop-opacity="0" />
+    </radialGradient>
+    <linearGradient id="face" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#ffffff" />
+      <stop offset="1" stop-color="#ffe9e1" />
+    </linearGradient>
+    <linearGradient id="face2" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#ffc9df" />
+      <stop offset="1" stop-color="#f6a3c9" />
+    </linearGradient>
+    <linearGradient id="face3" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#e48bbf" />
+      <stop offset="1" stop-color="#c866a6" />
+    </linearGradient>
+    <linearGradient id="gloss" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#fff" stop-opacity=".3" />
+      <stop offset=".5" stop-color="#fff" stop-opacity="0" />
+    </linearGradient>
+  </defs>
+  <g clip-path="url(#tile)">
+    <rect width="100" height="100" fill="url(#sky)" />
+    <rect width="100" height="100" fill="url(#sun)" />
+    <!-- far and near ridges: the worlds inside -->
+    <path d="M0 74 12 66 22 71 35 61 48 70 60 63 74 71 87 64 100 69V100H0Z" fill="#2c1252" opacity=".5" />
+    <path d="M0 83 16 77 31 82 45 76 62 83 76 78 100 82V100H0Z" fill="#160a30" opacity=".7" />
+    <!-- three layers, back to front: each a slab with a top face and two
+         sides, deeper in colour the further back it sits -->
+    <g>
+      <path d="M50 47 78 60 50 73 22 60Z" fill="url(#face3)" />
+      <path d="M22 60 50 73V78L22 65Z" fill="#a1468a" />
+      <path d="M78 60 50 73V78L78 65Z" fill="#7d3272" />
+    </g>
+    <g>
+      <path d="M50 33.5 78 46.5 50 59.5 22 46.5Z" fill="url(#face2)" />
+      <path d="M22 46.5 50 59.5V64.5L22 51.5Z" fill="#e47fb2" />
+      <path d="M78 46.5 50 59.5V64.5L78 51.5Z" fill="#c75e98" />
+    </g>
+    <g>
+      <path d="M50 20 78 33 50 46 22 33Z" fill="url(#face)" />
+      <path d="M22 33 50 46V51L22 38Z" fill="#ffc6da" />
+      <path d="M78 33 50 46V51L78 38Z" fill="#f394bd" />
+    </g>
+    <!-- soft top light, like the macOS icon gloss -->
+    <rect width="100" height="100" fill="url(#gloss)" />
+  </g>
+</svg>
