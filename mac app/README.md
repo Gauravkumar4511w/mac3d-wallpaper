@@ -1,8 +1,9 @@
 # mac3D Wallpaper — macOS app
 
-A menu bar app that puts the landing page's layered, living worlds on your
+A Mac app that puts the landing page's layered, living worlds on your
 desktop: behind your icons and windows, following your cursor, with the Depth
-Clock. Universal (Apple silicon + Intel), macOS 13 or later.
+Clock. It has a window for choosing and setting things up, and otherwise lives
+in the menu bar. Universal (Apple silicon + Intel), macOS 13 or later.
 
 ## Build and run
 
@@ -36,14 +37,58 @@ Needs the Xcode Command Line Tools (`swiftc`), Node (the landing page's
   ("Ultra-real") worlds draw at 30 fps and up to 1.5× resolution on the desktop.
 - **Reduce Motion.** With macOS Reduce Motion on, the scene and parallax hold still.
 
-## Menu
+## Window, menu and settings
 
-Worlds (Ultra-real · Worlds · New · alive), Next World, **Match Time of Day**
-(on by default: dawn peaks in the morning, golden-hour dunes, a night city…),
-Show Depth Clock, Parallax (Off / Subtle / Normal / Strong), Pause Animations,
-Open at Login, About, Quit.
+**The window** opens whenever you open the app yourself (Finder, Launchpad,
+Spotlight, or again while it's running), so it never seems to do nothing, even
+when its menu bar icon is hidden behind the notch. On first launch it walks you
+through a short setup (welcome → choose a world or "Match the time of day" →
+open at login, clock, parallax, optional sign-in). After that it's Settings:
+
+- **Wallpaper**: the world on your desktop, a gallery of every world (click to
+  set, ♥ to favourite), and **Changes automatically**: keep my pick / match the
+  time of day / a new world every hour / every day (hourly and daily cycle
+  through your favourites, or every world if there are none).
+- **Motion & Clock**: Depth Clock, parallax (Off / Subtle / Normal / Strong), pause.
+- **General**: open at login, show the menu bar icon, show the setup again.
+- **Account & Sync**: optional Google sign-in (below).
+
+While the window is open the app is in the Dock and ⌘-Tab; closing it returns
+it to the menu bar. Opened by Open at Login, it starts quietly without the window.
+
+**The menu bar menu** has the same controls: Open mac3D Wallpaper… (⌘,),
+Worlds, Next World, Change Automatically, Show Depth Clock, Parallax, Pause
+Animations, Open at Login, About, Quit.
 
 Settings live in `defaults read com.mac3d.wallpaper`.
+
+`--render-ui <dir> [--dark]` renders every page of the window and the setup
+steps to PNGs (off screen, nothing changed) — handy for checking the design.
+
+## Sign-in and sync
+
+Optional: sign in with Google and the world, automatic changes, favourites,
+clock and parallax follow you to every Mac (pause, open at login and the menu
+bar icon stay per Mac). Google sign-in runs in the system's web sign-in sheet
+with PKCE; the Google ID token signs in to Firebase Auth, and the settings are
+one Firestore document, `users/{uid}`, readable and writable only by that
+person (`firebase/firestore.rules`). The newest change wins; a new Mac takes
+the cloud copy on first sign-in. The Firebase refresh token is kept in
+`~/Library/Application Support/mac3D Wallpaper/account.json` (mode 600).
+
+To turn it on (once, in the [Firebase console](https://console.firebase.google.com)):
+
+1. Create a project (Analytics not needed).
+2. **Add app → Apple (iOS+)**, bundle ID `com.mac3d.wallpaper`, and download
+   `GoogleService-Info.plist` into this folder (`mac app/`).
+3. **Authentication → Sign-in method → Google → Enable**.
+4. **Firestore Database → Create database** (production mode), then paste
+   `firebase/firestore.rules` into **Rules** and publish.
+5. `./build.sh --dmg`. The build bundles the plist; without it the Account page
+   says sync isn't set up and everything else works the same.
+
+The plist's keys identify the app, they aren't secrets: access is guarded by
+the Firestore rules.
 
 ## Self-test
 

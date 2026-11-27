@@ -10,22 +10,40 @@ final class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
     private var clockTimer: Timer?
     private var systemPaused = false // displays asleep, screen locked, user switched
     private var shownWorld = ""
+    private var launchedAtLogin = false
+    private lazy var account = Account()
+    private lazy var model = AppModel(app: self, account: account)
+    private lazy var mainWindow = MainWindow(model: model)
     private var webRoot: URL {
         if let dev = ProcessInfo.processInfo.environment["MAC3D_WEB_ROOT"] { return URL(fileURLWithPath: dev) }
         return Bundle.main.resourceURL!.appendingPathComponent("web")
     }
+    private var isTesting: Bool {
+        CommandLine.arguments.contains("--self-test") || CommandLine.arguments.contains("--render-ui")
+    }
+
+    func applicationWillFinishLaunching(_ notification: Notification) {
+        // Opened by Open at Login (not by the person): stay quietly in the menu bar.
+        let event = NSAppleEventManager.shared().currentAppleEvent
+        launchedAtLogin = event?.eventID == kAEOpenApplication
+            && event?.paramDescriptor(forKeyword: keyAEPropData)?.enumCodeValue == keyAELaunchedAsLogInItem
+        NSApp.mainMenu = makeMainMenu()
+    }
 
     func applicationDidFinishLaunching(_ notification: Notification) {
+        if UITest.runIfRequested(model: model) { return }
+
         statusItem = NSStatusBar.system.statusItem(withLength: NSStatusItem.squareLength)
         statusItem.button?.image = StatusIcon.image
         statusItem.button?.toolTip = "mac3D Wallpaper"
+        statusItem.isVisible = settings.showMenuBarIcon
         let menu = NSMenu()
         menu.delegate = self
         statusItem.menu = menu
 
         #if arch(x86_64)
-        // Intel Macs: start with the lighter worlds for Match Time of Day; GPU
-        // worlds stay one click away in the menu.
+        // Intel Macs: start with the lighter worlds for automatic changes; GPU
+        // worlds stay one click away.
         if UserDefaults.standard.object(forKey: "gpuSlow") == nil { settings.gpuSlow = true }
         #endif
         shownWorld = currentWorld()
@@ -33,8 +51,23 @@ final class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
         startPointerTracking()
         startTimeOfDayCheck()
         observeSystem()
+
+        account.onRemoteSettings = { [weak self] remote in self?.applySynced(remote) }
+        account.start()
+
         SelfTest.runIfRequested(app: self)
+        // Opened by hand (or for the first time): show the window, so the app
+        // never seems to do nothing — its menu bar icon can hide behind the notch.
+        if !isTesting && (!settings.onboarded || !launchedAtLogin) { mainWindow.show() }
     }
+
+    /// Opened again while already running (Finder, Launchpad, Spotlight, Dock).
+    func applicationShouldHandleReopen(_ sender: NSApplication, hasVisibleWindows flag: Bool) -> Bool {
+        mainWindow.show()
+        return true
+    }
+
+    func applicationShouldTerminateAfterLastWindowClosed(_ sender: NSApplication) -> Bool { false }
 
     func applicationWillTerminate(_ notification: Notification) {
         walls.forEach { $0.close() }
@@ -51,9 +84,9 @@ final class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
         for wall in walls {
             wall.onGPUSlow = { [weak self] in
                 guard let self, !self.settings.gpuSlow else { return }
-                NSLog("[mac3d] GPU worlds are too heavy for this Mac; Match Time of Day will use the lighter worlds")
+                NSLog("[mac3d] GPU worlds are too heavy for this Mac; automatic changes will use the lighter worlds")
                 self.settings.gpuSlow = true
-                if self.settings.matchTimeOfDay { self.showWorld(self.currentWorld()) }
+                if self.settings.rotation != .off { self.showWorld(self.currentWorld()) }
             }
         }
         walls.first?.onReady = { [weak self] list in
@@ -61,16 +94,26 @@ final class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
             if list != self.settings.worlds { self.settings.worlds = list }
             // The cached list may have been empty on first launch: re-pick.
             self.showWorld(self.currentWorld())
+            self.model.changed()
         }
         applyPaused()
     }
 
-    /// The world to show now: from the clock, or the one the user picked.
+    /// The world to show now: from the clock or the rotation, or the one the user picked.
     private func currentWorld() -> String {
-        // On a slow GPU the clock only picks the lighter (SVG) worlds.
-        let ids = Set(settings.worlds.filter { !(settings.gpuSlow && $0.kind == "gpu") }.map(\.id))
-        if settings.matchTimeOfDay, let id = TimeOfDay.world(among: ids) { return id }
-        if ids.isEmpty || ids.contains(settings.worldID) { return settings.worldID }
+        // On a slow GPU automatic changes only pick the lighter (SVG) worlds.
+        let available = settings.worlds.filter { !(settings.gpuSlow && $0.kind == "gpu") }.map(\.id)
+        let ids = Set(available)
+        switch settings.rotation {
+        case .timeOfDay:
+            if let id = TimeOfDay.world(among: ids) { return id }
+        case .hourly, .daily:
+            let favorites = settings.favorites.filter { ids.contains($0) }
+            if let id = TimeOfDay.rotate(favorites.isEmpty ? available : favorites, settings.rotation) { return id }
+        case .off:
+            break
+        }
+        if ids.isEmpty || settings.worlds.contains(where: { $0.id == settings.worldID }) { return settings.worldID }
         return settings.worlds.first?.id ?? settings.worldID
     }
 
@@ -78,9 +121,75 @@ final class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
         guard id != shownWorld else { return }
         shownWorld = id
         walls.forEach { $0.setWorld(id) }
+        model.changed()
     }
 
+    var shownWorldID: String { shownWorld }
     var wallpapers: [DesktopWallpaper] { walls }
+    var worldIDs: [String] { settings.worlds.map(\.id) }
+
+    // MARK: Changes (from the menu, the window and sync)
+
+    func pick(_ id: String) {
+        settings.rotation = .off // a manual pick stops automatic changes
+        settings.worldID = id
+        showWorld(id)
+        model.changed()
+    }
+
+    func nextWorld() {
+        let ids = worldIDs
+        guard !ids.isEmpty else { return }
+        pick(ids[((ids.firstIndex(of: shownWorld) ?? -1) + 1) % ids.count])
+    }
+
+    func setRotation(_ rotation: Rotation) {
+        if rotation == .off { settings.worldID = shownWorld }
+        settings.rotation = rotation
+        showWorld(currentWorld())
+        model.changed()
+    }
+
+    /// Favourites changed: hourly / daily rotation may now pick another world.
+    func refreshWorld() {
+        if settings.rotation == .hourly || settings.rotation == .daily { showWorld(currentWorld()) }
+    }
+
+    func setClock(_ on: Bool) {
+        settings.showClock = on
+        walls.forEach { $0.setClock(on) }
+        model.changed()
+    }
+
+    func setParallax(_ value: Double) {
+        settings.parallax = value
+        walls.forEach { $0.setParallax(value) }
+        if value == 0 { walls.forEach { $0.pointer(.zero) } }
+        model.changed()
+    }
+
+    func setPaused(_ on: Bool) {
+        settings.paused = on
+        applyPaused()
+        model.changed()
+    }
+
+    func setMenuBarIcon(_ on: Bool) {
+        settings.showMenuBarIcon = on
+        statusItem?.isVisible = on
+        model.changed()
+    }
+
+    /// Settings that arrived from another Mac.
+    private func applySynced(_ remote: SyncedSettings) {
+        settings.apply(remote)
+        walls.forEach {
+            $0.setClock(remote.showClock)
+            $0.setParallax(remote.parallax)
+        }
+        showWorld(currentWorld())
+        model.changed()
+    }
 
     /// Self-test: the status item's state and the menu it would show.
     func describeMenu() -> String {
@@ -98,7 +207,6 @@ final class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
         walk(menu, 1)
         return lines.joined(separator: "\n")
     }
-    var worldIDs: [String] { settings.worlds.map(\.id) }
 
     // MARK: Cursor parallax
 
@@ -116,12 +224,12 @@ final class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
         pointerTimer = timer
     }
 
-    // MARK: Time of day
+    // MARK: Time of day and rotation
 
     private func startTimeOfDayCheck() {
         let timer = Timer(timeInterval: 60, repeats: true) { _ in
             MainActor.assumeIsolated { [weak self] in
-                guard let self, self.settings.matchTimeOfDay else { return }
+                guard let self, self.settings.rotation != .off else { return }
                 self.showWorld(self.currentWorld())
             }
         }
@@ -154,7 +262,8 @@ final class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
                 MainActor.assumeIsolated {
                     self.systemPaused = false
                     self.applyPaused()
-                    if self.settings.matchTimeOfDay { self.showWorld(self.currentWorld()) }
+                    if self.settings.rotation != .off { self.showWorld(self.currentWorld()) }
+                    if self.account.isSignedIn { self.account.syncNow() }
                 }
             }
         }
@@ -164,6 +273,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
             MainActor.assumeIsolated {
                 self.lowPower = ProcessInfo.processInfo.isLowPowerModeEnabled
                 self.applyPaused()
+                self.model.changed()
             }
         }
         // Displays added, removed or rearranged: rebuild (debounced).
@@ -178,7 +288,36 @@ final class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
 
     @objc private func rebuild() { buildWallpapers() }
 
-    // MARK: Menu
+    // MARK: App menu (shown while the window is open)
+
+    private func makeMainMenu() -> NSMenu {
+        let main = NSMenu()
+        let appItem = NSMenuItem()
+        let app = NSMenu()
+        app.addItem(item("About mac3D Wallpaper", #selector(about)))
+        app.addItem(.separator())
+        app.addItem(item("Settings…", #selector(openSettings), key: ","))
+        app.addItem(.separator())
+        app.addItem(withTitle: "Hide mac3D Wallpaper", action: #selector(NSApplication.hide(_:)), keyEquivalent: "h")
+        let others = app.addItem(withTitle: "Hide Others", action: #selector(NSApplication.hideOtherApplications(_:)), keyEquivalent: "h")
+        others.keyEquivalentModifierMask = [.command, .option]
+        app.addItem(withTitle: "Show All", action: #selector(NSApplication.unhideAllApplications(_:)), keyEquivalent: "")
+        app.addItem(.separator())
+        app.addItem(withTitle: "Quit mac3D Wallpaper", action: #selector(NSApplication.terminate(_:)), keyEquivalent: "q")
+        appItem.submenu = app
+        main.addItem(appItem)
+
+        let windowItem = NSMenuItem()
+        let window = NSMenu(title: "Window")
+        window.addItem(withTitle: "Minimize", action: #selector(NSWindow.performMiniaturize(_:)), keyEquivalent: "m")
+        window.addItem(withTitle: "Close", action: #selector(NSWindow.performClose(_:)), keyEquivalent: "w")
+        windowItem.submenu = window
+        main.addItem(windowItem)
+        NSApp.windowsMenu = window
+        return main
+    }
+
+    // MARK: Menu bar menu
 
     func menuNeedsUpdate(_ menu: NSMenu) {
         menu.removeAllItems()
@@ -190,20 +329,29 @@ final class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
         if let now = settings.worlds.first(where: { $0.id == shownWorld }) {
             menu.addItem(disabled: "Now: \(now.name) · \(now.tag)")
         }
+        menu.addItem(item("Open mac3D Wallpaper…", #selector(openSettings), key: ","))
         menu.addItem(.separator())
 
         let worldsItem = NSMenuItem(title: "Worlds", action: nil, keyEquivalent: "")
         worldsItem.submenu = worldsMenu()
         menu.addItem(worldsItem)
-        menu.addItem(item("Next World", #selector(nextWorld)))
-        menu.addItem(item("Match Time of Day", #selector(toggleTimeOfDay), on: settings.matchTimeOfDay))
+        menu.addItem(item("Next World", #selector(nextWorldAction)))
+        let changes = NSMenuItem(title: "Change Automatically", action: nil, keyEquivalent: "")
+        let changesMenu = NSMenu()
+        for rotation in Rotation.allCases {
+            let it = item(rotation.title, #selector(setRotationAction(_:)), on: settings.rotation == rotation)
+            it.representedObject = rotation.rawValue
+            changesMenu.addItem(it)
+        }
+        changes.submenu = changesMenu
+        menu.addItem(changes)
         menu.addItem(.separator())
 
         menu.addItem(item("Show Depth Clock", #selector(toggleClock), on: settings.showClock))
         let parallaxItem = NSMenuItem(title: "Parallax", action: nil, keyEquivalent: "")
         let parallaxMenu = NSMenu()
         for level in ParallaxLevel.allCases {
-            let it = item(level.title, #selector(setParallax(_:)), on: abs(settings.parallax - level.rawValue) < 0.01)
+            let it = item(level.title, #selector(setParallaxAction(_:)), on: abs(settings.parallax - level.rawValue) < 0.01)
             it.representedObject = level.rawValue
             parallaxMenu.addItem(it)
         }
@@ -211,7 +359,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
         menu.addItem(parallaxItem)
         menu.addItem(item("Pause Animations", #selector(togglePause), on: settings.paused))
         if lowPower { menu.addItem(disabled: "Paused while Low Power Mode is on") }
-        if settings.gpuSlow { menu.addItem(disabled: "Match Time of Day uses the lighter worlds on this Mac") }
+        if settings.gpuSlow { menu.addItem(disabled: "Automatic changes use the lighter worlds on this Mac") }
         menu.addItem(.separator())
 
         menu.addItem(item("Open at Login", #selector(toggleLogin), on: SMAppService.mainApp.status == .enabled))
@@ -233,7 +381,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
             if i > 0 { menu.addItem(.separator()) }
             menu.addItem(disabled: group.title)
             for w in list {
-                let it = item(w.name, #selector(pickWorld(_:)), on: w.id == shownWorld)
+                let it = item((settings.favorites.contains(w.id) ? "♥ " : "") + w.name, #selector(pickWorld(_:)), on: w.id == shownWorld)
                 it.representedObject = w.id
                 it.toolTip = w.tag
                 it.indentationLevel = 1
@@ -252,67 +400,35 @@ final class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
 
     // MARK: Menu actions
 
+    @objc private func openSettings() { mainWindow.show() }
+
     @objc private func pickWorld(_ sender: NSMenuItem) {
         guard let id = sender.representedObject as? String else { return }
-        settings.matchTimeOfDay = false // a manual pick overrides the clock
-        settings.worldID = id
-        showWorld(id)
+        pick(id)
     }
 
-    @objc private func nextWorld() {
-        let ids = worldIDs
-        guard !ids.isEmpty else { return }
-        let next = ids[((ids.firstIndex(of: shownWorld) ?? -1) + 1) % ids.count]
-        settings.matchTimeOfDay = false
-        settings.worldID = next
-        showWorld(next)
+    @objc private func nextWorldAction() { nextWorld() }
+
+    @objc private func setRotationAction(_ sender: NSMenuItem) {
+        guard let raw = sender.representedObject as? String, let rotation = Rotation(rawValue: raw) else { return }
+        setRotation(rotation)
     }
 
-    @objc private func toggleTimeOfDay() {
-        settings.matchTimeOfDay.toggle()
-        if !settings.matchTimeOfDay { settings.worldID = shownWorld }
-        showWorld(currentWorld())
-    }
+    @objc private func toggleClock() { setClock(!settings.showClock) }
 
-    @objc private func toggleClock() {
-        settings.showClock.toggle()
-        walls.forEach { $0.setClock(settings.showClock) }
-    }
-
-    @objc private func setParallax(_ sender: NSMenuItem) {
+    @objc private func setParallaxAction(_ sender: NSMenuItem) {
         guard let value = sender.representedObject as? Double else { return }
-        settings.parallax = value
-        walls.forEach { $0.setParallax(value) }
-        if value == 0 { walls.forEach { $0.pointer(.zero) } }
+        setParallax(value)
     }
 
-    @objc private func togglePause() {
-        settings.paused.toggle()
-        applyPaused()
-    }
+    @objc private func togglePause() { setPaused(!settings.paused) }
 
     @objc private func toggleLogin() {
-        do {
-            if SMAppService.mainApp.status == .enabled {
-                try SMAppService.mainApp.unregister()
-            } else {
-                try SMAppService.mainApp.register()
-            }
-        } catch {
-            let alert = NSAlert()
-            alert.messageText = "Couldn’t change Open at Login"
-            alert.informativeText = "\(error.localizedDescription)\n\nMove mac3D Wallpaper to your Applications folder and try again."
-            NSApp.activate(ignoringOtherApps: true)
-            alert.runModal()
-        }
+        model.openAtLogin.toggle()
     }
 
     @objc private func about() {
-        NSApp.activate(ignoringOtherApps: true)
-        NSApp.orderFrontStandardAboutPanel(options: [
-            .credits: NSAttributedString(string: "Layered, living worlds for your desktop — they follow your cursor and keep time.",
-                                         attributes: [.font: NSFont.systemFont(ofSize: 11)]),
-        ])
+        mainWindow.show(page: .about)
     }
 }
 
