@@ -1,61 +1,77 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
   <!-- mac3D Wallpaper mark — the one source for the site logo, favicon,
        touch icon, share image and the Mac app icon (mac app/icon/icon.html).
-       A sunset tile with three stacked layers: a wallpaper with depth. -->
-  <defs>
-    <clipPath id="tile"><rect width="100" height="100" rx="22.5" /></clipPath>
-    <linearGradient id="sky" x1=".15" y1="0" x2=".55" y2="1">
-      <stop offset="0" stop-color="#ff9a5e" />
-      <stop offset=".3" stop-color="#ec5170" />
-      <stop offset=".58" stop-color="#a42e80" />
-      <stop offset=".82" stop-color="#43196a" />
-      <stop offset="1" stop-color="#1b0f36" />
-    </linearGradient>
-    <radialGradient id="sun" cx=".27" cy=".12" r=".55">
-      <stop offset="0" stop-color="#ffe2b0" stop-opacity=".95" />
-      <stop offset="1" stop-color="#ffe2b0" stop-opacity="0" />
-    </radialGradient>
-    <linearGradient id="face" x1="0" y1="0" x2="0" y2="1">
-      <stop offset="0" stop-color="#ffffff" />
-      <stop offset="1" stop-color="#ffe9e1" />
-    </linearGradient>
-    <linearGradient id="face2" x1="0" y1="0" x2="0" y2="1">
-      <stop offset="0" stop-color="#ffc9df" />
-      <stop offset="1" stop-color="#f6a3c9" />
-    </linearGradient>
-    <linearGradient id="face3" x1="0" y1="0" x2="0" y2="1">
-      <stop offset="0" stop-color="#e48bbf" />
-      <stop offset="1" stop-color="#c866a6" />
-    </linearGradient>
-    <linearGradient id="gloss" x1="0" y1="0" x2="0" y2="1">
-      <stop offset="0" stop-color="#fff" stop-opacity=".3" />
-      <stop offset=".5" stop-color="#fff" stop-opacity="0" />
-    </linearGradient>
-  </defs>
-  <g clip-path="url(#tile)">
-    <rect width="100" height="100" fill="url(#sky)" />
-    <rect width="100" height="100" fill="url(#sun)" />
-    <!-- far and near ridges: the worlds inside -->
-    <path d="M0 74 12 66 22 71 35 61 48 70 60 63 74 71 87 64 100 69V100H0Z" fill="#2c1252" opacity=".5" />
-    <path d="M0 83 16 77 31 82 45 76 62 83 76 78 100 82V100H0Z" fill="#160a30" opacity=".7" />
-    <!-- three layers, back to front: each a slab with a top face and two
-         sides, deeper in colour the further back it sits -->
-    <g>
-      <path d="M50 47 78 60 50 73 22 60Z" fill="url(#face3)" />
-      <path d="M22 60 50 73V78L22 65Z" fill="#a1468a" />
-      <path d="M78 60 50 73V78L78 65Z" fill="#7d3272" />
-    </g>
-    <g>
-      <path d="M50 33.5 78 46.5 50 59.5 22 46.5Z" fill="url(#face2)" />
-      <path d="M22 46.5 50 59.5V64.5L22 51.5Z" fill="#e47fb2" />
-      <path d="M78 46.5 50 59.5V64.5L78 51.5Z" fill="#c75e98" />
-    </g>
-    <g>
-      <path d="M50 20 78 33 50 46 22 33Z" fill="url(#face)" />
-      <path d="M22 33 50 46V51L22 38Z" fill="#ffc6da" />
-      <path d="M78 33 50 46V51L78 38Z" fill="#f394bd" />
-    </g>
-    <!-- soft top light, like the macOS icon gloss -->
-    <rect width="100" height="100" fill="url(#gloss)" />
-  </g>
+       A snow-capped peak against a low dawn sun, with paper-cut ridges
+       stacked in front: a wallpaper with depth. The menu bar glyph
+       (mac app/Sources/StatusIcon.swift) draws the same peak and sun.
+       After changing it, run scripts/make-web-icons.sh (favicons, touch
+       icon, share image) and rebuild the Mac app (delete build/AppIcon.icns). -->
+<defs>
+<clipPath id="peaks-tile"><rect width="100" height="100" rx="22.5"/></clipPath>
+<clipPath id="peaks-far-clip"><path d="M-4 66 40 63 56 61 64 59 72 57 79 54 84 51 88 49 92 51.5 96 54 104 52.5V104H-4Z"/></clipPath>
+<clipPath id="peaks-hero-clip"><path d="M-6.7 63.52 2.84 55.04 10.26 48.68 14.5 46.56 19.8 40.73 26.16 32.78 32.52 24.3 37.29 17.41 41 7.95 45.24 17.41 48.95 21.65 52.66 20.06 56.9 26.95 62.2 35.43 67.5 43.38 73.86 51.86 81.28 59.28 89.76 64.58 107.78 68.82V104H-4Z"/></clipPath>
+<clipPath id="peaks-snowlit-clip"><path d="M41 11.58 44.18 24.3 43.12 34.9 44.18 42.32 71.74 42.32 71.74 -4.32 41 -4.32Z"/></clipPath>
+<linearGradient id="peaks-sky" x1="0" y1="0" x2="0" y2="100" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#1e1b5e"/><stop offset="0.14" stop-color="#3a2c82"/><stop offset="0.27" stop-color="#83418d"/><stop offset="0.38" stop-color="#e06a8b"/><stop offset="0.5" stop-color="#ffa087"/><stop offset="0.64" stop-color="#ffd09a"/><stop offset="1" stop-color="#ffe6b0"/></linearGradient>
+<linearGradient id="peaks-far" x1="0" y1="48" x2="0" y2="68" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#f29fa5"/><stop offset="1" stop-color="#ffc8ac"/></linearGradient>
+<linearGradient id="peaks-shade" x1="0" y1="12" x2="0" y2="72" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#2c1d5a"/><stop offset="0.6" stop-color="#43266c"/><stop offset="1" stop-color="#804888"/></linearGradient>
+<linearGradient id="peaks-lit" x1="0" y1="12" x2="0" y2="72" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#963d7e"/><stop offset="0.55" stop-color="#b04d82"/><stop offset="1" stop-color="#c86088"/></linearGradient>
+<linearGradient id="peaks-snowsh" x1="0" y1="12" x2="0" y2="40" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#e4dcf7"/><stop offset="1" stop-color="#a998da"/></linearGradient>
+<linearGradient id="peaks-snowlit" x1="0" y1="12" x2="0" y2="40" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#ffffff"/><stop offset="1" stop-color="#ffd6c8"/></linearGradient>
+<linearGradient id="peaks-mid" x1="0" y1="64" x2="0" y2="86" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#451f6e"/><stop offset="1" stop-color="#713785"/></linearGradient>
+<linearGradient id="peaks-near" x1="0" y1="77" x2="0" y2="95" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#2d1b62"/><stop offset="1" stop-color="#4a2c78"/></linearGradient>
+<linearGradient id="peaks-front" x1="0" y1="88" x2="0" y2="100" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#1a1446"/><stop offset="1" stop-color="#251c55"/></linearGradient>
+<radialGradient id="peaks-glow" cx="74" cy="47.5" r="50" gradientUnits="userSpaceOnUse">
+<stop offset="0" stop-color="#ffd7a8" stop-opacity=".75"/>
+<stop offset=".32" stop-color="#ffa48e" stop-opacity=".4"/>
+<stop offset="1" stop-color="#ff8c8c" stop-opacity="0"/>
+</radialGradient>
+<radialGradient id="peaks-sun" cx=".42" cy=".38" r=".7">
+<stop offset="0" stop-color="#fffbf2"/><stop offset=".55" stop-color="#fff0c9"/>
+<stop offset="1" stop-color="#ffdca6"/>
+</radialGradient>
+<linearGradient id="peaks-rim" x1="56.9" y1="26.95" x2="81.28" y2="59.28" gradientUnits="userSpaceOnUse">
+<stop offset="0" stop-color="#ffe8d6" stop-opacity="0"/><stop offset=".5" stop-color="#fff1d8" stop-opacity=".9"/>
+<stop offset="1" stop-color="#ffd0b0" stop-opacity="0"/>
+</linearGradient>
+<linearGradient id="peaks-warm" x1="44" y1="0" x2="82" y2="0" gradientUnits="userSpaceOnUse">
+<stop offset="0" stop-color="#ffb08f" stop-opacity="0"/><stop offset="1" stop-color="#ffb08f" stop-opacity=".4"/>
+</linearGradient>
+<linearGradient id="peaks-mist" x1="0" y1="55" x2="0" y2="74" gradientUnits="userSpaceOnUse">
+<stop offset="0" stop-color="#ffc4aa" stop-opacity="0"/><stop offset=".75" stop-color="#ffc4aa" stop-opacity=".27"/>
+<stop offset="1" stop-color="#ffc4aa" stop-opacity=".1"/>
+</linearGradient>
+<linearGradient id="peaks-gloss" x1="0" y1="0" x2="0" y2="1">
+<stop offset="0" stop-color="#fff" stop-opacity=".1"/><stop offset=".45" stop-color="#fff" stop-opacity="0"/>
+</linearGradient>
+<filter id="peaks-blur" x="-20%" y="-20%" width="140%" height="140%"><feGaussianBlur stdDeviation="1.6"/></filter>
+<filter id="peaks-sh" x="-10%" y="-40%" width="120%" height="180%" color-interpolation-filters="sRGB">
+<feGaussianBlur in="SourceAlpha" stdDeviation="1.5"/>
+<feOffset dy="-1.1" result="b"/>
+<feFlood flood-color="#1a0730" flood-opacity=".55"/>
+<feComposite in2="b" operator="in"/>
+<feMerge><feMergeNode/><feMergeNode in="SourceGraphic"/></feMerge>
+</filter>
+</defs>
+<g clip-path="url(#peaks-tile)">
+<rect width="100" height="100" fill="url(#peaks-sky)"/>
+<rect width="100" height="100" fill="url(#peaks-glow)"/>
+<g fill="#fff"><circle cx="14" cy="14" r="0.55" opacity="0.85"/><circle cx="24" cy="8.5" r="0.4" opacity="0.6"/><circle cx="63" cy="11" r="0.45" opacity="0.7"/><circle cx="79" cy="19" r="0.6" opacity="0.8"/><circle cx="88" cy="9" r="0.4" opacity="0.55"/><circle cx="8" cy="26" r="0.35" opacity="0.45"/><circle cx="55" cy="6" r="0.3" opacity="0.5"/></g>
+<circle cx="74" cy="47.5" r="14.5" fill="url(#peaks-sun)"/>
+<path d="M-4 66 40 63 56 61 64 59 72 57 79 54 84 51 88 49 92 51.5 96 54 104 52.5V104H-4Z" fill="url(#peaks-far)"/>
+<g clip-path="url(#peaks-far-clip)"><path d="M-6.7 63.52 2.84 55.04 10.26 48.68 14.5 46.56 19.8 40.73 26.16 32.78 32.52 24.3 37.29 17.41 41 7.95 45.24 17.41 48.95 21.65 52.66 20.06 56.9 26.95 62.2 35.43 67.5 43.38 73.86 51.86 81.28 59.28 89.76 64.58 107.78 68.82V104H-4Z" fill="#3a0f3c" opacity=".45" filter="url(#peaks-blur)"/></g>
+<g clip-path="url(#peaks-hero-clip)">
+<rect x="-4" y="10" width="108" height="94" fill="url(#peaks-shade)"/>
+<path d="M22.98 36.81 27.75 45.5 24.57 57.16 20.86 74.12 -13.06 74.12 -13.06 27.48Z" fill="#8466c0" opacity=".18"/>
+<path d="M41 11.58 44.18 24.3 43.12 34.9 47.89 46.56 51.6 59.28 55.84 74.12 55 110 120 110 120 -5 41 -5Z" fill="url(#peaks-lit)"/>
+<path d="M41 11.58 44.18 24.3 43.12 34.9 47.89 46.56 51.6 59.28 55.84 74.12 55 110 120 110 120 -5 41 -5Z" fill="url(#peaks-warm)"/>
+<path d="M16.62 28.54 21.92 35.43 26.16 32.25 29.87 38.08 34.11 31.72 37.82 39.14 41.53 31.19 45.24 39.14 48.95 31.72 52.66 35.96 56.37 30.13 63.79 37.87 69.62 37.87 69.62 -4.32 16.62 -4.32Z" fill="url(#peaks-snowsh)"/>
+<path d="M16.62 28.54 21.92 35.43 26.16 32.25 29.87 38.08 34.11 31.72 37.82 39.14 41.53 31.19 45.24 39.14 48.95 31.72 52.66 35.96 56.37 30.13 63.79 37.87 69.62 37.87 69.62 -4.32 16.62 -4.32Z" fill="url(#peaks-snowlit)" clip-path="url(#peaks-snowlit-clip)"/>
+</g>
+<path d="M56.9 26.95 62.2 35.43 67.5 43.38 73.86 51.86 81.28 59.28" fill="none" stroke="url(#peaks-rim)" stroke-width="1.2" stroke-linejoin="round" clip-path="url(#peaks-hero-clip)"/>
+<rect y="55" width="100" height="20" fill="url(#peaks-mist)"/>
+<path d="M-4 67.5C-2.65 67.05 2.75 64.72 5 64.5C7.25 64.28 8.45 64.88 11 66C13.55 67.12 18.7 71.47 22 72C25.3 72.53 30.3 69.65 33 69.5C35.7 69.35 37.15 70.17 40 71C42.85 71.83 48.7 74.78 52 75C55.3 75.22 59.3 73.25 62 72.5C64.7 71.75 67.75 70.15 70 70C72.25 69.85 74.3 70.67 77 71.5C79.7 72.33 85 75.5 88 75.5C91 75.5 94.6 72.4 97 71.5C99.4 70.6 102.95 69.8 104 69.5V104H-4Z" fill="url(#peaks-mid)" filter="url(#peaks-sh)"/>
+<path d="M-4 80.5C-1.9 80.12 6.1 78 10 78C13.9 78 18.4 79.53 22 80.5C25.6 81.47 30.4 84.12 34 84.5C37.6 84.88 42.7 82.85 46 83C49.3 83.15 52.7 85.65 56 85.5C59.3 85.35 64.4 82.9 68 82C71.6 81.1 76.4 79.42 80 79.5C83.6 79.58 88.4 82.2 92 82.5C95.6 82.8 102.2 81.65 104 81.5V104H-4Z" fill="url(#peaks-near)" filter="url(#peaks-sh)"/>
+<path d="M-4 90.5C-1 90.17 8.33 88.42 14 88.5C19.67 88.58 24.67 90.08 30 91C35.33 91.92 40.67 93.92 46 94C51.33 94.08 56.33 92.33 62 91.5C67.67 90.67 73 88.92 80 89C87 89.08 100 91.5 104 92V104H-4Z" fill="url(#peaks-front)" filter="url(#peaks-sh)"/>
+<rect width="100" height="100" fill="url(#peaks-gloss)"/>
+</g>
 </svg>
