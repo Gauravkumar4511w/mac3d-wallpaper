@@ -48,10 +48,10 @@ const svg = (file, isNew = false) => ({
 
 // GPU worlds, in page order. The newest carry a "New" badge.
 const NEW_GL = new Set([
-  'summit', 'turquoisebay', 'citylights', 'fjord', 'autumnlake', 'volcano', 'icefalls', 'sahara', 'stormlight', 'windowseat',
+  'valleyofflowers', 'summit', 'turquoisebay', 'citylights', 'fjord', 'autumnlake', 'volcano', 'icefalls', 'sahara', 'stormlight', 'windowseat',
 ])
 const REAL = [
-  'flowervalley', 'summit', 'turquoisebay', 'citylights', 'aquarium', 'fjord', 'autumnlake', 'volcano',
+  'valleyofflowers', 'flowervalley', 'summit', 'turquoisebay', 'citylights', 'aquarium', 'fjord', 'autumnlake', 'volcano',
   'ocean', 'icefalls', 'sahara', 'stormlight', 'windowseat', 'planet',
 ].map((f) => gl(f, NEW_GL.has(f)))
 // The first six were rebuilt from the original classic worlds; the newest six

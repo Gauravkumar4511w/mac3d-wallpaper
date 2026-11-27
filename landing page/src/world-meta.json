@@ -1330,6 +1330,57 @@
         }
       ]
     },
+    "valleyofflowers": {
+      "id": "valleyofflowers",
+      "name": "Valley of Flowers",
+      "tag": "Uttarakhand, India",
+      "accent": "#d63c86",
+      "accent2": "#4f7fe0",
+      "ink": "#8e1d55",
+      "glow": "#ffd3e8",
+      "light": true,
+      "clockColor": "#15243a",
+      "sky": "linear-gradient(180deg,#2c5aa8 0%,#7c9ed2 16%,#e8edf3 30%,#f2f2f0 40%,#9aa7b4 50%,#3f5f36 56%,#5f8d2c 63%,#7fa63a 70%,#4b7322 80%,#8a4b74 90%,#35521c 100%)",
+      "clockAfter": 1,
+      "layers": [
+        {
+          "name": "Monsoon sky",
+          "depth": 0
+        },
+        {
+          "name": "Himalayan peaks",
+          "depth": 0.1
+        },
+        {
+          "name": "Valley walls",
+          "depth": 0.28
+        },
+        {
+          "name": "Drifting cloud",
+          "depth": 0.4
+        },
+        {
+          "name": "Pushpawati river",
+          "depth": 0.55
+        },
+        {
+          "name": "Meadow",
+          "depth": 0.8
+        },
+        {
+          "name": "Wildflowers",
+          "depth": 1
+        },
+        {
+          "name": "Butterflies",
+          "depth": 1.15
+        },
+        {
+          "name": "Foreground blooms",
+          "depth": 1.3
+        }
+      ]
+    },
     "volcano": {
       "id": "volcano",
       "name": "Fire Mountain",
