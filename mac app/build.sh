@@ -36,6 +36,22 @@ cp Info.plist "$APP/Contents/Info.plist"
 cp build/AppIcon.icns "$APP/Contents/Resources/AppIcon.icns"
 cp -R build/web "$APP/Contents/Resources/web"
 
+# World thumbnails for the window's gallery: the site's card posters, shrunk.
+mkdir -p "$APP/Contents/Resources/thumbs"
+for card in "$SITE"/public/media/*/card.jpg; do
+  id=$(basename "$(dirname "$card")")
+  sips -Z 480 -s formatOptions 80 "$card" --out "$APP/Contents/Resources/thumbs/$id.jpg" >/dev/null
+done
+
+# Google sign-in + settings sync: the Firebase app config, when present (see
+# README.md, "Sign-in and sync"). Without it the app works, sync is just off.
+if [ -f GoogleService-Info.plist ]; then
+  cp GoogleService-Info.plist "$APP/Contents/Resources/GoogleService-Info.plist"
+  echo "› sync: GoogleService-Info.plist bundled"
+else
+  echo "› sync: no GoogleService-Info.plist — Google sign-in is off in this build"
+fi
+
 # Ad-hoc signature: fine on this Mac. To share it, sign with a Developer ID
 # and notarize (see README.md), or Gatekeeper will block it on other Macs.
 codesign --force --deep --sign - "$APP"

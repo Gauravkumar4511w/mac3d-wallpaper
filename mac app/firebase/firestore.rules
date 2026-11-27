@@ -1,0 +1,11 @@
+rules_version = '2';
+
+// mac3D Wallpaper settings sync: each person can read and write only their own
+// settings document, users/{their Firebase uid}. Nothing else is readable.
+service cloud.firestore {
+  match /databases/{database}/documents {
+    match /users/{uid} {
+      allow read, write: if request.auth != null && request.auth.uid == uid;
+    }
+  }
+}
