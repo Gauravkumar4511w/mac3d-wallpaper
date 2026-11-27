@@ -761,12 +761,12 @@ function Features({ scene }) {
             <span>on each screen and every Space</span>
           </div>
           <div>
-            <b>Menu bar</b>
-            <span>switch worlds in a single click</span>
+            <b>Settings sync</b>
+            <span>optional Google sign-in keeps every Mac the same</span>
           </div>
           <div>
             <b>Private</b>
-            <span>no account, no tracking, works offline</span>
+            <span>no account needed, no tracking, works offline</span>
           </div>
         </article>
       </div>
@@ -824,7 +824,7 @@ function Faq() {
     ['Can I turn the motion down?', 'Yes. Set parallax to Off, Subtle, Normal or Strong, or pause the animation from the menu bar. With macOS Reduce Motion on, the scene holds still.'],
     [
       'Does it need the internet? What about privacy?',
-      'No internet needed. Every world is built into the app — no account, no tracking, no analytics, nothing downloaded after install.',
+      'No internet needed — every world is built into the app, with no tracking, no analytics and nothing downloaded after install. An account is optional: sign in with Google only if you want your settings (world, favourites, clock, parallax) synced between your Macs. Nothing else is stored, and you can sign out any time.',
       PRIVACY_ID,
     ],
     [

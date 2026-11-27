@@ -80,10 +80,14 @@ To turn it on (once, in the [Firebase console](https://console.firebase.google.c
 
 1. Create a project (Analytics not needed).
 2. **Add app → Apple (iOS+)**, bundle ID `com.mac3d.wallpaper`, and download
-   `GoogleService-Info.plist` into this folder (`mac app/`).
-3. **Authentication → Sign-in method → Google → Enable**.
-4. **Firestore Database → Create database** (production mode), then paste
-   `firebase/firestore.rules` into **Rules** and publish.
+   `GoogleService-Info.plist` into this folder (`mac app/`) or
+   `~/.config/mac3d/`. It's git-ignored: the key ships inside the app anyway,
+   but it needn't sit in the public repo.
+3. **Authentication → Sign-in method → Google → Enable** (before downloading
+   the plist, so it includes `CLIENT_ID`).
+4. **Firestore → Create database** (Standard edition, ID `(default)`,
+   production mode, no backups needed), then paste `firebase/firestore.rules`
+   into **Rules** and publish.
 5. `./build.sh --dmg`. The build bundles the plist; without it the Account page
    says sync isn't set up and everything else works the same.
 
