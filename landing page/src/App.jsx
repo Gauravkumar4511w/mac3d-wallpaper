@@ -133,6 +133,22 @@ const CtaButtons = ({ center = false }) => (
   </div>
 )
 
+// The app isn't notarized yet, so macOS blocks the first launch until the
+// person clicks Open Anyway. These point people at the FAQ entry that says how.
+const OPEN_ANYWAY_ID = 'open-anyway'
+const openInstallFaq = () => {
+  const d = document.getElementById(OPEN_ANYWAY_ID)
+  if (d) d.open = true
+}
+const InstallNote = () => (
+  <p className="req install-note">
+    First launch: macOS asks you to approve the app once —{' '}
+    <a href={`#${OPEN_ANYWAY_ID}`} onClick={openInstallFaq}>
+      here’s how
+    </a>
+  </p>
+)
+
 function MacBook({ scene }) {
   return (
     <div className="macbook">
@@ -392,6 +408,7 @@ function Hero({ scene, idx, setIdx }) {
         </p>
         <CtaButtons center />
         <p className="req">Free · macOS 13 Ventura or later · Apple silicon &amp; Intel</p>
+        <InstallNote />
       </div>
 
       <div className="hero-stage" data-gtilt>
@@ -730,6 +747,7 @@ function Pricing() {
           <a className="btn primary wide" href="downloads/mac3D-Wallpaper.dmg" download>
             Download free
           </a>
+          <InstallNote />
         </article>
         <article className="plan pro soon">
           <span className="ribbon">Coming soon</span>
@@ -758,7 +776,21 @@ function Faq() {
     ['Does it work with multiple displays?', 'Yes. Every connected display gets the wallpaper, on every Space, and it adjusts when you plug a screen in or out. (A different world per display is planned for Pro.)'],
     ['Can I turn the motion down?', 'Yes. Set parallax to Off, Subtle, Normal or Strong, or pause the animation from the menu bar. With macOS Reduce Motion on, the scene holds still.'],
     ['Does it need the internet?', 'No. Every world is built into the app — no account, no tracking, nothing downloaded after install.'],
+    [
+      'macOS says it can’t verify the app. How do I open it?',
+      <>
+        mac3D Wallpaper isn’t notarized by Apple yet, so macOS asks you to approve it the first time. Drag the app to
+        Applications and open it; when the warning appears, click <b>Done</b>. Then open{' '}
+        <b>System Settings → Privacy &amp; Security</b>, scroll down, click <b>Open Anyway</b> next to mac3D Wallpaper
+        and confirm with your password or Touch ID. You only do this once — after that it opens normally. (On macOS 13
+        and 14 you can also Control-click the app and choose <b>Open</b>.)
+      </>,
+      OPEN_ANYWAY_ID,
+    ],
   ]
+  useEffect(() => {
+    if (location.hash === `#${OPEN_ANYWAY_ID}`) openInstallFaq()
+  }, [])
   return (
     <section className="section faq" id="faq">
       <div className="section-head" data-reveal>
@@ -766,8 +798,8 @@ function Faq() {
         <h2>Questions, answered.</h2>
       </div>
       <div className="faq-list" data-reveal>
-        {qs.map(([q, a]) => (
-          <details key={q}>
+        {qs.map(([q, a, id]) => (
+          <details key={q} id={id}>
             <summary>
               {q}
               <span className="plus" aria-hidden="true" />
@@ -793,6 +825,7 @@ function FinalCta({ idx }) {
           </h2>
           <p>A free download for macOS. Ten seconds to install — a lot longer to stop moving your cursor around.</p>
           <CtaButtons center />
+          <InstallNote />
         </div>
         <div className="trio" aria-hidden="true">
           <div className="display d-l">
