@@ -101,13 +101,10 @@ function useReveal() {
 }
 
 /* ---------- small pieces ---------- */
-const Logo = () => (
-  <svg viewBox="0 0 32 32" width="28" height="28" aria-hidden="true" className="logo-mark">
-    <path d="M16 3.5 28.5 10 16 16.5 3.5 10Z" style={{ fill: 'var(--accent)' }} />
-    <path d="M3.5 15.8 16 22.3 28.5 15.8" fill="none" style={{ stroke: 'var(--ink)' }} strokeWidth="2.6" strokeLinejoin="round" strokeLinecap="round" />
-    <path d="M3.5 21.6 16 28.1 28.5 21.6" fill="none" stroke="currentColor" strokeOpacity=".45" strokeWidth="2.6" strokeLinejoin="round" strokeLinecap="round" />
-  </svg>
-)
+// The brand mark (public/icon.svg) — the same file is the favicon, touch icon,
+// share image mark and Mac app icon, so the logo looks the same everywhere.
+const Logo = () => <img className="logo-mark" src="/icon.svg" width="30" height="30" alt="" />
+
 
 const Arrow = ({ dir = 'right' }) => (
   <svg viewBox="0 0 20 20" width="16" height="16" aria-hidden="true" style={{ transform: dir === 'left' ? 'scaleX(-1)' : undefined }}>
