@@ -81,8 +81,8 @@ enum TimeOfDay {
     private static let schedule: [(from: Int, ids: [String])] = [
         (0, ["fjord", "wintercabin", "blackhole", "planet", "aurora", "nebula", "train"]),
         (5, ["summit", "windowseat", "autumnlake", "bamboo", "morning", "blossom"]),
-        (9, ["flowervalley", "icefalls", "turquoisebay", "bamboo", "islands", "morning"]),
-        (12, ["turquoisebay", "aquarium", "canyon", "icefalls", "rainforest", "caravan"]),
+        (9, ["valleyofflowers", "flowervalley", "icefalls", "turquoisebay", "bamboo", "islands", "morning"]),
+        (12, ["turquoisebay", "valleyofflowers", "aquarium", "canyon", "icefalls", "rainforest", "caravan"]),
         (16, ["sahara", "ocean", "canyon", "ember", "caravan"]),
         (19, ["volcano", "stormlight", "wintercabin", "lagoon", "abyss"]),
         (21, ["citylights", "fjord", "blackhole", "neon", "train", "aurora"]),
