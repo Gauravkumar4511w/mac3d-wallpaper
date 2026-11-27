@@ -15,7 +15,12 @@ export const layerImage = (id, i) => media(id, `layer-${i}.webp`)
  * its frame otherwise; with Reduce Motion it shows the poster.
  * `variant`: 'card' (960×600) or 'hd' (1920×1200).
  */
-export function WorldVideo({ scene, variant = 'card', className = '', children }) {
+// Narrow screens get the card video even where 'hd' is asked for: at phone size
+// it looks the same, and it's about a quarter of the download.
+const SMALL_SCREEN = matchMedia('(max-width: 700px)').matches
+
+export function WorldVideo({ scene, variant: asked = 'card', className = '', children }) {
+  const variant = asked === 'hd' && SMALL_SCREEN ? 'card' : asked
   const ref = useRef(null)
   usePauseOffscreen(ref)
   const near = useNear(ref)

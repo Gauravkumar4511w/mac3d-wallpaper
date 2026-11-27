@@ -121,12 +121,56 @@ const DownloadIcon = () => (
   </svg>
 )
 
+// A phone or tablet can't run a Mac app (iPadOS reports itself as a Mac, but
+// with touch points), so there the download buttons send the link to a Mac
+// instead of saving a .dmg that can't be opened.
+const SITE_URL = 'https://mac3dwallpaper.com'
+const ON_PHONE = (() => {
+  const ua = navigator.userAgent
+  return /iPhone|iPad|iPod|Android/i.test(ua) || (/Macintosh/.test(ua) && navigator.maxTouchPoints > 1)
+})()
+// touch-only screens can't hover, so copy that says "hover" says "tap" there
+const NO_HOVER = matchMedia('(hover: none)').matches
+
+function DownloadButton({ className, label }) {
+  const [copied, setCopied] = useState(false)
+  if (!ON_PHONE) {
+    return (
+      <a className={className} href="downloads/mac3D-Wallpaper.dmg" download>
+        <DownloadIcon />
+        {label}
+      </a>
+    )
+  }
+  const send = async () => {
+    const share = { title: 'mac3D Wallpaper', text: 'Living 3D wallpapers for Mac — open this on your Mac:', url: SITE_URL }
+    if (navigator.share) {
+      try {
+        await navigator.share(share)
+        return
+      } catch (e) {
+        if (e.name === 'AbortError') return
+      }
+    }
+    try {
+      await navigator.clipboard.writeText(SITE_URL)
+      setCopied(true)
+      setTimeout(() => setCopied(false), 2500)
+    } catch {
+      prompt('Copy this link and open it on your Mac:', SITE_URL)
+    }
+  }
+  return (
+    <button type="button" className={className} onClick={send}>
+      <DownloadIcon />
+      {copied ? 'Link copied ✓' : 'Send link to my Mac'}
+    </button>
+  )
+}
+
 const CtaButtons = ({ center = false }) => (
   <div className={`store-row ${center ? 'center' : ''}`}>
-    <a className="btn primary" href="downloads/mac3D-Wallpaper.dmg" download>
-      <DownloadIcon />
-      Download for Mac
-    </a>
+    <DownloadButton className="btn primary" label="Download for Mac" />
     <a className="btn ghost" href="#worlds">
       Browse the worlds
     </a>
@@ -136,18 +180,22 @@ const CtaButtons = ({ center = false }) => (
 // The app isn't notarized yet, so macOS blocks the first launch until the
 // person clicks Open Anyway. These point people at the FAQ entry that says how.
 const OPEN_ANYWAY_ID = 'open-anyway'
-const openInstallFaq = () => {
-  const d = document.getElementById(OPEN_ANYWAY_ID)
+const PRIVACY_ID = 'privacy'
+const openFaq = (id) => {
+  const d = document.getElementById(id)
   if (d) d.open = true
 }
-const InstallNote = () => (
-  <p className="req install-note">
-    First launch: macOS asks you to approve the app once —{' '}
-    <a href={`#${OPEN_ANYWAY_ID}`} onClick={openInstallFaq}>
-      here’s how
-    </a>
-  </p>
-)
+const InstallNote = () =>
+  ON_PHONE ? (
+    <p className="req install-note">mac3D Wallpaper is a Mac app — send yourself the link and download it on your Mac.</p>
+  ) : (
+    <p className="req install-note">
+      First launch: macOS asks you to approve the app once —{' '}
+      <a href={`#${OPEN_ANYWAY_ID}`} onClick={() => openFaq(OPEN_ANYWAY_ID)}>
+        here’s how
+      </a>
+    </p>
+  )
 
 function MacBook({ scene }) {
   return (
@@ -519,9 +567,13 @@ function Worlds({ idx, setIdx }) {
       <div className="section-head" data-reveal>
         <span className="kicker">02 — Worlds</span>
         <h2>
-          Pick a world. <span className="dim">Hover to look inside.</span>
+          Pick a world. <span className="dim">{NO_HOVER ? 'Tap one to try it on.' : 'Hover to look inside.'}</span>
         </h2>
-        <p>Every scene is composed by hand, plane by plane. Click one to try it on — the whole page follows.</p>
+        <p>
+          {NO_HOVER
+            ? 'Every scene is composed by hand, plane by plane — and the whole page follows the one you pick.'
+            : 'Every scene is composed by hand, plane by plane. Click one to try it on — the whole page follows.'}
+        </p>
       </div>
       <div className="worlds" data-reveal data-offpause>
         {SCENES.map((s, i) => s.realistic ? null : (
@@ -744,9 +796,7 @@ function Pricing() {
             <li>Time-of-day worlds</li>
             <li>Every display &amp; Space</li>
           </ul>
-          <a className="btn primary wide" href="downloads/mac3D-Wallpaper.dmg" download>
-            Download free
-          </a>
+          <DownloadButton className="btn primary wide" label="Download free" />
           <InstallNote />
         </article>
         <article className="plan pro soon">
@@ -775,7 +825,11 @@ function Faq() {
     ['Which Macs are supported?', 'Any Mac running macOS 13 Ventura or later — Apple silicon and Intel. It’s a native universal app.'],
     ['Does it work with multiple displays?', 'Yes. Every connected display gets the wallpaper, on every Space, and it adjusts when you plug a screen in or out. (A different world per display is planned for Pro.)'],
     ['Can I turn the motion down?', 'Yes. Set parallax to Off, Subtle, Normal or Strong, or pause the animation from the menu bar. With macOS Reduce Motion on, the scene holds still.'],
-    ['Does it need the internet?', 'No. Every world is built into the app — no account, no tracking, nothing downloaded after install.'],
+    [
+      'Does it need the internet? What about privacy?',
+      'No internet needed. Every world is built into the app — no account, no tracking, no analytics, nothing downloaded after install.',
+      PRIVACY_ID,
+    ],
     [
       'macOS says it can’t verify the app. How do I open it?',
       <>
@@ -789,7 +843,8 @@ function Faq() {
     ],
   ]
   useEffect(() => {
-    if (location.hash === `#${OPEN_ANYWAY_ID}`) openInstallFaq()
+    // open the entry a shared link points at (#open-anyway, #privacy)
+    if (location.hash) openFaq(decodeURIComponent(location.hash.slice(1)))
   }, [])
   return (
     <section className="section faq" id="faq">
@@ -854,8 +909,9 @@ function Footer() {
         <a href="#worlds">Worlds</a>
         <a href="#features">Features</a>
         <a href="#pricing">Pricing</a>
-        <a href="#faq">Privacy</a>
-        <a href="#faq">Press kit</a>
+        <a href={`#${PRIVACY_ID}`} onClick={() => openFaq(PRIVACY_ID)}>
+          Privacy
+        </a>
       </nav>
       <small>© 2026 mac3D Wallpaper. Made with a lot of layers.</small>
     </footer>
